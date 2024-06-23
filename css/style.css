@@ -63,7 +63,7 @@ body
 {
     border: solid black 1px ;
     /* background-color: var(--bgColor); */
-    background-image: url(../Images/PersonalBrandingBG.png);
+    background-image: url(./Images/PersonalBrandingBG.png);
     background-size: cover;
 }
 
