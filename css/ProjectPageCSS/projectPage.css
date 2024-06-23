@@ -1,0 +1,56 @@
+main>article{
+    width: 70%;
+    margin: auto;
+    min-height: 400px;
+    background-color: var(--cardColor);
+    margin-top: 150px;
+    margin-bottom: 100px;
+    box-shadow: var(--lightShadow);
+    padding: 30px;
+    padding-bottom: 70px;
+    text-align: center;
+    border-radius: var(--borderRadius);
+}
+
+main>article h1
+{
+    margin-bottom: 20px;
+}
+
+main>article iframe
+{
+    width: 80%;
+    margin-bottom: 50px;
+    height: 350px;
+}
+
+main>article section
+{
+    text-align: left;
+    width: 80%;
+    margin: auto;
+    
+}
+
+main>article section h2
+{
+    margin-bottom: 20px;
+} 
+main>article section p
+{
+    margin-bottom: 20px;
+} 
+main>article section a
+{
+    color: var(--contrastColor);
+}
+main>article section h3
+{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+main article section p:last-of-type
+{
+    font-size: 10px;
+    max-width: 200px;
+}

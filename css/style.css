@@ -1,0 +1,413 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
+
+@import url("style-large.css") screen and (min-width: 767px) ;
+@import url("style-small.css") screen and (max-width: 766px) ;
+@font-face 
+{
+    font-family: Heming;
+    src: url(/Fonts/heming-variable.ttf);
+}
+
+@font-face 
+{
+    font-family: Woodford;
+    src: url(/Fonts/WoodfordBornePro/WoodfordBournePro-Regular.ttf);
+}
+:root {
+    --txtColor:#E5DBC7;
+    --navBarColor: #09161F;
+    --bgColor: #0E212F;
+    --contrastColor: #F29559;
+    --cardColor: #1E242E;
+    --footerColor: #2A242E;
+    --lightShadow: -7px -2px 29px 6px rgba(237,201,255,.16);
+    --largeMargin: 65%; 
+    --largeProjectArticleGap: 10%;
+    --visualLineThickness: 3px;
+    --lineVisualWidth: 70px;
+    --visualSquareSize: 10px;
+    --blackColor: #1A161C;
+    --borderRadius: 5px;
+    --iconFilter: brightness(0) saturate(100%) invert(96%) sepia(87%) saturate(228%) hue-rotate(315deg) brightness(92%) contrast(96%);
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Woodford", sans-serif;
+    color: var(--txtColor);
+    font-weight: 500;
+}
+h1	
+{
+    font-family: "Heming", sans-serif;
+    font-size: xx-large;
+    font-weight: bold;
+
+}
+h2
+{
+    font-family: "Heming", sans-serif;
+    font-weight: bold;
+}
+
+img
+{
+    border-radius: var(--borderRadius);
+}
+
+body
+{
+    border: solid black 1px ;
+    /* background-color: var(--bgColor); */
+    background-image: url(/Images/PersonalBrandingBG.png);
+    background-size: cover;
+}
+
+header
+{
+    position: fixed;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    height: 60px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: -2px;
+
+    background-color: var(--navBarColor);
+    filter: drop-shadow(0px -15px 27px #000000);
+    z-index: 99;
+}
+
+header nav
+{
+    display: flex;
+    justify-content: space-between;
+    flex-basis: 100%;
+    align-items: center;
+}
+header nav>ul li a
+{
+    font-size: 18px;
+    text-decoration: none;
+}
+header ul
+{
+    list-style: none;
+    display:  inline-block;
+    font-size: 0;
+}
+
+header ul li
+{
+    display: inline-block;
+    margin-left: 10px;
+}
+header ul:first-child li
+{
+    margin-left: 15px;
+}
+
+header img
+{
+    width: 30px;
+    height: 30px;
+}
+header ul li img
+{
+    filter:var(--iconFilter);
+}
+header>img
+{
+    margin-right: 40px;
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+}
+
+header ul:last-of-type
+{
+    margin-left: auto;
+}
+
+/*-----------------------------------Intro--------------------------------------*/
+
+.name
+{
+    font-size: small;
+}
+.intro
+{
+    margin-top: 100px;
+    text-align: center;
+
+}
+.intro h1
+{
+    font-size: xx-large;
+    margin-top: 15px;
+}
+.line
+{
+    margin: auto;
+    width: 100px;
+    height: var(--visualLineThickness);
+    background-color: var(--contrastColor);
+    margin-top: 10px;
+}
+.description
+{
+    margin-top: 10px;
+    font-size: x-small;
+    line-height: 20px;
+}
+.intro iframe
+{
+    margin-top: 50px;
+    width: var(--largeMargin);
+    box-shadow: var(--lightShadow);
+    border: 5px solid var(--footerColor);
+    border-radius: var(--borderRadius);
+    height: 500px;
+}
+
+/*-----------------------------------Intro--------------------------------------*/
+
+/* -------------------------line visual--------------------------------- */
+.lineVisual
+{
+    flex-basis: 100%;
+    font-size: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.lineVisual>div  
+{
+    margin:auto;
+
+}
+.lineVisual>div div 
+{
+    display: inline-block;
+}
+/* lines */
+.lineVisual>div div:nth-child(2)
+{
+    width: var(--lineVisualWidth);
+    height: var(--visualLineThickness);
+    background-color: var(--contrastColor);
+}
+/* rotated square 1 */
+.lineVisual>div div:nth-child(1)
+{
+    width: var(--visualSquareSize);
+    height: var(--visualSquareSize);
+    background-color: var(--contrastColor);
+    transform: translate(calc(var(--visualSquareSize) * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
+    z-index: -1;
+}
+/* rotated square 2 */
+
+.lineVisual>div div:nth-child(3)
+{
+    width: var(--visualSquareSize);
+    height: var(--visualSquareSize);
+    background-color: var(--contrastColor);
+    transform: translate(calc(var(--visualSquareSize) * -1 * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
+    z-index: -1;
+}
+
+/* -------------------------line visual---------------------------------- */
+
+body>section.container
+{
+    width: var(--largeMargin);
+    margin: auto;
+    margin-top: 100px;
+    display: flex;
+    border-radius: 3px;
+    margin-bottom: 100px;
+}
+
+section main
+{
+    display: flex;
+}
+
+section main>h1
+{
+    flex-basis: 100%;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* ---------------------------- Project Card ---------------------------- */
+main .lineVisual
+{
+    margin-bottom:100px ;
+}
+section main article
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: var(--cardColor);
+    border: 5px solid var(--cardColor);
+    border-radius: var(--borderRadius);
+    box-shadow: var(--lightShadow);
+
+    transition: transform 0.2s ease;
+}
+
+
+section main article:hover 
+{
+    transform: scale(1.1);
+    transform-origin: 50% 0%;
+}
+section main article figure img
+{
+    width: 100%;
+    max-height: 150px;
+}
+
+section main article h2
+{
+    margin-top: 10px;
+    margin-bottom: 10px;    
+}
+section main article p
+{
+    text-align: center;
+    width: 80%;
+    font-size: 10px;
+}
+/* ---------------------------- Project Card ---------------------------- */
+
+#AboutMe
+{
+    width: var(--largeMargin);
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 200px;
+}
+
+#AboutMe article
+{
+    background-color: var(--blackColor);
+}
+#AboutMe article p
+{
+    margin-bottom: 20px;
+}
+#AboutMe h2
+{
+    margin-bottom: 30px;
+}
+#AboutMe aside
+{
+    align-self: center  ;
+}
+#AboutMe aside img
+{
+    width: 100%;
+}
+
+.preferences
+{
+    width: var(--largeMargin);
+    margin: auto;
+    margin-bottom: 200px;
+}
+.preferences .lineVisual
+{
+    margin-bottom:100px ;
+}
+.preferences>h1
+{
+    text-align: center;
+}
+.preferences section h2
+{
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.preferences section
+{
+    margin-bottom: 40px;
+
+}
+/* favorite influencers */
+.preferences section:nth-of-type(1) section
+{
+    display: flex;
+    margin: auto;
+}
+.preferences section:nth-of-type(1) section img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+.preferences section:nth-of-type(2), .preferences section:nth-of-type(3) section 
+{
+    text-align: center;
+
+}
+.preferences section:nth-of-type(2) img
+{
+    width: 130px;
+    margin-left: 20px;
+    object-fit: contain;
+
+}
+
+.preferences section:nth-of-type(3) img
+{
+    width: 60px;
+    margin-left: 10px;
+    object-fit: contain;
+    filter: var(--iconFilter);
+}
+footer
+{
+    padding: 40px;
+    /* background-color: rgb(20, 16, 16); */
+    background-color: var(--footerColor);
+
+}
+
+footer ul
+{
+    list-style: none;
+    text-align: center;
+}
+footer ul li
+{
+    margin-bottom: 5px;
+}
+footer a
+{
+    text-decoration: none;
+}
+
+footer ul:last-of-type img
+{
+    filter:var(--iconFilter);
+    width: 30px;
+}
+footer ul:last-of-type li
+{
+ display: inline-block;
+}

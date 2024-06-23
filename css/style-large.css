@@ -1,0 +1,46 @@
+section main
+{
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+section main article
+{
+    flex-basis: calc(50% - var(--largeProjectArticleGap));
+    padding: 5px;
+    margin-bottom: 100px;
+    min-height: 250px;
+    align-self: center;
+}
+section main article:last-child
+{
+    margin: auto;
+}
+#AboutMe
+{
+    flex-direction: row-reverse;
+    
+}
+#AboutMe article
+{
+    flex-basis: 60%;
+}
+
+#AboutMe aside
+{
+    flex-basis: 35%;
+}
+.preferences section:nth-of-type(1) section
+{
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 73%;
+}
+.preferences section:nth-of-type(1) section a
+{
+    flex-basis: 46.66%;
+    max-width: 46.66%;
+    margin-bottom: 10px;
+    height: 100px;
+}

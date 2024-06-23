@@ -1,0 +1,44 @@
+section.container
+{
+    width: 95%;
+}
+
+section main
+{
+    flex-direction: column;
+    margin: auto;
+}
+
+section main article
+{
+    max-width: 250px;
+    flex-basis: 100%;
+    padding: 5px;
+    min-height: 305px;
+    margin-bottom: 30px;
+}
+
+#AboutMe
+{
+    flex-direction: column;
+
+}
+#AboutMe h2
+{
+    text-align: center;
+}
+#AboutMe article
+{
+    flex-basis: 100%;
+}
+
+.preferences section:nth-of-type(1) section
+{
+    flex-direction: column;
+}
+.preferences section:nth-of-type(1) section a
+{
+    margin-bottom: 10px;
+    height: 100px;
+    align-self: center
+}
