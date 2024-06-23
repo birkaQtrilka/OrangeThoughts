@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
 
 @import url("style-large.css") screen and (min-width: 767px) ;
 @import url("style-small.css") screen and (max-width: 766px) ;
+
 @font-face 
 {
     font-family: Heming;
-    src: url(/Fonts/heming-variable.ttf);
+    src: url(../Fonts/heming-variable.ttf);
 }
 
 @font-face 
 {
     font-family: Woodford;
-    src: url(/Fonts/WoodfordBornePro/WoodfordBournePro-Regular.ttf);
+    src: url(../Fonts/WoodfordBornePro/WoodfordBournePro-Regular.ttf);
 }
+
 :root {
     --txtColor:#E5DBC7;
     --navBarColor: #09161F;
@@ -62,7 +63,7 @@ body
 {
     border: solid black 1px ;
     /* background-color: var(--bgColor); */
-    background-image: url(/Images/PersonalBrandingBG.png);
+    background-image: url(../Images/PersonalBrandingBG.png);
     background-size: cover;
 }
 
