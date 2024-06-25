@@ -30,7 +30,7 @@ section main article:last-child
 {
     flex-basis: 35%;
 }
-.preferences section:nth-of-type(1) section
+/* .preferences section:nth-of-type(1) section
 {
     flex-flow: row wrap;
     align-items: flex-start;
@@ -43,4 +43,4 @@ section main article:last-child
     max-width: 46.66%;
     margin-bottom: 10px;
     height: 100px;
-}
+} */
