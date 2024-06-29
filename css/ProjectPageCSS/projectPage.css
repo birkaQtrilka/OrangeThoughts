@@ -10,18 +10,42 @@ main>article{
     padding-bottom: 70px;
     text-align: center;
     border-radius: var(--borderRadius);
+    position: relative;
 }
 
 main>article h1
 {
     margin-bottom: 20px;
 }
-
+main>article>a
+{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+main>article>a img
+{
+    width: 50px;
+}
 main>article iframe
 {
     width: 80%;
-    margin-bottom: 50px;
     height: 350px;
+}
+main>article>div
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 50px;
+
+}
+main>article>div div{
+    display: inline-block;
+    background-color: gray;
+    margin-right: 7px;
 }
 
 main>article section
