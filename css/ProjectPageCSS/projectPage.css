@@ -42,10 +42,16 @@ main>article>div
     margin-bottom: 50px;
 
 }
+span a
+{
+    text-decoration: none;
+} 
 main>article>div div{
     display: inline-block;
     background-color: gray;
     margin-right: 7px;
+    padding-left: 3px;
+    padding-right: 4px;
 }
 
 main>article section

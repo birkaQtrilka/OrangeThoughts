@@ -10,12 +10,11 @@ section main article
     padding: 5px;
     margin-bottom: 100px;
     min-height: 250px;
-    align-self: center;
 }
-section main article:last-child
+/* section main article:last-child
 {
     margin: auto;
-}
+} */
 #AboutMe
 {
     flex-direction: row-reverse;
