@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding adventures</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/ProjectPageCSS/projectPage.css" />
+    <link rel="icon" type="image/x-icon" href="Images/Logo.png">
+</head>
+<body>
+    <header>
+        <a href="Index.html"><img src="Images/Logo.png" alt="pfp"></a>
+        <nav>
+            <ul>
+                <li><a href="Index.html#AboutMe">About</a></li>
+                <li><a href="Index.html#Projects">Projects</a></li>
+                <li><a href="Index.html#preferences">Preferences</a></li>
+            </ul>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/stefan-carpeliuc-b2880427b/" target="_blank"><img src="Images/LinkedInIcon.png" alt="LinkedIn"></a></li>
+                <li><a href="https://github.com/birkaQtrilka" target="_blank"><img src="Images/gitHubIcon.png" alt="GitHub"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <a href="Index.html#Projects"><img src="Images/BackIconBlue.png" alt=""></a>
+            <h1>Wave function collapse</h1>
+            <video controls loop>
+                <source src="Videos/WFC.mp4">
+            </video>
+            <div>
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A window that's filled procedurally generated tiles that must connect. 
+                    It is based on the wave function collapse algorithm: <br>&emsp;&emsp; Each tile has a superstate <br>&emsp;&emsp; A random state is picked from the tile with the least superstates<br>&emsp;&emsp; The rest of the cells then update their superstates based on conditions (such as every tiles must connect) <br>&emsp;&emsp; Repeat.
+                    <br>&emsp; The challenge I encountered was to include rotated versions of tiles in the superstates. I just added the rotated tiles as separate objects (as if they are different tiles) in the list of superstates.
+                </p>
+                <a href="https://github.com/PancakeB0Y/PointAndClickGame" target="_blank">Full project GitHub</a>
+                
+            </section>
+            
+        </article>
+
+        <article>
+            <h1>Quad trees</h1>
+            <video controls loop>
+                <source src="Videos/k-tree.mp4">
+            </video>
+            <div>
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A space partitioning algorithm that I will later use for my flocking simulation.
+                    It divides the space into quadrants and stores the objects that have a bounding box into the quadrants that fully contain them
+                    <br>&emsp; The challenge I encountered was to decide what will be the condition of subdividing: the number of entities in the cell 
+                    or the fact that the enitity is wholy contained in the cell.
+                </p>
+                <a href="https://github.com/PancakeB0Y/PointAndClickGame" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
+            <h1>Physics engine</h1>
+            <video controls loop>
+                <source src="Videos/physics.mp4">
+            </video>
+            <div>
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A physics engine that handles continuous collisions between circles, angled lines and AABBs. It doesn't support rotation yet.
+                    My aim was to improve my math and physics skills, especially in vectors as it's so prevalent in game development.
+                    &emsp; The main challenge was to solve the weird edge cases.. literally. The circles would bounce weirdly at the corners of 
+                    rectangles and at the ends of segments. To solve this, I added "caps". These are circles placed at the ends of segments that have the 
+                    radius set to zero.
+                </p>
+                <a href="https://github.com/PancakeB0Y/PointAndClickGame" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
+            <h1>Flocking</h1>
+            <video controls loop>
+                <source src="Videos/boids.mp4">
+            </video>
+            <div>
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; An algorithm that simulates the formation of groups of moving bodies. 
+                    <br>&emsp; The challenge was to optimize the algorithm because every boid would have to check (in the unoptimized case) 
+                    every other boid in order for it to get the right data. This would mean an O(n^2) complexity. To solve this problem, I used 
+                    the before learned quad tree data structure. However, I modified it to squeeze as many frames as I could. For example, 
+                    the boids are counted as points, not bounding boxes.
+                </p>
+                <a href="https://github.com/birkaQtrilka/Boids" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+    </main>
+
+</body>
+</html>

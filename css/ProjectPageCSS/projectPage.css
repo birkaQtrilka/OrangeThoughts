@@ -1,4 +1,4 @@
-main>article{
+main{
     width: 70%;
     margin: auto;
     min-height: 400px;
@@ -32,6 +32,12 @@ main>article iframe
     width: 80%;
     height: 350px;
 }
+main>article video
+{
+    width: 60%;
+    height: 380px;
+    object-fit: cover;
+}
 main>article>div
 {
     display: flex;
@@ -42,6 +48,12 @@ main>article>div
     margin-bottom: 50px;
 
 }
+
+main>article:not(:first-child)
+{
+    margin-top: 100px;
+}
+
 span a
 {
     text-decoration: none;
@@ -79,7 +91,7 @@ main>article section h3
     margin-top: 20px;
     margin-bottom: 10px;
 }
-main article section p:last-of-type
+main article section p.credits
 {
     font-size: 10px;
     max-width: 200px;
