@@ -59,7 +59,10 @@ img
 {
     border-radius: var(--borderRadius);
 }
-
+video
+{
+    border-radius: var(--borderRadius);
+}
 body
 {
     border: solid black 1px ;

@@ -26,14 +26,101 @@
 
     <main>
         <article>
+            <h1>Procedural Mesh with marching squares</h1>
+            <video controls loop>
+                <source src="Videos/Square Marching.mp4">
+            </video>
+            <div class="tags">
+                <div><p>#Unity</p></div>
+                <div><p>#Shader Graph</p></div>
+                <div><p>#Side-Project</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A continuation of Sebastian Lague's 
+                    <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">
+                        procedural planet generation tutorial
+                    </a>. In this project, I learn how to create meshes in code by making an ocean mesh that follows the contour of the planet's 
+                    land. My solution was to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching squares algoritm</a>.
+                    You divide the mesh into squares and you give the corners a value 
+                    of how close it is to the ocean level. Then, you get the correct configuration of the mesh in that cell from the lookup table that has
+                    all the possible ways a cell can look like.
+                    <br>&emsp;The main challenge was understanding how the generation of meshes works, as well as finding the right solution. I basically randomly
+                    stumbled upon the square marching algorithm and realised that I could use it for this project. Implementing the algorithm was hard, but I had
+                    a lot of fun doing it.
+                </p>
+                <figure>
+                    <img src="Images/SideProjects/ProceduralMesh.png" alt="">
+                </figure>
+                <a href="https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
+            <h1>Physics engine</h1>
+            <video controls loop>
+                <source src="Videos/physics.mp4">
+            </video>
+            <div class="tags">
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+                <div><p>#University Project</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A physics engine that handles continuous collisions between circles, angled lines and AABBs. It doesn't support rotation yet.
+                    My aim was to improve my math and physics skills, especially in vectors as it's so prevalent in game development.
+                    <br>&emsp;The main challenge was to solve the weird edge cases.. literally. The circles would bounce weirdly at the corners of 
+                    rectangles and at the ends of segments. To solve this, I added "caps". These are circles placed at the ends of segments that have the 
+                    radius set to zero.
+                </p>
+                <figure>
+                    <img src="Images/SideProjects/Physics.png" alt="">
+                </figure>
+                <a href="https://github.com/birkaQtrilka/Simple-Physics/tree/main/gxpengine_template/MyClasses/TankGame/PhysicsEngine" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
+            <h1>Procedural dungeon generation and pathfinding</h1>
+            <video controls loop>
+                <source src="Videos/Dungeon.mp4">
+            </video>
+            <div class="tags">
+                <div><p>#GxpEngine</p></div>
+                <div><p>#C-Sharp</p></div>
+                <div><p>#University Project</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; A scene with an orc that moves from A to B through a procedurally generated dungeon by the shortest path. The dungeon is 
+                    generated using a binary space partitioning algorithm, the rooms that "collide" will form doors that will be elongated as the rooms
+                    randomly shrink. The pathfinding is implemented using the <a href="https://www.geeksforgeeks.org/a-search-algorithm/">A* algorithm</a>.
+                    <br>&emsp;The main challenges were: 
+                    <br>&emsp;&emsp;How to connect the rooms? -solved with the previous mentioned collision idea
+                    <br>&emsp;&emsp;Creating a custom min heap container for the A* implementation. I did it to further challenge myself.
+                    <br>&emsp;&emsp;Making the node grid. I did it with a simple square fill algorithm.
+                </p>
+                <figure>
+                    <img src="Images/SideProjects/Dungeon.png" alt="">
+                </figure>
+                <a href="https://github.com/birkaQtrilka/Pathfinding-and-dungeon-generation/blob/main/MyClasses/Assignment/PathFinding/PathFinderAStar.cs" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
             <a href="Index.html#Projects"><img src="Images/BackIconBlue.png" alt=""></a>
             <h1>Wave function collapse</h1>
             <video controls loop>
                 <source src="Videos/WFC.mp4">
             </video>
-            <div>
+            <div class="tags">
                 <div><p>#GxpEngine</p></div>
                 <div><p>#C-Sharp</p></div>
+                <div><p>#Side-Project</p></div>
             </div>
             <section>
                 <h2>Description</h2>
@@ -45,81 +132,45 @@
                 <figure>
                     <img src="Images/SideProjects/WFC.png" alt="">
                 </figure>
-                <a href="https://github.com/PancakeB0Y/PointAndClickGame" target="_blank">Full project GitHub</a>
+                <a href="https://github.com/birkaQtrilka/WaveFunctionCollapse/blob/main/gxpengine_template/MyClasses/Displayer.cs" target="_blank">Full project GitHub</a>
             </section>
         </article>
 
         <article>
-            <h1>Quad trees</h1>
-            <video controls loop>
-                <source src="Videos/k-tree.mp4">
-            </video>
-            <div>
-                <div><p>#GxpEngine</p></div>
-                <div><p>#C-Sharp</p></div>
-            </div>
-            <section>
-                <h2>Description</h2>
-                <p>
-                    &emsp; A space partitioning algorithm that I will later use for my flocking simulation.
-                    It divides the space into quadrants and stores the objects that have a bounding box into the quadrants that fully contain them
-                    <br>&emsp; The challenge I encountered was to decide what will be the condition of subdividing: the number of entities in the cell 
-                    or the fact that the enitity is wholy contained in the cell.
-                </p>
-                <figure>
-                    <img src="Images/SideProjects/QuadTree.png" alt="">
-                </figure>
-                <a href="https://github.com/PancakeB0Y/PointAndClickGame" target="_blank">Full project GitHub</a>
-            </section>
-        </article>
-
-        <article>
-            <h1>Physics engine</h1>
-            <video controls loop>
-                <source src="Videos/physics.mp4">
-            </video>
-            <div>
-                <div><p>#GxpEngine</p></div>
-                <div><p>#C-Sharp</p></div>
-            </div>
-            <section>
-                <h2>Description</h2>
-                <p>
-                    &emsp; A physics engine that handles continuous collisions between circles, angled lines and AABBs. It doesn't support rotation yet.
-                    My aim was to improve my math and physics skills, especially in vectors as it's so prevalent in game development.
-                    &emsp; The main challenge was to solve the weird edge cases.. literally. The circles would bounce weirdly at the corners of 
-                    rectangles and at the ends of segments. To solve this, I added "caps". These are circles placed at the ends of segments that have the 
-                    radius set to zero.
-                </p>
-                <figure>
-                    <img src="Images/SideProjects/Physics.png" alt="">
-                </figure>
-                <a href="https://github.com/birkaQtrilka/Simple-Physics" target="_blank">Full project GitHub</a>
-            </section>
-        </article>
-
-        <article>
-            <h1>Flocking</h1>
+            <h1>Boids and quad trees</h1>
             <video controls loop>
                 <source src="Videos/boids.mp4">
             </video>
-            <div>
+            <div class="tags">
                 <div><p>#GxpEngine</p></div>
                 <div><p>#C-Sharp</p></div>
+                <div><p>#Side-Project</p></div>
             </div>
             <section>
                 <h2>Description</h2>
                 <p>
-                    &emsp; An algorithm that simulates the formation of groups of moving bodies. 
+                    &emsp; Boids is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behaviour of birds,
+                     and related group motion.
                     <br>&emsp; The challenge was to optimize the algorithm because every boid would have to check (in the unoptimized case) 
                     every other boid in order for it to get the right data. This would mean an O(n^2) complexity. To solve this problem, I used 
-                    the before learned quad tree data structure. However, I modified it to squeeze as many frames as I could. For example, 
-                    the boids are counted as points, not bounding boxes.
+                    the quad tree data structure. I am aware that using 
+                    <a href="https://en.wikipedia.org/wiki/Bin_(computational_geometry)#:~:text=In%20computational%20geometry%2C%20the%20bin,histogram%20ordered%20into%20100%2C000%20bins.">
+                        bins
+                    </a> 
+                    is 
+                    <a href="https://www.researchgate.net/publication/374977849_Comparing_bins_and_quadtree_optimizations_of_the_boids_simulation_to_the_naive_approach">better</a>
+                    for this algorithm, however I still chose quadtrees because it sounded more fun and I think I would use it more often in 
+                    future projects. However, I will definitely play around with the former algorithm too.
                 </p>
-                <figure>
-                    <img src="Images/SideProjects/Boids.png" alt="">
-                </figure>
-                <a href="https://github.com/birkaQtrilka/Boids" target="_blank">Full project GitHub</a>
+                <section class="sideBySideImages">
+                    <figure>
+                        <img src="Images/SideProjects/Boids.png" alt="">
+                    </figure>
+                    <figure>
+                        <img src="Images/SideProjects/QuadTree.png" alt="">
+                    </figure>
+                </section>
+                <a href="https://github.com/birkaQtrilka/Boids/tree/main/gxpengine_template/GXPEngine/MyClasses" target="_blank">Full project GitHub</a>
             </section>
         </article>
 

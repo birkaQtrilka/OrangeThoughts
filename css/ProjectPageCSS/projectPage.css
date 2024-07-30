@@ -48,6 +48,10 @@ main>article>div
     margin-bottom: 50px;
 
 }
+.tags
+{
+    width: 60%;
+}
 
 main>article:not(:first-child)
 {
@@ -95,4 +99,30 @@ main article section p.credits
 {
     font-size: 10px;
     max-width: 200px;
+}
+main article figure 
+{
+    height: 400px;
+}
+main article figure img
+{
+    height: 100%;
+}
+main article section.sideBySideImages
+{
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 45%;
+    column-gap: 10px;
+}
+main article section.sideBySideImages img
+{
+    width: 100%;
+    object-fit: contain;
+}
+figcaption
+{
+    font-size: 10px;
 }
