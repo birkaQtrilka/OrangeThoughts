@@ -143,7 +143,6 @@ header ul:last-of-type
 }
 
 /*-----------------------------------Intro--------------------------------------*/
-
 .name
 {
     font-size: large;
@@ -188,7 +187,6 @@ header ul:last-of-type
     border-radius: var(--borderRadius);
     height: 400px;
 }
-
 /*-----------------------------------Intro--------------------------------------*/
 
 /* -------------------------line visual--------------------------------- */
@@ -280,6 +278,7 @@ section main article
 section main article>a
 {
     text-decoration: none;
+    width: 100%;
 }
 section main article:hover 
 {
