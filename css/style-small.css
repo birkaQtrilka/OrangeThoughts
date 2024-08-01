@@ -32,6 +32,20 @@ section main article
     flex-basis: 100%;
 }
 
+.intro iframe
+{
+    width: 100%;
+}
+main>article video
+{
+    width: 90%;
+    height: 380px;
+}
+main>article section
+{
+    margin: auto;
+    width: 90%;
+}
 /* .preferences section:nth-of-type(1) section
 {
     flex-direction: column;

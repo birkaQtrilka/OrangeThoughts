@@ -1,0 +1,30 @@
+main
+{
+    margin: auto;
+    width: 70%;
+}
+
+main>article iframe
+{
+    width: 80%;
+    height: 350px;
+}
+main>article video
+{
+    width: 60%;
+    height: 380px;
+    object-fit: cover;
+}
+main>article>div
+{
+    width: 80%;
+}
+main article section.sideBySideImages
+{
+    flex-direction: row;
+    column-gap: 10px;
+}
+.tags
+{
+    width: 60%;
+}

@@ -1,6 +1,8 @@
+@import url("projectPage-small.css") screen and (max-width: 766px) ;
+@import url("projectPage-large.css") screen and (min-width: 767px) ;
+
+
 main{
-    width: 70%;
-    margin: auto;
     min-height: 400px;
     background-color: var(--cardColor);
     margin-top: 150px;
@@ -27,15 +29,8 @@ main>article>a img
 {
     width: 50px;
 }
-main>article iframe
-{
-    width: 80%;
-    height: 350px;
-}
 main>article video
 {
-    width: 60%;
-    height: 380px;
     object-fit: cover;
 }
 main>article>div
@@ -43,14 +38,9 @@ main>article>div
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 80%;
     margin: auto;
     margin-bottom: 50px;
 
-}
-.tags
-{
-    width: 60%;
 }
 
 main>article:not(:first-child)
@@ -69,15 +59,10 @@ main>article>div div{
     padding-left: 3px;
     padding-right: 4px;
 }
-
 main>article section
 {
     text-align: left;
-    width: 80%;
-    margin: auto;
-    
 }
-
 main>article section h2
 {
     margin-bottom: 20px;
@@ -100,22 +85,17 @@ main article section p.credits
     font-size: 10px;
     max-width: 200px;
 }
-main article figure 
-{
-    height: 400px;
-}
 main article figure img
 {
-    height: 100%;
+    width: 90%;
+    max-width: 700px;
 }
 main article section.sideBySideImages
 {
     margin: 0;
     width: 100%;
     display: flex;
-    flex-direction: row;
     flex-basis: 45%;
-    column-gap: 10px;
 }
 main article section.sideBySideImages img
 {

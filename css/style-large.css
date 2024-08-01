@@ -29,6 +29,22 @@ section main article
 {
     flex-basis: 35%;
 }
+
+.intro iframe
+{
+    width: calc(var(--largeMargin ) - 200px);
+    
+}
+main>article video
+{
+    width: 60%;
+    height: 380px;
+}
+main>article section
+{
+    width: 80%;
+    margin: auto;
+}
 /* .preferences section:nth-of-type(1) section
 {
     flex-flow: row wrap;
