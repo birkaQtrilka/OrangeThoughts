@@ -58,6 +58,33 @@
         </article>
 
         <article>
+            <h1>Unity DOTS and BOIDS</h1>
+            <video controls loop>
+                <source src="Videos/Boids3D_Short.mp4">
+            </video>
+                <div class="tags">
+                <div><p>#Unity</p></div>
+                <div><p>#DOTS</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; Because the unity Data Oriented Technology Stack got released, I decided to learn it by making a project. I use the earlier 
+                    learned <a href="Coding adventures.html#Boids">Boids Algorithm</a> as the problem to optimize. However, this time I use an easier
+                     space partitioning algorithm, so I can focus more on how DOTS works. The way it works is that a region in space has it's own hash code 
+                     that is used as a key in a HashTable. The limitation is that boids interact only in the bounds of a particular cell and not in their respective 
+                     perception radius. 
+                    <br>&emsp; The main challenge I encountered was to find the right documentation to actually learn from. There are a lot of tutorials that use 
+                    deprecated functions and even workflows. 
+                </p>
+                <figure>
+                    <img src="Images/SideProjects/DOTS.png" alt="">
+                </figure>
+                <a href="https://github.com/birkaQtrilka/BoidsWithDOTS/blob/main/Assets/BoidSystem.cs" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article>
             <h1>Physics engine</h1>
             <video controls loop>
                 <source src="Videos/physics.mp4">
@@ -136,7 +163,7 @@
             </section>
         </article>
 
-        <article>
+        <article id="Boids">
             <h1>Boids and quad trees</h1>
             <video controls loop>
                 <source src="Videos/boids.mp4">
