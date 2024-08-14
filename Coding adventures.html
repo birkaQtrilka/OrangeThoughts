@@ -41,13 +41,13 @@
                     &emsp; A continuation of Sebastian Lague's 
                     <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">
                         procedural planet generation tutorial
-                    </a>. In this project, I learn how to create meshes in code by making an ocean mesh that follows the contour of the planet's 
-                    land. My solution was to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching squares algoritm</a>.
+                    </a>. In this project, I learned how to create meshes in code by making an ocean mesh that follows the contour of the planet's 
+                    land. My solution was to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching squares algorithm</a>.
                     You divide the mesh into squares and you give the corners a value 
                     of how close it is to the ocean level. Then, you get the correct configuration of the mesh in that cell from the lookup table that has
                     all the possible ways a cell can look like.
-                    <br>&emsp;The main challenge was understanding how the generation of meshes works, as well as finding the right solution. I basically randomly
-                    stumbled upon the square marching algorithm and realised that I could use it for this project. Implementing the algorithm was hard, but I had
+                    <br>&emsp;The main challenge was understanding how the generation of meshes works, as well as finding the right solution. I randomly
+                    stumbled upon the square marching algorithm and realized that I could use it for this project. Implementing the algorithm was hard, but I had
                     a lot of fun doing it.
                 </p>
                 <figure>
@@ -69,13 +69,13 @@
             <section>
                 <h2>Description</h2>
                 <p>
-                    &emsp; Because the unity Data Oriented Technology Stack got released, I decided to learn it by making a project. I use the earlier 
-                    learned <a href="Coding adventures.html#Boids">Boids Algorithm</a> as the problem to optimize. However, this time I use an easier
-                     space partitioning algorithm, so I can focus more on how DOTS works. The way it works is that a region in space has it's own hash code 
-                     that is used as a key in a HashTable. The limitation is that boids interact only in the bounds of a particular cell and not in their respective 
-                     perception radius. 
-                    <br>&emsp; The main challenge I encountered was to find the right documentation to actually learn from. There are a lot of tutorials that use 
-                    deprecated functions and even workflows. 
+                    &emsp; Because the Unity Data Oriented Technology Stack was released, I decided to learn it by doing a project. I use the 
+                    earlier learned <a href="Coding adventures.html#Boids">Boids Algorithm</a> as the problem to optimize. However, this time 
+                    I use an easier space partitioning algorithm, so I can focus more on how DOTS works. The way it works is that a region in 
+                    space has its hash code that is used as a key in a HashTable. The limitation is that boids interact only in the bounds of a 
+                    particular cell and not in their respective perception radius.
+                    <br>&emsp; The main challenge I encountered was to find the right documentation to learn from. Many tutorials use deprecated 
+                    functions and even workflows.
                 </p>
                 <figure>
                     <img src="Images/SideProjects/DOTS.png" alt="">
@@ -97,7 +97,7 @@
             <section>
                 <h2>Description</h2>
                 <p>
-                    &emsp; A physics engine that handles continuous collisions between circles, angled lines and AABBs. It doesn't support rotation yet.
+                    &emsp; A physics engine that handles continuous collisions between circles, angled lines, and AABBs. It doesn't support rotation yet.
                     My aim was to improve my math and physics skills, especially in vectors as it's so prevalent in game development.
                     <br>&emsp;The main challenge was to solve the weird edge cases.. literally. The circles would bounce weirdly at the corners of 
                     rectangles and at the ends of segments. To solve this, I added "caps". These are circles placed at the ends of segments that have the 
@@ -127,7 +127,7 @@
                     generated using a binary space partitioning algorithm, the rooms that "collide" will form doors that will be elongated as the rooms
                     randomly shrink. The pathfinding is implemented using the <a href="https://www.geeksforgeeks.org/a-search-algorithm/">A* algorithm</a>.
                     <br>&emsp;The main challenges were: 
-                    <br>&emsp;&emsp;How to connect the rooms? -solved with the previous mentioned collision idea
+                    <br>&emsp;&emsp;How to connect the rooms? -solved with the previously mentioned collision idea
                     <br>&emsp;&emsp;Creating a custom min heap container for the A* implementation. I did it to further challenge myself.
                     <br>&emsp;&emsp;Making the node grid. I did it with a simple square fill algorithm.
                 </p>
@@ -152,8 +152,11 @@
             <section>
                 <h2>Description</h2>
                 <p>
-                    &emsp; A window that's filled procedurally generated tiles that must connect. 
-                    It is based on the wave function collapse algorithm: <br>&emsp;&emsp; Each tile has a superstate <br>&emsp;&emsp; A random state is picked from the tile with the least superstates<br>&emsp;&emsp; The rest of the cells then update their superstates based on conditions (such as every tiles must connect) <br>&emsp;&emsp; Repeat.
+                    &emsp; A window that's filled with procedurally generated tiles that must connect. 
+                    It is based on the wave function collapse algorithm: 
+                    <br>&emsp;&emsp; Each tile has a superstate 
+                    <br>&emsp;&emsp; A random state is picked from the tile with the least superstates
+                    <br>&emsp;&emsp; The rest of the cells then update their superstates based on conditions (such as every tile must connect) <br>&emsp;&emsp; Repeat.
                     <br>&emsp; The challenge I encountered was to include rotated versions of tiles in the superstates. I just added the rotated tiles as separate objects (as if they are different tiles) in the list of superstates.
                 </p>
                 <figure>
@@ -176,17 +179,17 @@
             <section>
                 <h2>Description</h2>
                 <p>
-                    &emsp; Boids is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behaviour of birds,
+                    &emsp; Boids is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behavior of birds,
                      and related group motion.
                     <br>&emsp; The challenge was to optimize the algorithm because every boid would have to check (in the unoptimized case) 
-                    every other boid in order for it to get the right data. This would mean an O(n^2) complexity. To solve this problem, I used 
-                    the quad tree data structure. I am aware that using 
+                    every other boid for it to get the right data. This would mean an O(n^2) complexity. To solve this problem, I used 
+                    the quadtree data structure. I am aware that using 
                     <a href="https://en.wikipedia.org/wiki/Bin_(computational_geometry)#:~:text=In%20computational%20geometry%2C%20the%20bin,histogram%20ordered%20into%20100%2C000%20bins.">
                         bins
                     </a> 
                     is 
                     <a href="https://www.researchgate.net/publication/374977849_Comparing_bins_and_quadtree_optimizations_of_the_boids_simulation_to_the_naive_approach">better</a>
-                    for this algorithm, however I still chose quadtrees because it sounded more fun and I think I would use it more often in 
+                    for this algorithm, however, I still chose quadtrees because it sounded more fun and I think I would use it more often in 
                     future projects. However, I will definitely play around with the former algorithm too.
                 </p>
                 <section class="sideBySideImages">
