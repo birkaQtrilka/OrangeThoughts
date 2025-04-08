@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="css/ProjectPageCSS/projectPage.css" />
     <link rel="icon" type="image/x-icon" href="Images/Logo.png">
 </head>
-<body>
+<body id="top">
     <header>
         <a href="Index.html"><img src="Images/Logo.png" alt="pfp"></a>
         <nav>
@@ -24,8 +24,29 @@
         </nav>
     </header>
 
-    <main>
-        <article>
+    <main >
+        <button>
+            <a href="Coding adventures.html#top"><img src="Images/BackIconBlue.png" alt=""></a>
+        </button>
+        <a href="Index.html#Projects"><img src="Images/BackIconBlue.png" alt=""></a>
+
+        <nav>
+            <div>
+                <h1>Adventures</h1>
+                <ul>
+                    <li><a href="Coding adventures.html#ProceduralMesh">Procedural Mesh with marching squares</a></li>
+                    <li><a href="Coding adventures.html#DOTS">Unity DOTS and BOIDS</a></li>
+                    <li><a href="Coding adventures.html#Physics">Physics Engine</a></li>
+                    <li><a href="Coding adventures.html#PathFinding">Procedural dungeon generation and pathfinding</a></li>
+                    <li><a href="Coding adventures.html#InverseKinematics">Inverse Kinematics</a></li>
+                    <li><a href="Coding adventures.html#WFC">Wave Function Collapse</li>
+                    <li><a href="Coding adventures.html#Boids">Boids and Quad Trees</a></li>
+                </ul>
+            </div>
+            
+        </nav>
+
+        <article id="ProceduralMesh">
             <h1>Procedural Mesh with marching squares</h1>
             <video controls loop>
                 <source src="Videos/Square Marching.mp4">
@@ -56,8 +77,9 @@
                 <a href="https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs" target="_blank">Full project GitHub</a>
             </section>
         </article>
-
-        <article>
+        
+        
+        <article id="DOTS">
             <h1>Unity DOTS and BOIDS</h1>
             <video controls loop>
                 <source src="Videos/Boids3D_Short.mp4">
@@ -85,8 +107,8 @@
             </section>
         </article>
 
-        <article>
-            <h1>Physics engine</h1>
+        <article id="Physics">
+            <h1>Physics Engine</h1>
             <video controls loop>
                 <source src="Videos/physics.mp4">
             </video>
@@ -111,7 +133,7 @@
             </section>
         </article>
 
-        <article>
+        <article id="PathFinding">
             <h1>Procedural dungeon generation and pathfinding</h1>
             <video controls loop>
                 <source src="Videos/Dungeon.mp4">
@@ -139,9 +161,31 @@
             </section>
         </article>
 
-        <article>
-            <a href="Index.html#Projects"><img src="Images/BackIconBlue.png" alt=""></a>
-            <h1>Wave function collapse</h1>
+        <article id="InverseKinematics">
+            <h1>Inverse Kinematics</h1>
+            <video controls loop>
+                <source src="Videos/IK_Progress.mp4">
+            </video>
+            <div class="tags">
+                <div><p>#Unity</p></div>
+                <div><p>#Side-Project</p></div>
+            </div>
+            <section>
+                <h2>Description</h2>
+                <p>
+                    &emsp; I implemented the algorithm for spider walking in a few hours, and left it off when the spider could react to changing heights.
+                    <br>&emsp; The main challenge was to position the legs uniformly and to make a standing 
+                    state and a walking state, so the legs don't look odd while idle.
+                </p>
+                <figure>
+                    <img src="Images/SideProjects/Ik_Code.png" alt="">
+                </figure>
+                <a href="https://github.com/birkaQtrilka/ProceduralAnimation/blob/main/Assets/Scripts/Leg.cs" target="_blank">Full project GitHub</a>
+            </section>
+        </article>
+
+        <article id="WFC">
+            <h1>Wave Function Collapse</h1>
             <video controls loop>
                 <source src="Videos/WFC.mp4">
             </video>
@@ -168,7 +212,7 @@
         </article>
 
         <article id="Boids">
-            <h1>Boids and quad trees</h1>
+            <h1>Boids and Quad Trees</h1>
             <video controls loop>
                 <source src="Videos/boids.mp4">
             </video>
