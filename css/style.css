@@ -42,6 +42,9 @@
     font-weight: 500;
     list-style: none;
 }
+.clickable {
+    cursor: pointer;
+}
 h1	
 {
     font-family: "Heming", sans-serif;
