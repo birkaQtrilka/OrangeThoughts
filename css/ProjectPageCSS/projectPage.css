@@ -14,7 +14,7 @@ main{
     border-radius: var(--borderRadius);
     position: relative;
 }
-
+  
 main>article h1
 {
     margin-bottom: 20px;

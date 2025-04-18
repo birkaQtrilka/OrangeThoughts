@@ -1,6 +1,140 @@
-window.addEventListener("DOMContentLoaded", () => {
-    const header = document.createElement("header");
+let canvas;
+let ctx;
+const stars = [];
+const rotationSpeed = {min: .006, max: .006};
+const twinnkleSpeed = {min: .006, max: .006};
 
+function createWave() {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svg.setAttribute("viewBox", "0 0 1440 320");
+    svg.classList.add("starAvoid");
+    // Create the <path> element
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("fill", "#152434");
+    path.setAttribute("fill-opacity", "1");
+    path.setAttribute("d", "M0,288L60,288C120,288,240,288,360,272C480,256,600,224,720,208C840,192,960,192,1080,181.3C1200,171,1320,149,1380,138.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z");
+
+    // Append the path to the SVG
+    svg.appendChild(path);
+    // Add the SVG to the page
+    document.body.appendChild(svg);
+}
+function isPointInsideElement(x, y, element) {
+    const rect = element.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+    x += canvasRect.left;
+    y += canvasRect.top;
+    return (
+      x >= rect.left &&
+      x <= rect.right &&
+      y >= rect.top &&
+      y <= rect.bottom
+    );
+  }
+function initStars(count, minS, maxS, exceptions = []) {
+    for (let i = 0; i < count; i++) {
+        let x;
+        let y;
+
+        do {
+            x = Math.random() * canvas.width;
+            y = Math.random() * canvas.height;
+        } while (
+            exceptions.some(e => isPointInsideElement(x, y, e))
+        )
+
+        stars.push({
+            x: x,
+            y: y,
+            size: Math.random() * maxS + minS,
+            opacity: Math.random(),
+            rotation: Math.random() * Math.PI * 2 ,
+            rotSpeed: (Math.random() * rotationSpeed.max + rotationSpeed.min)* (randomInt(0,1) == 0 ?1: -1) ,
+            twinnkleSpeed: (Math.random() * twinnkleSpeed.max + twinnkleSpeed.min),
+        });
+    }
+}
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let star of stars) {
+        star.opacity += star.twinnkleSpeed;
+        star.rotation += star.rotSpeed;
+
+        const size = star.size;
+        ctx.save(); // Save the current canvas state
+        ctx.translate(star.x, star.y);       
+        ctx.rotate(star.rotation);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
+
+        ctx.restore(); // Restore state for next star
+    }
+
+    requestAnimationFrame(animateStars);
+}
+let oldW = 0;
+let oldH = 0;
+let cummulative = 1;
+let cummulativey = 1;
+function resizeCanvas() {
+    const deltaX = window.innerWidth  / oldW;
+    const deltaY = window.innerHeight / oldH;
+    cummulative += (deltaX - 1);
+    cummulativey += (deltaY - 1);
+    oldW = window.innerWidth;
+    oldH = window.innerHeight;
+
+    canvas.width = document.body.scrollWidth;
+    canvas.height = document.body.scrollHeight;
+    //const scale = Math.max(cummulative, cummulativey);
+    ctx.scale(cummulative,cummulativey);
+    
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // for (let star of stars) {
+    //     //star.x += deltaX;
+    //     //star.y += deltaY;
+    //     const size = star.size;
+    //     ctx.save(); // Save the current canvas state
+    //     ctx.translate(star.x, star.y);       
+    //     ctx.rotate(star.rotation);
+    //     ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+    //     ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
+
+    //     ctx.restore(); // Restore state for next star
+    // }
+}
+window.addEventListener("DOMContentLoaded", () => {
+    createWave();
+    
+    
+    canvas = document.createElement("canvas");
+    canvas.id = "starCanvas";
+    document.body.appendChild(canvas);
+    ctx = canvas.getContext('2d');
+
+    oldW = window.innerWidth;
+    oldH = window.innerHeight;
+    resizeCanvas();
+    //canvas.width = document.body.scrollWidth;
+    //canvas.height = document.body.scrollHeight;
+
+    const resizeObserver = new ResizeObserver(entries => {
+        resizeCanvas(); // your function
+    });
+    
+    resizeObserver.observe(document.body);
+    window.addEventListener('resize', resizeCanvas);
+    console.log("drawing");
+    //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
+    initStars(300, 1, 7, [...document.querySelectorAll(".starAvoid")]);
+    requestAnimationFrame(animateStars);
+    const header = document.createElement("header");
     header.innerHTML = `
         <a href="Index.html#top">
             <img src="Images/Logo.png" alt="pfp">
