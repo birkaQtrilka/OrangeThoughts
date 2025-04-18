@@ -3,10 +3,8 @@ let ctx;
 const stars = [];
 const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
-let oldW = 0;
-let oldH = 0;
-let cummulative = 1;
-let cummulativey = 1;
+const parallax = {min: .009, max: .03};
+let starExceptions;
 
 function createWave() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -56,9 +54,29 @@ function initStars(count, minS, maxS, exceptions = []) {
             rotation: Math.random() * Math.PI * 2 ,
             rotSpeed: (Math.random() * rotationSpeed.max + rotationSpeed.min)* (randomInt(0,1) == 0 ?1: -1) ,
             twinnkleSpeed: (Math.random() * twinnkleSpeed.max + twinnkleSpeed.min),
+            scrollFactor: Math.random() * parallax.max + parallax.min,
         });
     }
 }
+
+function resetStars(exceptions)
+{
+    stars.forEach(s => {
+        let x;
+        let y;
+
+        do {
+            x = Math.random() * canvas.width;
+            y = Math.random() * canvas.height;
+        } while (
+            exceptions.some(e => isPointInsideElement(x, y, e))
+        )
+        s.x = x;
+        s.y = y;
+    });
+
+}
+
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -71,12 +89,14 @@ function animateStars() {
         if (star.opacity > 1 || star.opacity < 0.2) star.twinnkleSpeed *= -1;
         const size = star.size;
         ctx.save(); // Save the current canvas state
-        ctx.translate(star.x, star.y);       
-        // ctx.scale(star.opacity+.2, star.opacity+.2);
+        const scrollY = window.scrollY;
+        const offsetY = -scrollY * star.scrollFactor;
+        ctx.translate(star.x, star.y + offsetY);    
+        ctx.scale(star.opacity+.2, star.opacity+.2);
         ctx.rotate(star.rotation);
-         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-        // ctx.shadowBlur = 10;
-        // ctx.shadowColor = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = `rgba(255, 255, 255, ${star.opacity})`;
         ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
 
         ctx.restore(); // Restore state for next star
@@ -88,16 +108,9 @@ function animateStars() {
 function resizeCanvas() {
     canvas.width = document.body.scrollWidth;
     canvas.height = document.body.scrollHeight;
-
-    // Clear any previous transform
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset all transforms
-
-    // OPTIONAL: If you still want to scale, calculate based on some reference size
-    const scaleX = canvas.width / referenceWidth;
-    ctx.scale(scaleX, scaleX); // Apply fresh scale
+    resetStars(starExceptions);
 }
-let referenceWidth = 1920;
-let referenceHeight = 1080;
+
 window.addEventListener("DOMContentLoaded", () => {
     createWave();
     
@@ -107,6 +120,7 @@ window.addEventListener("DOMContentLoaded", () => {
     ctx = canvas.getContext('2d');
     referenceWidth = document.body.scrollWidth;
     referenceHeight = document.body.scrollHeight;
+    starExceptions = [...document.querySelectorAll(".starAvoid")];
 
     oldW = window.innerWidth;
     oldH = window.innerHeight;
@@ -119,7 +133,7 @@ window.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('resize', resizeCanvas);
     console.log("drawing");
     //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
-    initStars(300, 1, 7, [...document.querySelectorAll(".starAvoid")]);
+    initStars(300, 1, 7, starExceptions);
     requestAnimationFrame(animateStars);
     const header = document.createElement("header");
     header.innerHTML = `

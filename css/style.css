@@ -22,6 +22,7 @@
     --cardColor: #1E242E;
     --footerColor: #2A242E;
     --lightShadow: -7px -2px 29px 6px rgba(237,201,255,.16);
+    --lighterShadow: -7px -2px 31px 6px rgba(121, 75, 163, 0.426);
     --largeMargin: 65%; 
     --largeProjectArticleGap: 10%;
     --visualLineThickness: 3px;
@@ -119,7 +120,7 @@ body svg {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
 }
 header
@@ -232,6 +233,11 @@ header ul:last-of-type
     border-radius: var(--borderRadius);
     height: 400px;
 }
+.intro iframe:hover
+{
+    box-shadow: var(--lighterShadow);
+
+}
 /*-----------------------------------Intro--------------------------------------*/
 
 /* -------------------------line visual--------------------------------- */
@@ -321,6 +327,8 @@ section main article:hover
 {
     transform: scale(1.05);
     transform-origin: 50% 0%;
+    box-shadow: var(--lighterShadow);
+
 }
 section main article>a
 {
@@ -357,6 +365,66 @@ section main article p
     border-radius: 10px;
 }
 /* ---------------------------- Project Card ---------------------------- */
+
+.glossy-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+  
+  .glossy-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Shine overlay */
+  .glossy-container::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    transform: rotate(25deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Animate on hover */
+  .glossy-container.shine-in::before {
+    animation: glossy-shine-in 1s ease-out forwards;
+    opacity: 1;
+  }
+  
+  .glossy-container.shine-out::before {
+    animation: glossy-shine-out 1s ease-out forwards;
+    opacity: 1;
+  }
+  
+  @keyframes glossy-shine-in {
+    from {
+      transform: translate(-100%, -100%) rotate(25deg);
+    }
+    to {
+      transform: translate(100%, 100%) rotate(25deg);
+    }
+  }
+  
+  @keyframes glossy-shine-out {
+    from {
+      transform: translate(100%, 100%) rotate(25deg);
+    }
+    to {
+      transform: translate(-100%, -100%) rotate(25deg);
+    }
+  }
 
 #AboutMe
 {
