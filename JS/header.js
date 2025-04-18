@@ -1,8 +1,12 @@
 let canvas;
 let ctx;
 const stars = [];
-const rotationSpeed = {min: .006, max: .006};
-const twinnkleSpeed = {min: .006, max: .006};
+const rotationSpeed = {min: .001, max: .006};
+const twinnkleSpeed = {min: .001, max: .003};
+let oldW = 0;
+let oldH = 0;
+let cummulative = 1;
+let cummulativey = 1;
 
 function createWave() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -64,12 +68,15 @@ function animateStars() {
     for (let star of stars) {
         star.opacity += star.twinnkleSpeed;
         star.rotation += star.rotSpeed;
-
+        if (star.opacity > 1 || star.opacity < 0.2) star.twinnkleSpeed *= -1;
         const size = star.size;
         ctx.save(); // Save the current canvas state
         ctx.translate(star.x, star.y);       
+        // ctx.scale(star.opacity+.2, star.opacity+.2);
         ctx.rotate(star.rotation);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        // ctx.shadowBlur = 10;
+        // ctx.shadowColor = `rgba(255, 255, 255, ${star.opacity})`;
         ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
 
         ctx.restore(); // Restore state for next star
@@ -77,53 +84,33 @@ function animateStars() {
 
     requestAnimationFrame(animateStars);
 }
-let oldW = 0;
-let oldH = 0;
-let cummulative = 1;
-let cummulativey = 1;
-function resizeCanvas() {
-    const deltaX = window.innerWidth  / oldW;
-    const deltaY = window.innerHeight / oldH;
-    cummulative += (deltaX - 1);
-    cummulativey += (deltaY - 1);
-    oldW = window.innerWidth;
-    oldH = window.innerHeight;
 
+function resizeCanvas() {
     canvas.width = document.body.scrollWidth;
     canvas.height = document.body.scrollHeight;
-    //const scale = Math.max(cummulative, cummulativey);
-    ctx.scale(cummulative,cummulativey);
-    
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // for (let star of stars) {
-    //     //star.x += deltaX;
-    //     //star.y += deltaY;
-    //     const size = star.size;
-    //     ctx.save(); // Save the current canvas state
-    //     ctx.translate(star.x, star.y);       
-    //     ctx.rotate(star.rotation);
-    //     ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-    //     ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
+    // Clear any previous transform
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset all transforms
 
-    //     ctx.restore(); // Restore state for next star
-    // }
+    // OPTIONAL: If you still want to scale, calculate based on some reference size
+    const scaleX = canvas.width / referenceWidth;
+    ctx.scale(scaleX, scaleX); // Apply fresh scale
 }
+let referenceWidth = 1920;
+let referenceHeight = 1080;
 window.addEventListener("DOMContentLoaded", () => {
     createWave();
-    
     
     canvas = document.createElement("canvas");
     canvas.id = "starCanvas";
     document.body.appendChild(canvas);
     ctx = canvas.getContext('2d');
+    referenceWidth = document.body.scrollWidth;
+    referenceHeight = document.body.scrollHeight;
 
     oldW = window.innerWidth;
     oldH = window.innerHeight;
     resizeCanvas();
-    //canvas.width = document.body.scrollWidth;
-    //canvas.height = document.body.scrollHeight;
-
     const resizeObserver = new ResizeObserver(entries => {
         resizeCanvas(); // your function
     });
