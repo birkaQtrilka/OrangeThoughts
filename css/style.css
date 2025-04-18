@@ -63,6 +63,10 @@
 {
      color: var(--contrastColor); 
 }
+.hidden
+{
+    display: none;
+}
 .orangeImgAnim{
     transition: 0.2s ease;
 
@@ -334,7 +338,7 @@ section main article p
     font-size: 10px;
     margin: auto;
     background-color: var(--cardColor);
-    border-radius: 20%;
+    border-radius: 10px;
 }
 /* ---------------------------- Project Card ---------------------------- */
 

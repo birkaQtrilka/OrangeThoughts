@@ -42,7 +42,30 @@ main>button
     background-color: transparent;
     border: none;
 }
+main>section
+{
+    margin-top: 20px;
+}
+main>section>ul
+{
+    width: 100%;
+}
+main>section>ul li
+{
+    display: inline-block;
+    margin-right: 7px;
+    padding-left: 3px;
+    padding-right: 4px;
+    background-color: var(--cardColor);
+    border-radius: 5px;
+    margin-top: 5px;
 
+}
+.activeTag
+{
+    background-color: var(--contrastColor);
+
+}
 /* Up Button End*/
 
 main>article video
@@ -65,21 +88,17 @@ main>article:not(:first-child)
 }
 /* Project Agenda */
 main>nav>div{
-    width: 70%;
+    width: 90%;
     margin: auto;
     line-height: 1.3em;
 }
-main nav ul li a
-{
-    color: var(--contrastColor);
-    text-decoration: none;
-}
+
 main nav ul li
 {
-    color: var(--contrastColor);
+    /* color: var(--contrastColor); */
     list-style-type: disc;
     text-align: left;
-
+    list-style: none;
 }
 
 main>nav>div>h1
