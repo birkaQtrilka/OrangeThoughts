@@ -3,8 +3,13 @@ let ctx;
 const stars = [];
 const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
-const parallax = {min: .009, max: .03};
+const parallax = 0.007;
 let starExceptions;
+
+function exp(x)
+{
+    return x*x;
+}
 
 function createWave() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -45,16 +50,16 @@ function initStars(count, minS, maxS, exceptions = []) {
         } while (
             exceptions.some(e => isPointInsideElement(x, y, e))
         )
-
+        const size = Math.random() * maxS + minS;
         stars.push({
             x: x,
             y: y,
-            size: Math.random() * maxS + minS,
+            size: size,
             opacity: Math.random(),
             rotation: Math.random() * Math.PI * 2 ,
             rotSpeed: (Math.random() * rotationSpeed.max + rotationSpeed.min)* (randomInt(0,1) == 0 ?1: -1) ,
             twinnkleSpeed: (Math.random() * twinnkleSpeed.max + twinnkleSpeed.min),
-            scrollFactor: Math.random() * parallax.max + parallax.min,
+            scrollFactor: exp(size) * parallax,
         });
     }
 }

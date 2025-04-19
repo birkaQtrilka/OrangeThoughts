@@ -19,7 +19,7 @@
     --navBarColor: #09161F;
     --bgColor: #0E212F;
     --contrastColor: #F29559;
-    --cardColor: #1E242E;
+    --cardColor: #0e1624;
     --footerColor: #2A242E;
     --lightShadow: -7px -2px 29px 6px rgba(237,201,255,.16);
     --lighterShadow: -7px -2px 31px 6px rgba(121, 75, 163, 0.426);
@@ -437,6 +437,7 @@ section main article p
     width: 300px;
     margin: auto;
     margin-bottom: 200px;
+    text-align: center;
 }
 #tools h2
 {
@@ -447,6 +448,7 @@ section main article p
     display: flex;
     flex-wrap: wrap;
     align-items: center; /* Align items to the top */
+    justify-content: center;
     list-style: none; /* Optional: remove bullets */
     padding: 0;
     margin: 0;
