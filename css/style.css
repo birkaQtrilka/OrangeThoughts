@@ -102,6 +102,11 @@ body
 {
     border: solid black 1px ;
     background: linear-gradient(180deg, #1e1a20 0%, #050405 100%);
+
+}
+body,html{
+    overflow-x: hidden;
+
 }
 body svg {
     position: absolute;
@@ -109,7 +114,9 @@ body svg {
     left: 0;
     z-index: -1;
     height: 90%;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
 }
+
 /* body
 {
     border: solid black 1px ;
@@ -379,7 +386,7 @@ section main article p
   }
   
   /* Shine overlay */
-  .glossy-container::before {
+  .glossy-shine {
     content: "";
     position: absolute;
     top: -100%;
@@ -392,38 +399,9 @@ section main article p
       rgba(255, 255, 255, 0.4) 50%,
       rgba(255, 255, 255, 0) 70%
     );
-    transform: rotate(25deg);
-    opacity: 0;
+    transform: rotate(1deg);
+    opacity: 1;
     pointer-events: none;
-  }
-  
-  /* Animate on hover */
-  .glossy-container.shine-in::before {
-    animation: glossy-shine-in 1s ease-out forwards;
-    opacity: 1;
-  }
-  
-  .glossy-container.shine-out::before {
-    animation: glossy-shine-out 1s ease-out forwards;
-    opacity: 1;
-  }
-  
-  @keyframes glossy-shine-in {
-    from {
-      transform: translate(-100%, -100%) rotate(25deg);
-    }
-    to {
-      transform: translate(100%, 100%) rotate(25deg);
-    }
-  }
-  
-  @keyframes glossy-shine-out {
-    from {
-      transform: translate(100%, 100%) rotate(25deg);
-    }
-    to {
-      transform: translate(-100%, -100%) rotate(25deg);
-    }
   }
 
 #AboutMe

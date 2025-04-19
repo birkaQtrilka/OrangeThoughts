@@ -106,7 +106,7 @@ function animateStars() {
 }
 
 function resizeCanvas() {
-    canvas.width = document.body.scrollWidth;
+    canvas.width = window.innerWidth;
     canvas.height = document.body.scrollHeight;
     resetStars(starExceptions);
 }
@@ -122,8 +122,6 @@ window.addEventListener("DOMContentLoaded", () => {
     referenceHeight = document.body.scrollHeight;
     starExceptions = [...document.querySelectorAll(".starAvoid")];
 
-    oldW = window.innerWidth;
-    oldH = window.innerHeight;
     resizeCanvas();
     const resizeObserver = new ResizeObserver(entries => {
         resizeCanvas(); // your function
