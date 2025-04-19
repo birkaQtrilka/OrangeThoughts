@@ -9,7 +9,7 @@ section main article
     flex-basis: calc(50% - var(--largeProjectArticleGap));
     padding: 5px;
     margin-bottom: 100px;
-    min-height: 250px;
+    min-height: 300px;
 }
 /* section main article:last-child
 {

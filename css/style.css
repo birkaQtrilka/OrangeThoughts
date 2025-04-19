@@ -412,15 +412,18 @@ section main article p
     justify-content: space-between;
     margin-bottom: 50px;
 }
-/*#AboutMe article
+#AboutMe article
 {
-}*/
+    flex-basis: 60%;
+    text-align: left;
+}
 #AboutMe article p
 {
     margin-bottom: 20px;
 }
 #AboutMe h2
 {
+    transform-origin: left;
     margin-bottom: 30px;
 }
 #AboutMe aside
