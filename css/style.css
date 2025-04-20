@@ -447,7 +447,7 @@ section main article p
     background: linear-gradient(
       120deg,
       rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.15) 50%,
       rgba(255, 255, 255, 0) 70%
     );
     transform: rotate(1deg);

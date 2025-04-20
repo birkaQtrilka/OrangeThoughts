@@ -2,6 +2,7 @@ let ctx;
 const stars = [];
 const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
+const opasityChange = {min: .2, max: 1};
 const parallax = 0.007;
 let starExceptions;
 let lastScrollValue;
@@ -39,6 +40,8 @@ function initStars(count, minS, maxS) {
         const y = Math.random() * canvas.height;
 
         const size = Math.random() * maxS + minS;
+        const opasityChange1 = Math.random() * opasityChange.max + opasityChange.min;
+        const opasityChange2 = Math.random() * opasityChange.max + opasityChange.min;
         stars.push({
             x: x,
             y: y,
@@ -48,6 +51,7 @@ function initStars(count, minS, maxS) {
             rotSpeed: (Math.random() * rotationSpeed.max + rotationSpeed.min)* (randomInt(0,1) == 0 ?1: -1) ,
             twinnkleSpeed: (Math.random() * twinnkleSpeed.max + twinnkleSpeed.min),
             scrollFactor: exp(size) * parallax,
+            opasityChange: {min: Math.min(opasityChange1, opasityChange2), max: Math.max(opasityChange1, opasityChange2)},
         });
     }
 }
@@ -83,7 +87,7 @@ function animateStars() {
         star.opacity += star.twinnkleSpeed;
         star.rotation += star.rotSpeed;
         star.y += -scrollYDelta * star.scrollFactor;
-        if (star.opacity > 1 || star.opacity < 0.2) star.twinnkleSpeed *= -1;
+        if (star.opacity > star.opasityChange.max || star.opacity < star.opasityChange.min) star.twinnkleSpeed *= -1;
 
         if(starExceptions.some(e => isPointInsideElement(star.x, star.y, e))) continue;
 
@@ -115,6 +119,11 @@ function createCanvas()
     lastScrollValue = window.scrollY;
     canvas = document.createElement("canvas");
     canvas.id = "starCanvas";
+    const dataHolder = document.querySelector("#canvasParams");
+    let starCount = dataHolder?.getAttribute("data-starCount");
+    starCount ??= 500;
+    console.log(starCount);
+    
     getBodyWrapper().appendChild(canvas);
     ctx = canvas.getContext('2d');
     referenceWidth = document.body.scrollWidth;
@@ -136,7 +145,6 @@ function createCanvas()
 
 window.addEventListener("DOMContentLoaded", () => {
     createCanvas();
-    
     const header = document.createElement("header");
     header.innerHTML = `
         <a href="Index.html#top">
