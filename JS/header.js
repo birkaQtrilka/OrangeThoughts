@@ -195,4 +195,5 @@ window.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.body.append(footer);
+    
 });
