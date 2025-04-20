@@ -114,7 +114,7 @@ body svg {
     left: 0;
     z-index: -1;
     height: 90%;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+    /* filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)); */
     overflow: hidden;
 }
 
