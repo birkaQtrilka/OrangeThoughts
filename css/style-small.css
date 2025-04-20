@@ -1,3 +1,8 @@
+body svg
+{
+    display: none;
+}
+
 section.container
 {
     width: 95%;
@@ -25,6 +30,7 @@ section main article
 }
 #AboutMe h2
 {
+    transform-origin: center;
     text-align: center;
 }
 #AboutMe article

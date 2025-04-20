@@ -1,10 +1,18 @@
-let canvas;
 let ctx;
 const stars = [];
 const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
 const parallax = 0.007;
 let starExceptions;
+//let bodyWrapper;
+let canvas;
+
+function getBodyWrapper()
+{
+    //if(bodyWrapper === undefined)
+    //    bodyWrapper = document.querySelector("#bodyWrapper");
+    return document.body;
+}
 
 function exp(x)
 {
@@ -14,8 +22,7 @@ function exp(x)
 function createWave() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    svg.setAttribute("viewBox", "0 0 1440 320");
-    svg.classList.add("starAvoid");
+    // svg.classList.add("starAvoid");
     // Create the <path> element
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("fill", "#152434");
@@ -25,7 +32,7 @@ function createWave() {
     // Append the path to the SVG
     svg.appendChild(path);
     // Add the SVG to the page
-    document.body.appendChild(svg);
+    getBodyWrapper().appendChild(svg);
 }
 function isPointInsideElement(x, y, element) {
     const rect = element.getBoundingClientRect();
@@ -39,17 +46,11 @@ function isPointInsideElement(x, y, element) {
       y <= rect.bottom
     );
   }
-function initStars(count, minS, maxS, exceptions = []) {
+function initStars(count, minS, maxS) {
     for (let i = 0; i < count; i++) {
-        let x;
-        let y;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
 
-        do {
-            x = Math.random() * canvas.width;
-            y = Math.random() * canvas.height;
-        } while (
-            exceptions.some(e => isPointInsideElement(x, y, e))
-        )
         const size = Math.random() * maxS + minS;
         stars.push({
             x: x,
@@ -81,22 +82,27 @@ function resetStars(exceptions)
     });
 
 }
-
+let lastScrollValue;
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function animateStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    const scrollY = window.scrollY;
+    const scrollYDelta = scrollY - lastScrollValue;
+    lastScrollValue = scrollY;
     for (let star of stars) {
         star.opacity += star.twinnkleSpeed;
         star.rotation += star.rotSpeed;
+        star.y += -scrollYDelta * star.scrollFactor;
         if (star.opacity > 1 || star.opacity < 0.2) star.twinnkleSpeed *= -1;
+
+        if(starExceptions.some(e => isPointInsideElement(star.x, star.y, e))) continue;
+
         const size = star.size;
         ctx.save(); // Save the current canvas state
-        const scrollY = window.scrollY;
-        const offsetY = -scrollY * star.scrollFactor;
-        ctx.translate(star.x, star.y + offsetY);    
+        //const offsetY = -scrollY * star.scrollFactor;
+        ctx.translate(star.x, star.y);    
         ctx.scale(star.opacity+.2, star.opacity+.2);
         ctx.rotate(star.rotation);
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
@@ -113,16 +119,17 @@ function animateStars() {
 function resizeCanvas() {
     
     canvas.width = document.documentElement.clientWidth;
+    //canvas.height = document.documentElement.clientHeight;
     canvas.height = document.body.scrollHeight;
     resetStars(starExceptions);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-    createWave();
-    
+function createCanvas()
+{
+    lastScrollValue = window.scrollY;
     canvas = document.createElement("canvas");
     canvas.id = "starCanvas";
-    document.body.appendChild(canvas);
+    getBodyWrapper().appendChild(canvas);
     ctx = canvas.getContext('2d');
     referenceWidth = document.body.scrollWidth;
     referenceHeight = document.body.scrollHeight;
@@ -135,10 +142,16 @@ window.addEventListener("DOMContentLoaded", () => {
     
     resizeObserver.observe(document.body);
     window.addEventListener('resize', resizeCanvas);
-    console.log("drawing");
+
     //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
-    initStars(300, 1, 7, starExceptions);
+    initStars(500, 1, 7);
     requestAnimationFrame(animateStars);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    //createWave();
+    createCanvas();
+    
     const header = document.createElement("header");
     header.innerHTML = `
         <a href="Index.html#top">
@@ -164,7 +177,7 @@ window.addEventListener("DOMContentLoaded", () => {
         </nav>
     `;
 
-    document.body.prepend(header);
+    getBodyWrapper().prepend(header);
 
     const footer = document.createElement("footer");
 
@@ -194,6 +207,6 @@ window.addEventListener("DOMContentLoaded", () => {
     </footer>
     `;
 
-    document.body.append(footer);
+    getBodyWrapper().append(footer);
     
 });

@@ -24,6 +24,11 @@ section main article
 {
     flex-basis: 60%;
 }
+#AboutMe h2
+{
+    transform-origin: left;
+    margin-bottom: 30px;
+}
 
 #AboutMe aside
 {

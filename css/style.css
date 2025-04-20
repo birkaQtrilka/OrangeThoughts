@@ -102,25 +102,44 @@ body
 {
     border: solid black 1px ;
     background: linear-gradient(180deg, #1e1a20 0%, #050405 100%);
-
-}
-#bodyWrapper
-{
-    width: 100%;
-    overflow-x: hidden;
     position: relative;
-
+    overflow-x: hidden;
 }
 body svg {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     z-index: -1;
-    height: 90%;
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
-    overflow: hidden;
+    width: 100%;
+    height: 80vh;
 }
+body svg path
+{
+    transform: scaleY(1.5);
+    /* position: absolute;
+    height: 100vh;*/
+    width: 100%; 
+}
+/* #svgWrapper > svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+    height: 90vh;
 
+  } */
+/* #svgWrapper 
+{
+    width: 100vw;
+    position: relative;
+    overflow: hidden; 
+
+} */
+  
 /* body
 {
     border: solid black 1px ;
@@ -133,6 +152,8 @@ body svg {
     left: 0;
     z-index: -2;
     pointer-events: none;
+    height: 100%;
+    width: 100vw;
 }
 header
 {
@@ -243,6 +264,8 @@ header ul:last-of-type
     border: 5px solid var(--footerColor);
     border-radius: var(--borderRadius);
     height: 400px;
+    min-width: 500px;
+
 }
 .intro iframe:hover
 {
@@ -297,7 +320,7 @@ header ul:last-of-type
 
 /* -------------------------line visual---------------------------------- */
 
-#bodyWrapper>section.container
+body>section.container
 {
     width: var(--largeMargin);
     margin: auto;
@@ -427,7 +450,6 @@ section main article p
 }
 #AboutMe h2
 {
-    transform-origin: left;
     margin-bottom: 30px;
 }
 #AboutMe aside
