@@ -1,6 +1,6 @@
 class InScrollRange
 {
-    constructor(range,offset, container, callback)
+    constructor(range, offset, container, callback)
     {
         this.range = range;
         this.container = container;
@@ -15,15 +15,17 @@ class InScrollRange
     }
 
 }
+function clamp(num, min, max) { return Math.min(Math.max(num, min), max);}
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-
-document.querySelectorAll('.glossy-shine').forEach(shine => {
+document.querySelectorAll('.glossy-container').forEach(container => {
     const range = 300;
-    new InScrollRange(range, -window.innerHeight/3, shine, (t)=> {
-        t *= 100;
-        shine.style.transform = `translate(${t}%, ${t}%)`;
-    })
+    container.querySelectorAll('.glossy-shine').forEach(shine => {
+        
+        new InScrollRange(range,-window.innerHeight/3, container, (t)=> {
+            t *= 100;
+            shine.style.transform = `translate(${t}%, ${t}%)`;
+        })
+    });
 });
 
 document.querySelectorAll('.scaleInRange').forEach(container => {
@@ -33,3 +35,4 @@ document.querySelectorAll('.scaleInRange').forEach(container => {
         container.style.transform = `scale(${1-t})`
     })
 });
+

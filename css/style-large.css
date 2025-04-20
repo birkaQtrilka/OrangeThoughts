@@ -38,6 +38,7 @@ section main article
 .intro iframe
 {
     width: calc(var(--largeMargin ) - 200px);
+    min-width: 500px;
     
 }
 main>article video

@@ -2,15 +2,6 @@ const list = document.querySelector("main nav div ul");
 const tags = new Map();
 const articles = document.querySelectorAll("main>article");
 
-let bodyWrapper;
-
-function getBodyWrapper()
-{
-    if(bodyWrapper == undefined)
-        bodyWrapper = document.querySelector("#bodyWrapper");
-    return bodyWrapper;
-}
-
 articles.forEach(article => {
     const li = document.createElement("li");
     li.classList.add("clickable");

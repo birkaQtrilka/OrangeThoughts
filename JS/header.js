@@ -4,6 +4,7 @@ const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
 const parallax = 0.007;
 let starExceptions;
+let lastScrollValue;
 //let bodyWrapper;
 let canvas;
 
@@ -19,21 +20,6 @@ function exp(x)
     return x*x;
 }
 
-function createWave() {
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    // svg.classList.add("starAvoid");
-    // Create the <path> element
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("fill", "#152434");
-    path.setAttribute("fill-opacity", "1");
-    path.setAttribute("d", "M0,288L60,288C120,288,240,288,360,272C480,256,600,224,720,208C840,192,960,192,1080,181.3C1200,171,1320,149,1380,138.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z");
-
-    // Append the path to the SVG
-    svg.appendChild(path);
-    // Add the SVG to the page
-    getBodyWrapper().appendChild(svg);
-}
 function isPointInsideElement(x, y, element) {
     const rect = element.getBoundingClientRect();
     const canvasRect = canvas.getBoundingClientRect();
@@ -46,6 +32,7 @@ function isPointInsideElement(x, y, element) {
       y <= rect.bottom
     );
   }
+
 function initStars(count, minS, maxS) {
     for (let i = 0; i < count; i++) {
         const x = Math.random() * canvas.width;
@@ -82,10 +69,11 @@ function resetStars(exceptions)
     });
 
 }
-let lastScrollValue;
+
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 function animateStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const scrollY = window.scrollY;
@@ -100,17 +88,16 @@ function animateStars() {
         if(starExceptions.some(e => isPointInsideElement(star.x, star.y, e))) continue;
 
         const size = star.size;
-        ctx.save(); // Save the current canvas state
-        //const offsetY = -scrollY * star.scrollFactor;
+        ctx.save(); 
         ctx.translate(star.x, star.y);    
         ctx.scale(star.opacity+.2, star.opacity+.2);
         ctx.rotate(star.rotation);
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
         ctx.shadowBlur = 10;
         ctx.shadowColor = `rgba(255, 255, 255, ${star.opacity})`;
-        ctx.fillRect(-size / 2, -size / 2, size, size); // Draw centered square
+        ctx.fillRect(-size / 2, -size / 2, size, size); 
 
-        ctx.restore(); // Restore state for next star
+        ctx.restore(); 
     }
 
     requestAnimationFrame(animateStars);
@@ -119,7 +106,6 @@ function animateStars() {
 function resizeCanvas() {
     
     canvas.width = document.documentElement.clientWidth;
-    //canvas.height = document.documentElement.clientHeight;
     canvas.height = document.body.scrollHeight;
     resetStars(starExceptions);
 }
@@ -133,23 +119,22 @@ function createCanvas()
     ctx = canvas.getContext('2d');
     referenceWidth = document.body.scrollWidth;
     referenceHeight = document.body.scrollHeight;
+    //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
     starExceptions = [...document.querySelectorAll(".starAvoid")];
 
     resizeCanvas();
     const resizeObserver = new ResizeObserver(entries => {
-        resizeCanvas(); // your function
+        resizeCanvas(); 
     });
     
     resizeObserver.observe(document.body);
     window.addEventListener('resize', resizeCanvas);
 
-    //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
     initStars(500, 1, 7);
     requestAnimationFrame(animateStars);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    //createWave();
     createCanvas();
     
     const header = document.createElement("header");
@@ -210,3 +195,4 @@ window.addEventListener("DOMContentLoaded", () => {
     getBodyWrapper().append(footer);
     
 });
+
