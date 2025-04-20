@@ -104,10 +104,12 @@ body
     background: linear-gradient(180deg, #1e1a20 0%, #050405 100%);
 
 }
-body,html{
+#bodyWrapper
+{
+    width: 100%;
     overflow-x: hidden;
     position: relative;
-    width: 100%;
+
 }
 body svg {
     position: absolute;
@@ -295,7 +297,7 @@ header ul:last-of-type
 
 /* -------------------------line visual---------------------------------- */
 
-body>section.container
+#bodyWrapper>section.container
 {
     width: var(--largeMargin);
     margin: auto;
