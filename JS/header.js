@@ -111,7 +111,8 @@ function animateStars() {
 }
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
+    
+    canvas.width = document.documentElement.clientWidth;
     canvas.height = document.body.scrollHeight;
     resetStars(starExceptions);
 }
