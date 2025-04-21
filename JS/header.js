@@ -122,7 +122,6 @@ function createCanvas()
     const dataHolder = document.querySelector("#canvasParams");
     let starCount = dataHolder?.getAttribute("data-starCount");
     starCount ??= 500;
-    console.log(starCount);
     
     getBodyWrapper().appendChild(canvas);
     ctx = canvas.getContext('2d');

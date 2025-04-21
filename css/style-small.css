@@ -1,8 +1,3 @@
-body svg
-{
-    display: none;
-}
-
 section.container
 {
     width: 95%;
@@ -12,53 +7,36 @@ section main
 {
     flex-direction: column;
     margin: auto;
+    article{
+        max-width: 250px;
+        flex-basis: 100%;
+        padding: 5px;
+        min-height: 250px;
+        margin-bottom: 30px;
+        &>article video
+        {
+            width: 90%;
+            height: 380px;
+        }
+        &>article section
+        {
+            margin: auto;
+            width: 90%;
+        }
+    }
 }
-
-section main article
-{
-    max-width: 250px;
-    flex-basis: 100%;
-    padding: 5px;
-    min-height: 250px;
-    margin-bottom: 30px;
-}
-
 #AboutMe
 {
     flex-direction: column;
-
+    h2{
+        transform-origin: center;
+        text-align: center;
+    }
+    article{
+        flex-basis: 100%;
+    }
 }
-#AboutMe h2
-{
-    transform-origin: center;
-    text-align: center;
-}
-#AboutMe article
-{
-    flex-basis: 100%;
-}
-
 .intro iframe
 {
     width: 100%;
 }
-main>article video
-{
-    width: 90%;
-    height: 380px;
-}
-main>article section
-{
-    margin: auto;
-    width: 90%;
-}
-/* .preferences section:nth-of-type(1) section
-{
-    flex-direction: column;
-}
-.preferences section:nth-of-type(1) section a
-{
-    margin-bottom: 10px;
-    height: 100px;
-    align-self: center
-} */
