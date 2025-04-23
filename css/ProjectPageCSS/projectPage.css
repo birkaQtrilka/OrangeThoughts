@@ -28,9 +28,6 @@ main{
             list-style: none;
         }
     }
-    
-    
-    
     &>article
     {
         h1{
@@ -45,12 +42,14 @@ main{
             flex-wrap: wrap;
             margin: auto;
             margin-bottom: 50px;
+            /* tag */
             & div{
                 display: inline-block;
                 background-color: gray;
                 margin-right: 7px;
-                padding-left: 3px;
-                padding-right: 4px;
+                padding-left: 4px;
+                padding-right: 5px;
+                
             }
         }
         &:not(:first-child){
@@ -99,9 +98,26 @@ main{
         position: absolute;
         left: 20px;
         top: 20px;
+        /* div{
+            width: 50px;
+            height: 50px;
+            background-color: red; 
+            mask-image: url("/Images/BackIcon.png");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        } */
+         
         img{
             width: 50px;
+            filter: drop-shadow(0px 0px 5px rgba(237, 201, 255, 0.2));
+            transform-origin: 50% 50%;
+            &:hover
+            {
+                filter: drop-shadow(0px 0px 5px var(--lighterViolet));
+            }
         }
+
     }
     /* Up Button */
     &>button
@@ -112,6 +128,12 @@ main{
         rotate: 90deg;
         background-color: transparent;
         border: none;
+        filter: drop-shadow(0px 0px 5px var(--lightViolet));
+        transform-origin: 50% 50%;
+        &:hover
+        {
+            filter: drop-shadow(0px 0px 5px var(--lighterViolet));
+        }
     }
     &>section
     {
@@ -131,13 +153,31 @@ main{
             
             }
         }
+        & div p 
+        {
+            display: flex;
+            align-items: center;
+        }
+        & div p>div{
+            display: inline-block;
+            width:10px; 
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--contrastColor);
+        }
+
+        & div p.active>div
+        {
+            background-color: var(--contrastColor);
+        }
     }
 }
-  
+
 .activeTag
 {
-    background-color: var(--contrastColor);
-
+    /* background-color: var(--contrastColor); */
+    outline: 2px solid  var(--contrastColor);
+    outline-offset: -2px;
 }
 
 span a

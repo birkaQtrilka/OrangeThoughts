@@ -18,6 +18,7 @@ articles.forEach(article => {
 
     const articleData = {
         html: article,
+        navHtml: li,
         tags: []
     }
     //referencing articles to tags (circular reference)
@@ -41,8 +42,9 @@ articles.forEach(article => {
     // console.log(articleData.html.querySelector("h1").innerText, articleData.tags.map(t=>{return {name: t.html.innerText, arts: t.articles.map(a=> a.html.querySelector("h1").innerText)}}));
 
 });
-
-const tagContainer = document.querySelector("main>section>ul");
+ const tagContainer = document.querySelector("main>section>ul");
+// const enablers = tagContainer.parentElement().querySelectorAll("div p");
+// enablers[0].
 tags.forEach(tag => {
 
     const htmlTag = document.createElement("li");
@@ -51,7 +53,12 @@ tags.forEach(tag => {
     htmlTag.innerText = tag.html.innerText;
     tagContainer.appendChild(htmlTag);
     htmlTag.classList.add("activeTag");
-
+    htmlTag.style.setProperty(
+        'padding-top', '2px'
+    )
+    htmlTag.style.setProperty(
+        'padding-bottom', '2px'
+    )
     htmlTag.addEventListener("click", () => {
         const current = tags.get(htmlTag.innerText);
         current.active = !current.active;
@@ -59,8 +66,10 @@ tags.forEach(tag => {
         if (current.active) {
             current.articles.forEach(article => {
                 article.html.classList.remove("hidden");
+                article.navHtml.classList.remove("hidden");
             });
             htmlTag.classList.add("activeTag");
+
             return;
         }
         htmlTag.classList.remove("activeTag");
@@ -68,7 +77,11 @@ tags.forEach(tag => {
         //if any article of this tag has no active tags
         const closedArticles = current.articles.filter(a => !a.tags.some(t => t.active))
         if (closedArticles.length != 0) {
-            closedArticles.forEach(a => a.html.classList.add("hidden"));
+            closedArticles.forEach(a => {
+                a.html.classList.add("hidden");
+                a.navHtml.classList.add("hidden");
+
+            });
         }
     })
 });

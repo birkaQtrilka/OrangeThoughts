@@ -142,8 +142,11 @@ function createCanvas()
     requestAnimationFrame(animateStars);
 }
 
+
+
 window.addEventListener("DOMContentLoaded", () => {
     createCanvas();
+
     const header = document.createElement("header");
     header.innerHTML = `
         <a href="Index.html#top">
