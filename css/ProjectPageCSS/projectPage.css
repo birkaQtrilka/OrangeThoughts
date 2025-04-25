@@ -30,6 +30,21 @@ main{
     }
     &>article
     {
+        overflow: hidden;
+        transition: height 0.3s ease, opacity 0.3s ease;
+        opacity: 1;
+          
+        &.hide-animate {
+            height: 0 !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+          
+        &.show-animate {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         h1{
             margin-bottom: 20px;
         }
@@ -55,6 +70,7 @@ main{
         &:not(:first-child){
             margin-top: 100px;
         }
+        /* Description section */
         section
         {
             text-align: left;
@@ -153,29 +169,23 @@ main{
             
             }
         }
-        & div p 
+        
+        & div 
         {
-            display: flex;
-            align-items: center;
+            margin-top: 25px;
         }
-        & div p>div{
+        & div>p
+        {
             display: inline-block;
-            width:10px; 
-            height: 10px;
-            border-radius: 50%;
-            border: 2px solid var(--contrastColor);
+            padding: 4px;
+            border-radius: 5px;
         }
-
-        & div p.active>div
-        {
-            background-color: var(--contrastColor);
-        }
+        
     }
 }
 
 .activeTag
 {
-    /* background-color: var(--contrastColor); */
     outline: 2px solid  var(--contrastColor);
     outline-offset: -2px;
 }
