@@ -9,14 +9,13 @@ main
             height: 350px;
         }
         & video{
-            width: 90%;
+            width: 100%;
             height: 380px;
             object-fit: cover;
+            position: absolute;
+            right: 0;
         }
-        &>div
-        {
-            width: 90%;
-        }
+        
     }
     & article section.sideBySideImages
     {
@@ -25,5 +24,7 @@ main
 }
 .tags
 {
-    width: 90%;
+    margin-top: 410px;
+    justify-content: center;
+    align-items: center;
 }
