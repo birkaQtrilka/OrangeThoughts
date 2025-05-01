@@ -1,13 +1,29 @@
-let ctx;
-const stars = [];
+interface Star {
+    x: number; 
+    y: number;
+    size: any;
+    opacity: number; 
+    rotation: number; 
+    rotSpeed: number; 
+    twinnkleSpeed: number; 
+    scrollFactor: number; 
+    opasityChange: 
+    { 
+        min: number;
+        max: number;
+    };
+}
+
+const stars: Star[] = [];
+let ctx: CanvasRenderingContext2D;
 const rotationSpeed = {min: .001, max: .006};
 const twinnkleSpeed = {min: .001, max: .003};
 const opasityChange = {min: .2, max: 1};
 const parallax = 0.007;
-let starExceptions;
-let lastScrollValue;
+let starExceptions: HTMLElement[];
+let lastScrollValue: number;
 //let bodyWrapper;
-let canvas;
+let canvas: HTMLCanvasElement;
 
 function getBodyWrapper()
 {
@@ -16,12 +32,12 @@ function getBodyWrapper()
     return document.body;
 }
 
-function exp(x)
+function exp(x: number)
 {
     return x*x;
 }
 
-function isPointInsideElement(x, y, element) {
+function isPointInsideElement(x: number, y: number, element: HTMLElement) {
     const rect = element.getBoundingClientRect();
     const canvasRect = canvas.getBoundingClientRect();
     x += canvasRect.left;
@@ -34,7 +50,7 @@ function isPointInsideElement(x, y, element) {
     );
   }
 
-function initStars(count, minS, maxS) {
+function initStars(count: number, minS: number, maxS: number) {
     for (let i = 0; i < count; i++) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
@@ -56,17 +72,17 @@ function initStars(count, minS, maxS) {
     }
 }
 
-function resetStars(exceptions)
+function resetStars(exceptions: HTMLElement[])
 {
     stars.forEach(s => {
-        let x;
-        let y;
+        let x: number;
+        let y: number;
 
         do {
             x = Math.random() * canvas.width;
             y = Math.random() * canvas.height;
         } while (
-            exceptions.some(e => isPointInsideElement(x, y, e))
+            exceptions.some((e: any) => isPointInsideElement(x, y, e))
         )
         s.x = x;
         s.y = y;
@@ -74,7 +90,7 @@ function resetStars(exceptions)
 
 }
 
-function randomInt(min, max) {
+function randomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -89,7 +105,7 @@ function animateStars() {
         star.y += -scrollYDelta * star.scrollFactor;
         if (star.opacity > star.opasityChange.max || star.opacity < star.opasityChange.min) star.twinnkleSpeed *= -1;
 
-        if(starExceptions.some(e => isPointInsideElement(star.x, star.y, e))) continue;
+        if(starExceptions.some((e: HTMLElement) => isPointInsideElement(star.x, star.y, e))) continue;
 
         const size = star.size;
         ctx.save(); 
@@ -121,14 +137,12 @@ function createCanvas()
     canvas.id = "starCanvas";
     const dataHolder = document.querySelector("#canvasParams");
     let starCount = dataHolder?.getAttribute("data-starCount");
-    starCount ??= 500;
+    starCount ??= "500";
     
     getBodyWrapper().appendChild(canvas);
-    ctx = canvas.getContext('2d');
-    referenceWidth = document.body.scrollWidth;
-    referenceHeight = document.body.scrollHeight;
+    ctx = canvas.getContext('2d') ?? new CanvasRenderingContext2D();
     //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
-    starExceptions = [...document.querySelectorAll(".starAvoid")];
+    starExceptions = [...document.querySelectorAll<HTMLElement>(".starAvoid")];
 
     resizeCanvas();
     const resizeObserver = new ResizeObserver(entries => {
