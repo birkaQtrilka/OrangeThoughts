@@ -1,6 +1,6 @@
 "use strict";
-let ctx;
 const stars = [];
+let ctx;
 const rotationSpeed = { min: .001, max: .006 };
 const twinnkleSpeed = { min: .001, max: .003 };
 const opasityChange = { min: .2, max: 1 };
@@ -54,7 +54,7 @@ function resetStars(exceptions) {
         do {
             x = Math.random() * canvas.width;
             y = Math.random() * canvas.height;
-        } while (exceptions.some(e => isPointInsideElement(x, y, e)));
+        } while (exceptions.some((e) => isPointInsideElement(x, y, e)));
         s.x = x;
         s.y = y;
     });
@@ -73,7 +73,7 @@ function animateStars() {
         star.y += -scrollYDelta * star.scrollFactor;
         if (star.opacity > star.opasityChange.max || star.opacity < star.opasityChange.min)
             star.twinnkleSpeed *= -1;
-        if (starExceptions.some(e => isPointInsideElement(star.x, star.y, e)))
+        if (starExceptions.some((e) => isPointInsideElement(star.x, star.y, e)))
             continue;
         const size = star.size;
         ctx.save();
@@ -94,16 +94,15 @@ function resizeCanvas() {
     resetStars(starExceptions);
 }
 function createCanvas() {
+    var _a;
     lastScrollValue = window.scrollY;
     canvas = document.createElement("canvas");
     canvas.id = "starCanvas";
     const dataHolder = document.querySelector("#canvasParams");
     let starCount = dataHolder === null || dataHolder === void 0 ? void 0 : dataHolder.getAttribute("data-starCount");
-    starCount !== null && starCount !== void 0 ? starCount : (starCount = 500);
+    starCount !== null && starCount !== void 0 ? starCount : (starCount = "500");
     getBodyWrapper().appendChild(canvas);
-    ctx = canvas.getContext('2d');
-    referenceWidth = document.body.scrollWidth;
-    referenceHeight = document.body.scrollHeight;
+    ctx = (_a = canvas.getContext('2d')) !== null && _a !== void 0 ? _a : new CanvasRenderingContext2D();
     //querry returns node list, which doesn't have functions like .some(), so I'm converting it to an array
     starExceptions = [...document.querySelectorAll(".starAvoid")];
     resizeCanvas();
