@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es6",                  // ES6 is more modern and widely supported
+      "module": "es6",                  // Use ES modules (you can change to "commonjs" if using Node.js)
+      "strict": true,                   // Enable strict type-checking
+      "outDir": "./built",             // Output directory
+      "rootDir": "./JS",               // Ensure correct source mapping
+      "allowJs": true,                 // Allow compiling .js files
+      "checkJs": false,                // Disable checking .js files (if not converting them)
+      "esModuleInterop": true,         // Better compatibility with CommonJS modules
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true             // Skip type checking of declaration files (speeds up build)
+    },
+    "include": ["./JS/**/*"]
+  }

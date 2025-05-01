@@ -1,25 +1,31 @@
 class InScrollRange
 {
-    constructor(range, offset, container, callback)
+    range:number;
+    offset:number;
+    container:HTMLElement;
+    callback: (value:number) => void;
+
+    constructor(range:number, offset:number, container:HTMLElement, callback: (value:number) => void)
     {
         this.range = range;
         this.container = container;
         this.offset = offset;
+        this.callback = callback;
         window.addEventListener('scroll', ()=>
         {
             const rect = this.container.getBoundingClientRect() ;
             let t = (rect.y + this.offset) /  this.range;
             t= clamp(t, -1,1) ;
-            callback(t);
+            this.callback(t);
         });
     }
 
 }
-function clamp(num, min, max) { return Math.min(Math.max(num, min), max);}
+function clamp(num:number, min:number, max:number) { return Math.min(Math.max(num, min), max);}
 
-document.querySelectorAll('.glossy-container').forEach(container => {
+document.querySelectorAll<HTMLElement>('.glossy-container').forEach(container => {
     const range = 300;
-    container.querySelectorAll('.glossy-shine').forEach(shine => {
+    container.querySelectorAll<HTMLElement>('.glossy-shine').forEach(shine => {
         
         new InScrollRange(range,-window.innerHeight/3, container, (t)=> {
             t *= 100;
@@ -28,7 +34,7 @@ document.querySelectorAll('.glossy-container').forEach(container => {
     });
 });
 
-document.querySelectorAll('.scaleInRange').forEach(container => {
+document.querySelectorAll<HTMLElement>('.scaleInRange').forEach(container => {
     const range = window.innerHeight;
     new InScrollRange(range, -250, container, (t)=> {
         t = clamp(t,0,.5);
