@@ -125,6 +125,7 @@ window.addEventListener("DOMContentLoaded", () => {
             <ul>
                 <li><a class="orangeAnim" href="Index.html#AboutMe">About</a></li>
                 <li><a class="orangeAnim" href="Index.html#Projects">Projects</a></li>
+                <li><a class="orangeAnim" href="Coding adventures.html">Adventures</a></li>
             </ul>
             <ul>
                 <li>
