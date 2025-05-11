@@ -163,13 +163,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const header = document.createElement("header");
     header.innerHTML = `
-        <a href="Index.html#top">
+        <a href="index.html#top">
             <img src="Images/Logo.png" alt="pfp">
         </a>
         <nav>
             <ul>
-                <li><a class="orangeAnim" href="Index.html#AboutMe">About</a></li>
-                <li><a class="orangeAnim" href="Index.html#Projects">Projects</a></li>
+                <li><a class="orangeAnim" href="index.html#AboutMe">About</a></li>
+                <li><a class="orangeAnim" href="index.html#Projects">Projects</a></li>
                 <li><a class="orangeAnim" href="Coding adventures.html">Adventures</a></li>
             </ul>
             <ul>
