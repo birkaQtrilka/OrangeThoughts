@@ -119,6 +119,6 @@ function showElement(el) {
     };
     el.addEventListener("transitionend", handler);
 }
-(_a = document.querySelector("main button img")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+(_a = document.querySelector("main button svg")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });

@@ -139,6 +139,6 @@ function showElement(el: HTMLElement) {
     el.addEventListener("transitionend", handler);
 }
 
-document.querySelector("main button img")?.addEventListener("click", () => {
+document.querySelector("main button svg")?.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });

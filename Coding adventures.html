@@ -11,10 +11,16 @@
 <body id="top">
     <main >
         <button >
-            <img class="btn" src="Images/BackIconBlue.png" alt="">
+            <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+                <path id="secondary" d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z"></path>
+            </svg>
         </button>
-        <a href="index.html#Projects"><img class="btn"src="Images/BackIconBlue.png" alt=""></a>
-
+        <a href="index.html#Projects">
+            <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+                <path id="secondary" d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z"></path>
+            </svg>
+        </a>
+        <!-- Navigation list -->
         <nav>
             <div>
                 <h1>Adventures</h1>
@@ -24,7 +30,9 @@
             </div>
             
         </nav>
+        <!-- project filtering -->
         <section>
+            <h3>Filter by tag</h3>
             <ul>
                 
             </ul>
@@ -33,6 +41,14 @@
                 <p class="activeTag clickable btn">Disable all</p>
             </div>
         </section>
+
+        <!-- Image PopUp -->
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
+
         <article id="ProceduralMesh">
             <h1>Procedural Mesh with marching squares</h1>
             <video autoplay controls loop muted playsinline>
@@ -43,7 +59,7 @@
                 <div><p>#Side-Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; A continuation of Sebastian Lague's 
                     <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">
@@ -57,8 +73,11 @@
                     stumbled upon the square marching algorithm and realized that I could use it for this project. Implementing the algorithm was hard, but I had
                     a lot of fun doing it.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;3 weeks</span>
+                </section>
                 <figure>
-                    <img src="Images/SideProjects/ProceduralMesh.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/ProceduralMesh.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs" target="_blank">Full project GitHub</a>
             </section>
@@ -75,7 +94,7 @@
                 <div><p>#Side-Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; Because the Unity Data Oriented Technology Stack was released, I decided to learn it by doing a project. I use the 
                     earlier learned <a href="Coding adventures.html#Boids">Boids Algorithm</a> as the problem to optimize. However, this time 
@@ -85,13 +104,17 @@
                     <br>&emsp; The main challenge I encountered was to find the right documentation to learn from. Many tutorials use deprecated 
                     functions and even workflows.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;4 days</span>
+                </section>
+
                 <figure>
-                    <img src="Images/SideProjects/DOTS.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/DOTS.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/BoidsWithDOTS/blob/main/Assets/BoidSystem.cs" target="_blank">Full project GitHub</a>
             </section>
         </article>
-
+        
         <article id="Physics">
             <h1>Physics Engine</h1>
             <video autoplay controls loop muted playsinline>
@@ -102,7 +125,7 @@
                 <div><p>#University Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; A physics engine that handles continuous collisions between circles, angled lines, and AABBs. It doesn't support rotation yet.
                     My aim was to improve my math and physics skills, especially in vectors as it's so prevalent in game development.
@@ -110,8 +133,11 @@
                     rectangles and at the ends of segments. To solve this, I added "caps". These are circles placed at the ends of segments that have the 
                     radius set to zero.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;2 weeks</span>
+                </section>
                 <figure>
-                    <img src="Images/SideProjects/Physics.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/Physics.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/Simple-Physics/tree/main/gxpengine_template/MyClasses/TankGame/PhysicsEngine" target="_blank">Full project GitHub</a>
             </section>
@@ -127,7 +153,7 @@
                 <div><p>#University Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; A scene with an orc that moves from A to B through a procedurally generated dungeon by the shortest path. The dungeon is 
                     generated using a binary space partitioning algorithm, the rooms that "collide" will form doors that will be elongated as the rooms
@@ -137,8 +163,11 @@
                     <br>&emsp;&emsp;Creating a custom min heap container for the A* implementation. I did it to further challenge myself.
                     <br>&emsp;&emsp;Making the node grid. I did it with a simple square fill algorithm.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;1 week</span>
+                </section>
                 <figure>
-                    <img src="Images/SideProjects/Dungeon.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/Dungeon.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/Pathfinding-and-dungeon-generation/blob/main/MyClasses/Assignment/PathFinding/PathFinderAStar.cs" target="_blank">Full project GitHub</a>
             </section>
@@ -154,14 +183,17 @@
                 <div><p>#Side-Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; I implemented the algorithm for spider walking in a few hours, and left it off when the spider could react to changing heights.
                     <br>&emsp; The main challenge was to position the legs uniformly and to make a standing 
                     state and a walking state, so the legs don't look odd while idle.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;2 days</span>
+                </section>
                 <figure>
-                    <img src="Images/SideProjects/Ik_Code.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/Ik_Code.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/ProceduralAnimation/blob/main/Assets/Scripts/Leg.cs" target="_blank">Full project GitHub</a>
             </section>
@@ -177,7 +209,7 @@
                 <div><p>#Side-Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; A window that's filled with procedurally generated tiles that must connect. 
                     It is based on the wave function collapse algorithm: 
@@ -186,8 +218,11 @@
                     <br>&emsp;&emsp; The rest of the cells then update their superstates based on conditions (such as every tile must connect) <br>&emsp;&emsp; Repeat.
                     <br>&emsp; The challenge I encountered was to include rotated versions of tiles in the superstates. I just added the rotated tiles as separate objects (as if they are different tiles) in the list of superstates.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;3 days</span>
+                </section>
                 <figure>
-                    <img src="Images/SideProjects/WFC.png" alt="">
+                    <img class="popUp" src="Images/SideProjects/WFC.png" alt="">
                 </figure>
                 <a href="https://github.com/birkaQtrilka/WaveFunctionCollapse/blob/main/gxpengine_template/MyClasses/Displayer.cs" target="_blank">Full project GitHub</a>
             </section>
@@ -203,7 +238,7 @@
                 <div><p>#Side-Project</p></div>
             </div>
             <section>
-                <h2>Description</h2>
+                <h2 class="custom-spacing">Description</h2>
                 <p>
                     &emsp; Boids is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behavior of birds,
                      and related group motion.
@@ -218,12 +253,15 @@
                     for this algorithm, however, I still chose quadtrees because it sounded more fun and I think I would use it more often in 
                     future projects. However, I will definitely play around with the former algorithm too.
                 </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;5 days</span>
+                </section>
                 <section class="sideBySideImages">
                     <figure>
-                        <img src="Images/SideProjects/Boids.png" alt="">
+                        <img class="popUp" src="Images/SideProjects/Boids.png" alt="">
                     </figure>
                     <figure>
-                        <img src="Images/SideProjects/QuadTree.png" alt="">
+                        <img class="popUp" src="Images/SideProjects/QuadTree.png" alt="">
                     </figure>
                 </section>
                 <a href="https://github.com/birkaQtrilka/Boids/tree/main/gxpengine_template/GXPEngine/MyClasses" target="_blank">Full project GitHub</a>

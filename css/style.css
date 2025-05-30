@@ -17,13 +17,13 @@
 :root {
     --txtColor:#E5DBC7;
     --txtColor2:#afa899;
-    --navBarColor: #7D627A;
-    --bgColor: #473A4A;
+    --navBarColor: #111111;
+    /* --navBarColor: #7D627A; */
     --contrastColor: #F29559;
-    --cardColor: #473A4A;
-    --footerColor: #7D627A;
-    --lightViolet: rgba(237,201,255,.16);
-    --lighterViolet: rgba(251, 193, 242, 0.5);
+    --cardColor: #111111;
+    --footerColor: #111111;
+    --lightViolet: rgba(168, 107, 67, 0.16);
+    --lighterViolet: rgba(242, 149, 89, 0.5);
     --lightShadow: 0px 0px 29px 6px var(--lightViolet);
     --lighterShadow: 0px 0px 31px 6px var(--lighterViolet);
     --largeMargin: 65%; 
@@ -199,6 +199,7 @@ header
         border: 5px solid var(--footerColor);
         border-radius: var(--borderRadius);
         height: 400px;
+        transition: box-shadow 0.2s ease;
         &:hover{
             box-shadow: var(--lighterShadow);
         }
@@ -290,6 +291,73 @@ section main>h1
     left: 0;
     font-size: xx-large;
 }
+/* ---------------------------- Image Pop Up ---------------------------- */
+/* The Modal (background) */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 9999; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.9); 
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 90%;
+  max-width: 900px;
+}
+
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+/* ---------------------------- Image Pop Up ---------------------------- */
+
 /* ---------------------------- Project Card ---------------------------- */
 main .lineVisual
 {
@@ -307,6 +375,8 @@ section main article
     border-radius: var(--borderRadius);
     box-shadow: var(--lightShadow);
     transition: transform 0.2s ease;
+    transition: box-shadow 0.3s ease;
+
     &:hover {
         transform: scale(1.05);
         transform-origin: 50% 0%;
@@ -454,6 +524,7 @@ section main article
         justify-content: center;
         list-style: none; /* Optional: remove bullets */
         padding: 0;
+        gap: 10px;
         margin: 0;
         li{
             display: inline-block;
