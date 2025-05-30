@@ -316,9 +316,9 @@ section main>h1
 
 .modal-content, #caption {  
   -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.6s;
+  -webkit-animation-duration: 0.5s;
   animation-name: zoom;
-  animation-duration: 0.6s;
+  animation-duration: 0.5s;
 }
 
 @-webkit-keyframes zoom {
@@ -413,7 +413,7 @@ section main article
         border-radius: 10px;
         padding: 3px;
     }
-    &:first-of-type
+    /* &:first-of-type
     {
         flex-basis: 100%;
         a figure img{
@@ -422,7 +422,7 @@ section main article
         p{
             font-size: 15px;
         }
-    }
+    } */
     &:last-of-type{
         margin: auto;
     }
@@ -480,6 +480,42 @@ section main article
     opacity: 1;
     pointer-events: none;
 }
+
+.backBtn
+    {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        z-index: 3;
+        /* div{
+            width: 50px;
+            height: 50px;
+            background-color: red; 
+            mask-image: url("/Images/BackIcon.png");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        } */
+         
+        svg{
+            width: 50px;
+            height: 50px;
+            transform: rotate(-90deg);
+            & #primary{
+                fill: var(--cardColor);
+            }
+            & #secondary{
+                fill: var(--contrastColor);
+            }
+            /* filter: drop-shadow(0px 0px 5px rgba(237, 201, 255, 0.2)); */
+            /* transform-origin: 50% 50%; */
+            &:hover
+            {
+                filter: drop-shadow(0px 0px 5px var(--lighterViolet));
+            }
+        }
+
+    }
 
 #AboutMe
 {

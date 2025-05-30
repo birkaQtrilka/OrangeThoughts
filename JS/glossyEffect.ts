@@ -36,7 +36,10 @@ document.querySelectorAll<HTMLElement>('.glossy-container').forEach(container =>
 
 document.querySelectorAll<HTMLElement>('.scaleInRange').forEach(container => {
     const range = window.innerHeight;
-    new InScrollRange(range, -250, container, (t)=> {
+    const attr = container?.getAttribute("data-offset");
+    const offset = attr !== null ? +attr : 250;
+
+    new InScrollRange(range, -offset, container, (t)=> {
         t = clamp(t,0,.5);
         container.style.transform = `scale(${1-t})`
     })
