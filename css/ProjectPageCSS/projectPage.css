@@ -60,15 +60,6 @@ main{
             flex-wrap: wrap;
             margin: auto;
             margin-bottom: 50px;
-            /* tag */
-            & div{
-                display: inline-block;
-                background-color: gray;
-                margin-right: 7px;
-                padding-left: 4px;
-                padding-right: 5px;
-                
-            }
         }
         &:not(:first-child){
             margin-top: 100px;
@@ -181,18 +172,6 @@ main{
         &>ul
         {
             width: 100%;
-            li
-            {
-
-                display: inline-block;
-                margin-right: 7px;
-                padding-left: 3px;
-                padding-right: 4px;
-                background-color: var(--cardColor);
-                border-radius: 5px;
-                margin-top: 5px;
-                
-            }
         }
         
         & div 
@@ -222,4 +201,15 @@ span a
 figcaption
 {
     font-size: 10px;
+}
+
+.tag
+{
+    display: inline-block;
+    margin-right: 7px;
+    padding-left: 3px;
+    padding-right: 4px;
+    background-color: var(--cardColor);
+    border-radius: 5px;
+    margin-top: 5px;
 }

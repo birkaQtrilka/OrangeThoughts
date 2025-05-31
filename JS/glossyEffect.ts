@@ -21,8 +21,12 @@ class InScrollRange
     }
 
 }
-function clamp(num:number, min:number, max:number) { return Math.min(Math.max(num, min), max);}
+function clamp(num:number, min:number, max:number) 
+{
+    return Math.min(Math.max(num, min), max);
+}
 
+//shine 
 document.querySelectorAll<HTMLElement>('.glossy-container').forEach(container => {
     const range = 300;
     container.querySelectorAll<HTMLElement>('.glossy-shine').forEach(shine => {
@@ -34,6 +38,7 @@ document.querySelectorAll<HTMLElement>('.glossy-container').forEach(container =>
     });
 });
 
+//text (and not only) scale
 document.querySelectorAll<HTMLElement>('.scaleInRange').forEach(container => {
     const range = window.innerHeight;
     const attr = container?.getAttribute("data-offset");

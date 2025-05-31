@@ -1,3 +1,5 @@
+//changin color palletes
+
 const colors = ['#0e1624', '#baa898', '#B497D6', '#8d98a7', '#D34F73', '#963484','#62A87C', '#F29559', 
     '#1B181D', '#D09D7B', '#715878', '#473A4A'];
 let currIndex = 0;

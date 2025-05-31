@@ -40,3 +40,8 @@ section main
 {
     width: 100%;
 }
+
+#pages li:nth-child(1),
+#pages li:nth-child(2) {
+    display: none;
+}

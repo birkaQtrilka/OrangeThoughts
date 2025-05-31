@@ -18,7 +18,6 @@
     --txtColor:#E5DBC7;
     --txtColor2:#afa899;
     --navBarColor: #111111;
-    /* --navBarColor: #7D627A; */
     --contrastColor: #F29559;
     --cardColor: #111111;
     --footerColor: #111111;
@@ -168,14 +167,6 @@ header
     }
     
 }
-/* header>a>img
-{
-    margin-right: 40px;
-    width: 40px;
-    border-radius: 50%;
-    height: 40px;
-} */
-
 /*-----------------------------------Intro--------------------------------------*/
 .name
 {
@@ -271,6 +262,7 @@ body>section.container
     margin: auto;
     margin-top: 100px;
     display: flex;
+    justify-content: center;
     border-radius: 3px;
     margin-bottom: 250px;
 }
@@ -297,7 +289,7 @@ section main>h1
   display: none; 
   position: fixed; 
   z-index: 9999; 
-  padding-top: 100px; 
+  padding: 100px; 
   left: 0;
   top: 0;
   width: 100%; 
@@ -316,9 +308,9 @@ section main>h1
 
 .modal-content, #caption {  
   -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.5s;
+  -webkit-animation-duration: 0.2s;
   animation-name: zoom;
-  animation-duration: 0.5s;
+  animation-duration: 0.2s;
 }
 
 @-webkit-keyframes zoom {
@@ -413,16 +405,6 @@ section main article
         border-radius: 10px;
         padding: 3px;
     }
-    /* &:first-of-type
-    {
-        flex-basis: 100%;
-        a figure img{
-            max-height: 200px;
-        }
-        p{
-            font-size: 15px;
-        }
-    } */
     &:last-of-type{
         margin: auto;
     }
@@ -487,16 +469,6 @@ section main article
         left: 20px;
         top: 20px;
         z-index: 3;
-        /* div{
-            width: 50px;
-            height: 50px;
-            background-color: red; 
-            mask-image: url("/Images/BackIcon.png");
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            mask-position: center;
-        } */
-         
         svg{
             width: 50px;
             height: 50px;
@@ -507,8 +479,6 @@ section main article
             & #secondary{
                 fill: var(--contrastColor);
             }
-            /* filter: drop-shadow(0px 0px 5px rgba(237, 201, 255, 0.2)); */
-            /* transform-origin: 50% 50%; */
             &:hover
             {
                 filter: drop-shadow(0px 0px 5px var(--lighterViolet));

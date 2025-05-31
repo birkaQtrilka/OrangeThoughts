@@ -13,6 +13,7 @@ main
             height: 380px;
             object-fit: cover;
             position: absolute;
+            
             right: 0;
         }
         
