@@ -34,7 +34,7 @@ window.addEventListener("DOMContentLoaded", () => {
     <footer>
         <ul>
             <li>Spoken languages: English, Romanian, Russian</li>
-            <li><a href="#">birkavidit@gmail.com</a></li>
+            <li><a href="#">carpeliucstefan@gmail.com</a></li>
         </ul>
         <ul>
             <li><a href="https://www.instagram.com/orange_thoughtss/" target="_blank">
