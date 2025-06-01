@@ -182,8 +182,8 @@ header
         height: 30px;
     }
     svg{
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         path{
             fill: var(--contrastColor);
         }
@@ -405,12 +405,21 @@ section main article
         text-align: center;
         transform-origin: 50% 0%;
         figure img{
-            max-width: 90%;
-            max-height: 160px;
-            object-fit: contain;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+                outline: 0px solid var(--cardColor);;
+
+            transition: outline 0.2s ease;
         }
         &:hover {
             transform: scale(1.1);
+            figure img{
+                width: 200px;
+                height: 200px;
+                object-fit: cover;
+                outline: 10px solid var(--cardColor);;
+            }
         }
         /* opacity: 0; */
     }
