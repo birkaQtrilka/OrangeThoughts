@@ -67,6 +67,8 @@ main{
         /* Description section */
         section
         {
+            width: 70%;
+            margin: auto;
             text-align: left;
             h2{
                 margin-bottom: 20px;
@@ -76,7 +78,7 @@ main{
             } 
             &>div
             {
-                width: 90%;
+                width: 100%;
                 margin: auto;
             }
             a{
@@ -105,8 +107,7 @@ main{
             }
         }
         figure img{
-            width: 90%;
-            max-width: 700px;
+            width: 100%;
         }
         section.sideBySideImages{
             margin: 0;

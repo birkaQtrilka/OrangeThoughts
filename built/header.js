@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
             </ul>
             <ul>
                 <li>
-                    <svg  class ="clickable orangeHover btn"
+                    <svg id="emailBtn" class ="clickable orangeHover btn"
    viewBox="0 0 600 600"
    version="1.1"
    id="svg9724"
