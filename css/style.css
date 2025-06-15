@@ -24,6 +24,7 @@
     --lightViolet: rgba(168, 107, 67, 0.16);
     --lighterViolet: rgba(242, 149, 89, 0.5);
     --lightShadow: 0px 0px 29px 6px var(--lightViolet);
+    --grayShadow: 0px 0px 29px 6px #0e0e0e;
     --lighterShadow: 0px 0px 31px 6px var(--lighterViolet);
     --largeMargin: 65%; 
     --largeProjectArticleGap: 10%;
@@ -110,7 +111,7 @@ video
 body
 {
     border: solid rgba(0, 0, 0, 0) 1px ;
-    background: linear-gradient(180deg, #1e1a20 0%, #050405 100%);
+    background: linear-gradient(180deg, #121014 0%, #050405 100%);
     position: relative;
     overflow-x: hidden;
 }

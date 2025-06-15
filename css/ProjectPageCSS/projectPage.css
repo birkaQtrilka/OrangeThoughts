@@ -4,13 +4,15 @@
 .custom-spacing::first-letter {
   margin-right: -0.1em;
 }
-
+body
+{
+    background: none;
+    background-color: var(--cardColor);
+}
 main{
     min-height: 400px;
     background-color: var(--cardColor);
-    margin-top: 150px;
-    margin-bottom: 100px;
-    box-shadow: var(--lightShadow);
+    box-shadow: var(--grayShadow);
     padding: 50px;
     padding-bottom: 70px;
     text-align: center;
@@ -19,7 +21,7 @@ main{
 
     /* Project Agenda */
     &>nav>div{
-        width: 90%;
+        width: 70%;
         margin: auto;
         line-height: 1.4em;
         &>h1{
@@ -54,12 +56,18 @@ main{
         video{
             object-fit: cover;
         }
+        iframe
+        {
+            width: 70%;            
+        }
         &>div{
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             margin: auto;
             margin-bottom: 50px;
+            width: 70%;            
+            
         }
         &:not(:first-child){
             margin-top: 100px;
@@ -88,7 +96,7 @@ main{
                 text-align: center;
             }
             section{
-                margin: auto;
+                width: 100%;
                 &>h3{
                     display: inline;
                 }
@@ -146,6 +154,11 @@ main{
 
     }
     /* Up Button */
+    &>button
+    {
+        border: none
+        /* background-color: ; */
+    }
     &>button>svg
     {
         width: 50px;
