@@ -125,7 +125,10 @@ body
     width: 100vw;
 }
 
-
+iframe
+{
+    border: none;
+}
 
 header
 {

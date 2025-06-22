@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedural Planets</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/ProjectPageCSS/projectPage.css" />
+    <link rel="icon" type="image/x-icon" href="Images/Logo.png">
+</head>
+<body>
+    <main>
+        <a class="backBtn" href="index.html#Projects">
+            <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+                <path id="secondary" d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z"></path>
+            </svg>
+        </a>
+        <article class="wrap">
+            <h1>Procedural Planets</h1>
+            <iframe 
+                src="https://www.youtube.com/embed/xWtM5TTlcCg?si=SP-D82S2Abjb2Z7v">
+            </iframe>
+            <div>
+                <div class="tag activeTag"><p>#Unity</p></div>
+                <div class="tag activeTag"><p>#Side-Project</p></div>
+            </div>
+            <section>
+                <h2 class="custom-spacing">Description</h2>
+                <p>
+                    &emsp; A continuation of Sebastian Lague's 
+                    <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">
+                        procedural planet generation tutorial
+                    </a>. In this project, I learned how to create meshes in code by making an ocean mesh that follows the contour of the planet's 
+                    land. My solution was to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching squares algorithm</a>.
+                    You divide the mesh into squares and you give the corners a value 
+                    of how close it is to the ocean level. Then, you get the correct configuration of the mesh in that cell from the lookup table that has
+                    all the possible ways a cell can look like and you interpolate the vertices based on how close they are to the ocean level.
+                    <br>&emsp;The main challenge was understanding how the generation of meshes works, as well as finding the right solution. I randomly
+                    stumbled upon the square marching algorithm and realized that I could use it for this project. Implementing the algorithm was hard, but I had
+                    a lot of fun doing it.
+                </p>
+                <section>
+                    <h3>Time spent:</h3><span>&ensp;3 weeks</span>
+                </section>
+                <a href="/css/Downloadables/Planets.zip" download="">Download Build</a><br>
+                <a href="https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs" target="_blank">Full project GitHub</a>
+                <br>
+                <h3>Credits</h3>
+                <p class="credits">
+                    Programmer: <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">Sebastian Lague</a><br>
+                </p>
+            </section>
+            
+        </article>
+    </main>
+    <script src="built/header.js"></script>
+    <script src="built/background.js"></script>
+
+</body>
+</html>

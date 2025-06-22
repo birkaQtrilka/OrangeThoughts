@@ -49,43 +49,6 @@
             <div id="caption"></div>
         </div>
 
-        <article id="ProceduralMesh">
-            <h1>Procedural Mesh with marching squares</h1>
-            <video autoplay controls loop muted playsinline>
-                <source src="Videos/Square Marching.mp4">
-            </video>
-<div class="tags">
-                <div class="tag activeTag" class="tag activeTag"><p>#Unity</p></div>
-                <div class="tag activeTag"><p>#Side-Project</p></div>
-            </div>
-            <section>
-                <h2 class="custom-spacing">Description</h2>
-                <p>
-                    &emsp; A continuation of Sebastian Lague's 
-                    <a href="https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8">
-                        procedural planet generation tutorial
-                    </a>. In this project, I learned how to create meshes in code by making an ocean mesh that follows the contour of the planet's 
-                    land. My solution was to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching squares algorithm</a>.
-                    You divide the mesh into squares and you give the corners a value 
-                    of how close it is to the ocean level. Then, you get the correct configuration of the mesh in that cell from the lookup table that has
-                    all the possible ways a cell can look like.
-                    <br>&emsp;The main challenge was understanding how the generation of meshes works, as well as finding the right solution. I randomly
-                    stumbled upon the square marching algorithm and realized that I could use it for this project. Implementing the algorithm was hard, but I had
-                    a lot of fun doing it.
-                </p>
-                <section>
-                    <h3>Time spent:</h3><span>&ensp;3 weeks</span>
-                </section>
-                <figure>
-                    <img class="popUp" src="Images/SideProjects/ProceduralMesh.png" alt="">
-                </figure>
-                <div>
-                    <a href="https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs" target="_blank">Full project GitHub</a>
-                </div>
-            </section>
-        </article>
-        
-        
         <article id="DOTS">
             <h1>Unity DOTS and BOIDS</h1>
             <video autoplay controls loop muted playsinline>
