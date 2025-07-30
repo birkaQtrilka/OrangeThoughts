@@ -441,7 +441,7 @@ section main article
         border-radius: 10px;
         padding: 3px;
     }
-    &:last-of-type{
+    &.last-odd {
         margin: auto;
     }
 }

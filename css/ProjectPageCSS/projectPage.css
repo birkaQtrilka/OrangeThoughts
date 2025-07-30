@@ -56,10 +56,6 @@ main{
         video{
             object-fit: cover;
         }
-        iframe
-        {
-            width: 70%;            
-        }
         &>div{
             display: flex;
             flex-direction: row;
