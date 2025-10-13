@@ -110,7 +110,7 @@ video
 }
 body
 {
-    border: solid rgba(0, 0, 0, 0) 1px ;
+    border: solid rgba(0, 0, 0, 0) 0.1px ;
     background: linear-gradient(180deg, #121014 0%, #050405 100%);
     position: relative;
     overflow-x: hidden;
