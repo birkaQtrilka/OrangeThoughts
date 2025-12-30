@@ -1,0 +1,14 @@
+nav{
+  width: 100%;
+  line-height: 1.4em;
+  margin: 20px 0 40px 0;
+  &>h1{
+    margin: 0 auto 20px auto;
+  }
+  & ul li{
+    //list-style-type: disc;
+    transform-origin: left center;
+    text-align: left;
+    list-style: none;
+  }
+}

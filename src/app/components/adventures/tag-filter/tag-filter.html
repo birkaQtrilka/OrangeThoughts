@@ -1,0 +1,21 @@
+<section>
+  <div class="filter-container">
+    <input type="text" [(ngModel)]="search" (ngModelChange)="emitChanges()" placeholder="Search projects…"
+      class="search-input activeTag" />
+    <ul class="tags">
+      @for (tag of availableTags; track tag) {
+      <li (click)="toggleTag(tag)" [ngClass]="{ 'active': selectedTags.has(tag)}" class="btn clickable tag wobble">
+        {{ tag }}
+      </li>
+      }
+      <mat-icon
+        class="tag clickable wobble" 
+        [ngClass]="{'active': selectedTags.size !== 0 }"
+        (click)="clearFilter()"
+        matRipple 
+        [matRippleColor]="'#f296593f'" 
+        [matRippleRadius]="20"
+        >filter_list_off</mat-icon>
+    </ul>
+  </div>
+</section>

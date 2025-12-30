@@ -1,0 +1,34 @@
+<main>
+  <button class="up-button"
+    (click)="scrollUp()"
+  >
+    <svg width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
+      xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+      <path id="secondary"
+        d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z">
+      </path>
+    </svg>
+  </button>
+  <a [routerLink]="'/'" class="back-btn">
+    <svg  width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
+      xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+      <path id="secondary"
+        d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z">
+      </path>
+    </svg>
+  </a>
+  <h1>Adventures</h1>
+  <app-tag-filter [availableTags]="allTags" (filterChanged)="onTagFilterChanged()"></app-tag-filter>
+  <app-navigation-list
+      [adventures]="filteredAdventures"
+      (selectAdventure)="scrollToAdventure($event)"
+  ></app-navigation-list>
+
+  @for (adventure of filteredAdventures; track adventure.title) {
+  <div @collapseAnimation>
+    <app-adventure-article [title]="adventure.title" [videoPath]="adventure.videoPath" [tags]="adventure.tags"
+      [description]="adventure.description" [timeSpent]="adventure.timeSpent" [imagePaths]="adventure.images"
+      [githubLink]="adventure.githubLink"></app-adventure-article>
+  </div>
+  }
+</main>

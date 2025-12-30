@@ -1,0 +1,47 @@
+@import url("tag-filter-l.scss") screen and (min-width: 767px) ;
+@import url("tag-filter-s.scss") screen and (max-width: 766px) ;
+
+>section {
+  margin-top: 40px;
+
+  >ul {
+    width: 100%;
+  }
+
+}
+
+mat-icon {
+  vertical-align: middle;
+  font-size: 20px;
+  padding: 3px 2px !important;
+  width: 36px;
+  height: 26px;
+  transition: transform 0.3s ease; 
+}
+
+.filter-container {
+  position: relative;
+}
+
+.search-input {
+  padding: .2rem .7rem;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: transparent;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+
+  .tag {//it's because of the scroll bar
+    padding: 3px 8px;
+    &:last-child {
+      margin-left: auto;
+    }
+    
+  }
+}
+

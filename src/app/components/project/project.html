@@ -1,0 +1,49 @@
+<main>
+  <a class="backBtn" [routerLink]="'/'">
+    <svg width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
+      xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+      <path id="secondary"
+        d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z">
+      </path>
+    </svg>
+  </a>
+  <article class="wrap">
+    <h1>{{ project?.title }}</h1>
+    @if (project?.videoPath?.isIframe) {
+      <iframe [src]="project?.videoPath?.path" >
+      </iframe>
+    }
+    @else {
+      <video [autoplay]="true" [muted]="true" controls loop playsinline>
+        <source [src]="project?.videoPath?.path">
+      </video>
+    }
+    <div class="tags">
+      @for (tag of project?.tags; track $index) {
+      <div class="tag activeTag">
+        <p>{{tag}}</p>
+      </div>
+      }
+    </div>
+    <section>
+      <h2>Description</h2>
+      <div class="desc" [innerHTML]="project?.description"></div>
+      <section>
+      <h3>Time spent:</h3><span>&ensp;8 weeks</span>
+      </section>
+      @if(project?.githubLink) {
+        <a [href]="project?.githubLink" target="_blank">Full project GitHub</a>
+        <br>
+      }
+      <h3>Credits</h3>
+      <div class="credits">
+      @for (credit of project?.credits; track $index) {
+      <p>
+        {{credit.name}}: <a [href]="credit.link" target="_blank">{{credit.linkLabel}}</a>
+      </p>
+      }
+      </div>
+    </section>
+
+  </article>
+</main>

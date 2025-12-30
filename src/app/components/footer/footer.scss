@@ -1,0 +1,27 @@
+footer
+{
+  padding: 40px;
+  background-color: var(--footerColor);
+  position: relative;
+  z-index: 2;
+  margin-top: 90px;
+  ul{
+    list-style: none;
+    text-align: center;
+  }
+  ul:last-of-type img{
+    filter:var(--iconFilter);
+    width: 30px;
+  }
+  ul:last-of-type li{
+    display: inline-block;
+  }
+  li{
+    margin-bottom: 10px;
+
+  }
+  a{
+    text-decoration: none;
+  }
+
+}

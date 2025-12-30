@@ -1,0 +1,39 @@
+.lineVisual {
+  font-size: 0;
+  display: flex;
+  justify-content: center;
+
+  .lineVisual>div {
+    margin: auto;
+
+  }
+
+  &>div div {
+    display: inline-block;
+
+    &:nth-child(2) {
+      width: var(--lineVisualWidth);
+      height: var(--visualLineThickness);
+      background-color: var(--contrastColor);
+    }
+
+    /* rotated square 1 */
+    &:nth-child(1) {
+      width: var(--visualSquareSize);
+      height: var(--visualSquareSize);
+      background-color: var(--contrastColor);
+      transform: translate(calc(var(--visualSquareSize) * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
+      z-index: -1;
+    }
+
+    /* rotated square 2 */
+    &:nth-child(3) {
+      width: var(--visualSquareSize);
+      height: var(--visualSquareSize);
+      background-color: var(--contrastColor);
+      transform: translate(calc(var(--visualSquareSize) * -1 * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
+      z-index: -1;
+    }
+  }
+
+}

@@ -1,0 +1,210 @@
+@use "./variables" as *;
+@font-face 
+{
+    font-family: Heming;
+  /* served from src/assets/Fonts -> available at /assets/Fonts/ */
+  src: url('/assets/Fonts/heming-variable.ttf') format('truetype');
+}
+
+@font-face 
+{
+    font-family: Woodford;
+  /* served from src/assets/Fonts/WoodfordBornePro -> available at /assets/Fonts/WoodfordBornePro/ */
+  src: url('/assets/Fonts/WoodfordBornePro/WoodfordBournePro-Regular.ttf') format('truetype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Woodford", sans-serif;
+  color: var(--txtColor);
+  font-weight: 500;
+  list-style: none;
+}
+
+h1 {
+  font-family: "Heming", sans-serif;
+  font-size: xx-large;
+  font-weight: bold;
+
+}
+
+h2 {
+  font-family: "Heming", sans-serif;
+  font-weight: bold;
+}
+
+img {
+  border-radius: var(--borderRadius);
+}
+
+video {
+  border-radius: var(--borderRadius);
+}
+
+iframe {
+  border: none;
+
+  // background stars for some reason leak through, this prevents that
+  position: relative;
+  z-index: 1;
+}
+
+body {
+  position: relative;
+  overflow: hidden !important;
+}
+
+.wrapper {
+  background: linear-gradient(180deg, #121014 0%, #050405 100%);
+}
+
+html {
+  background-color: #121014;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.btn {
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.orangeAnim {
+  transition: 0.2s ease;
+
+  &:hover {
+    color: var(--contrastColor);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.orangeImgAnim {
+  transition: 0.2s ease;
+
+  &:hover {
+    filter: var(--contrastFilter);
+  }
+}
+
+.orangeHover {
+  /* transition: filter 0.3s ease; */
+
+  &:hover {
+    transform: scale(1.05);
+    transform-origin: 50% 50%;
+
+    filter: drop-shadow(0px 0px 5px var(--contrastColor));
+
+  }
+}
+
+iframe {
+  border: none;
+}
+
+/* ---------------------------- Scroll Bar S---------------------------- */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--navBarColor);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--txtColor);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--txtColor2);
+}
+html {
+  overflow-y: scroll;
+}
+/* ---------------------------- Scroll Bar E---------------------------- */
+
+
+@keyframes wobble {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.wobble:active {
+  animation: wobble 0.3s ease-in-out;  /* Apply the wobble animation on click */
+}
+
+
+.glossy-container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.glossy-shine {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0) 70%);
+  transform: rotate(1deg);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.tag {
+  display: inline-block;
+  margin-right: 7px;
+  padding-left: 3px;
+  padding-right: 4px;
+  background-color: var(--cardColor);
+  border-radius: 5px;
+  margin-top: 5px;
+
+  &.active {
+    outline: 2px solid var(--contrastColor);
+    outline-offset: -2px;
+  }
+}
+
+.activeTag {
+  outline: 2px solid var(--contrastColor);
+  outline-offset: -2px;
+}

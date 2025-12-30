@@ -1,0 +1,13 @@
+<nav class="nav-list">
+  <ul>
+    @for (adventure of adventures; track $index) {
+      <li
+      @collapseAnimation
+      class="clickable btn orangeAnim"
+      (click)="onClick($index)"
+      >
+      {{ adventure.title }}
+    </li>
+  }
+  </ul>
+</nav>

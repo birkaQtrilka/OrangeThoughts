@@ -1,0 +1,20 @@
+main {
+  width: 70%;
+  padding: 50px 80px;
+  margin: auto;
+  margin-top: 150px;
+  >article {
+    video {
+      height: 380px;
+    }
+
+    & iframe {
+      width: 100%;
+      height: 500px;
+    }
+  }
+  .backBtn {
+    left: 20px;
+    top: 20px;
+  }
+}

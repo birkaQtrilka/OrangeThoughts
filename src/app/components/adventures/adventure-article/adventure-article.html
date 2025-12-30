@@ -1,0 +1,28 @@
+<article id="DOTS">
+  <h1>{{title()}}</h1>
+  <video autoplay controls loop muted playsinline *ngIf="videoPath">
+    <source src="{{videoPath()}}">
+  </video>
+  <div class="tags">
+    @for (tag of tags(); track tag) {
+      <div class="tag activeTag"><p>{{tag}}</p></div>
+    }
+  </div>
+  <section>
+    <h2 class="custom-spacing">Description</h2>
+    <div class="desc" [innerHTML]="description()"></div>
+    <section>
+      <h3>Time spent:</h3><span>&ensp; {{timeSpent()}}</span>
+    </section>
+    <section [class.sideBySideImages]="imagePaths().length > 1">
+    @for (img of imagePaths(); track img) {
+      <figure>
+        <img (click)="modalService.open(img)" [src]="img" alt="">
+      </figure>
+    }
+    </section>
+    <div>
+      <a href="{{githubLink()}}" target="_blank">Full project GitHub</a>
+    </div>
+  </section>
+</article>

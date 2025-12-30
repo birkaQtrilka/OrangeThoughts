@@ -1,15 +1,34 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
-    "compilerOptions": {
-      "target": "es6",                  // ES6 is more modern and widely supported
-      "module": "es6",                  // Use ES modules (you can change to "commonjs" if using Node.js)
-      "strict": true,                   // Enable strict type-checking
-      "outDir": "./built",             // Output directory
-      "rootDir": "./JS",               // Ensure correct source mapping
-      "allowJs": true,                 // Allow compiling .js files
-      "checkJs": false,                // Disable checking .js files (if not converting them)
-      "esModuleInterop": true,         // Better compatibility with CommonJS modules
-      "forceConsistentCasingInFileNames": true,
-      "skipLibCheck": true             // Skip type checking of declaration files (speeds up build)
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
     },
-    "include": ["./JS/**/*"]
-  }
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+:host {
+  display: block;
+
+}
+
+#contact {
+  max-width: 500px;
+  min-width: 100px;
+  margin: auto;
+  padding: 20px;
+  background-color: var(--cardColor);
+  border-radius: 8px;
+  margin-bottom: 200px;
+  transition: transform 0.2s ease;
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    transform-origin: 50% 0%;
+    box-shadow: var(--lighterShadow);
+
+  }
+
+  &>h1 {
+    margin-bottom: 20px;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    background-color: #2a2a2a;
+    border: none;
+    resize: none;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border: 2px solid orange;
+      border-radius: 3px;
+    }
+  }
+
+  .tag {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: var(--contrastColor);
+    font-weight: bolder;
+    font-size: larger;
+
+    h2 {
+      color: var(--cardColor);
+    }
+  }
+}
