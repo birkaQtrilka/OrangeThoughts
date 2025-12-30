@@ -61,5 +61,27 @@
       fill: var(--contrastColor);
     }
   }
+  .contact {
+    font-size: 40px;
+    color: var(--contrastColor);
+  }
+}
 
+@media (min-width: 767px) {
+  #pages .material-icons {
+    display: none;
+  }
+  
+}
+
+@media (max-width: 766px) {
+  .nav-text {
+    display: none;
+  }
+  
+  #pages .material-icons {
+    font-size: 28px;
+    margin-left: 12px;
+  }
+  
 }

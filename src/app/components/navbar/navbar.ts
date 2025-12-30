@@ -17,16 +17,19 @@ export class Navbar {
   navButtons = signal([
     {
       text: "About",
+      icon: "badge",
       route: '',
       onClick: () => this.navigate("", "AboutMe")
     },
     {
       text: "Projects",
+      icon: "work",
       route: '',
       onClick: () => this.navigate("", "Projects")
     },
     {
       text: "Adventures",
+      icon: "hiking",
       route: 'adventures',
       onClick: () => {window.scrollTo({ top: 0,behavior: "instant"})},
     },

@@ -23,8 +23,9 @@ main {
 
 }
 .intro iframe {
-  width: calc(var(--largeMargin) - 200px);
-  min-width: 500px;
+  width: 600px;
+  min-width: 480px;
+    height: 385px;
 
 }
 
