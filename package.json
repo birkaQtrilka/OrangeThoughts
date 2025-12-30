@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration production --base-href https://birkaqtrilka.github.io/OrangeThoughts/",
+    "deploy": "angular-cli-ghpages --dir=dist/AngularWebsite"
   },
   "prettier": {
     "printWidth": 100,
