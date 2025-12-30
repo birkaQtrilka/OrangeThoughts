@@ -248,7 +248,8 @@ header
     flex-basis: 100%;
     font-size: 0;
     display: flex;
-    justify-content: center;.lineVisual>div  
+    justify-content: center;
+    .lineVisual>div  
     {
         margin:auto;
     

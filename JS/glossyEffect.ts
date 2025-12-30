@@ -21,8 +21,8 @@ class InScrollRange
     }
 
 }
-function clamp(num:number, min:number, max:number) 
-{
+
+function clamp(num:number, min:number, max:number) {
     return Math.min(Math.max(num, min), max);
 }
 
@@ -49,4 +49,3 @@ document.querySelectorAll<HTMLElement>('.scaleInRange').forEach(container => {
         container.style.transform = `scale(${1-t})`
     })
 });
-
