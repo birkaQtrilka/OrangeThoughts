@@ -3,14 +3,16 @@ import { Directive, Input, OnDestroy, OnInit, NgZone } from '@angular/core';
 interface Star {
   x: number;
   y: number;
-  size: number;
   opacity: number;
-  rotation: number;
-  rotSpeed: number;
-  twinnkleSpeed: number;
+  twinkleSpeed: number;
   scrollFactor: number;
-  opasityChange: { min: number; max: number };
+
+  sizeIndex: number;
+
+  rotationAngle: number;
+  rotationSpeed: number;
 }
+
 
 @Directive({
   selector: '[appStarfield]',
@@ -18,203 +20,234 @@ interface Star {
 })
 export class StarfieldDirective implements OnInit, OnDestroy {
   @Input() starCount = 500;
-  @Input() minSize = 1;
-  @Input() maxSize = 7;
   @Input() parallax = 0.007;
-  @Input() excludeSelector = '.starAvoid';
-  @Input() resizeDebounce = 200; // ms to wait after resize end
+  @Input() resizeDebounce = 200;
 
-  private stars: Star[] = [];
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
   private animationId = 0;
+
+  private stars: Star[] = [];
+  private starSprites: HTMLCanvasElement[] = [];
+
+  private canvasWidth = 0;
+  private canvasHeight = 0;
   private lastScrollValue = 0;
+
   private resizeObserver!: ResizeObserver;
-  private starExceptions: HTMLElement[] = [];
-  private canvasWidth = 0; // logical CSS pixels
-  private canvasHeight = 0; // logical CSS pixels
   private resizeTimeout?: number;
 
-  // speed ranges
-  private rotationSpeed = { min: 0.001, max: 0.006 };
-  private twinnkleSpeed = { min: 0.001, max: 0.003 };
-  private opasityChange = { min: 0.2, max: 1 };
+  private isMobile = false;
+  private lastFrame = 0;
+
+  private readonly spriteSizes = [2, 3, 4, 6];
+  private readonly ROTATION_STEPS = 16;
 
   constructor(private zone: NgZone) {}
 
   ngOnInit(): void {
+    this.isMobile = this.detectMobile();
+    if (this.isMobile) {
+      this.starCount = Math.min(this.starCount, 150);
+    }
     this.createCanvas();
   }
 
   ngOnDestroy(): void {
     if (this.animationId) cancelAnimationFrame(this.animationId);
-    try { window.removeEventListener('resize', this.resizeHandler); } catch {}
-    try { window.removeEventListener('scroll', this.scrollHandler); } catch {}
-    if (this.resizeObserver) this.resizeObserver.disconnect();
-    if (this.resizeTimeout) window.clearTimeout(this.resizeTimeout);
-    if (this.canvas && this.canvas.parentElement) this.canvas.parentElement.removeChild(this.canvas);
+    this.resizeObserver?.disconnect();
+    if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+    window.removeEventListener('resize', this.resizeHandler);
+    if (this.canvas?.parentElement) {
+      this.canvas.parentElement.removeChild(this.canvas);
+    }
   }
 
-  // create and configure canvas, then initialize stars and start animation outside Angular zone
+
   private createCanvas(): void {
     this.lastScrollValue = window.scrollY;
+
     this.canvas = document.createElement('canvas');
-    this.canvas.id = 'starCanvas';
-    // ensure the canvas doesn't capture pointer events and stays behind UI
     Object.assign(this.canvas.style, {
       position: 'fixed',
-      left: '0',
-      top: '0',
+      inset: '0',
       pointerEvents: 'none',
-      // zIndex: '-1',
-    } as any);
+    } as CSSStyleDeclaration);
 
     document.body.querySelector<HTMLElement>('.wrapper')?.prepend(this.canvas);
 
-    const maybeCtx = this.canvas.getContext('2d');
-    if (!maybeCtx) return;
-    this.ctx = maybeCtx;
+    const ctx = this.canvas.getContext('2d');
+    if (!ctx) return;
+    this.ctx = ctx;
 
-    // query exclusions
-    this.starExceptions = Array.from(document.querySelectorAll<HTMLElement>(this.excludeSelector || '.starAvoid'));
-
-    // set sizes and observe (debounced)
     this.resizeCanvas();
+    this.createStarSprites();
+    this.initStars();
+
     this.resizeObserver = new ResizeObserver(() => this.scheduleResize());
     this.resizeObserver.observe(document.body);
     window.addEventListener('resize', this.resizeHandler);
-    window.addEventListener('scroll', this.scrollHandler, { passive: true });
 
-    this.initStars(this.starCount, this.minSize, this.maxSize);
-
-    // run animation outside Angular to avoid change detection churn
     this.zone.runOutsideAngular(() => {
-      this.animationId = requestAnimationFrame(() => this.animateStars());
+      this.animationId = requestAnimationFrame(this.animateStars);
     });
   }
 
-  // helpers
-  private exp(x: number) { return x * x; }
-  private randomInt(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+  private createStarSprites(): void {
+    this.starSprites.length = 0;
 
-  private isPointInsideElement(x: number, y: number, element: HTMLElement) {
-    const rect = element.getBoundingClientRect();
-    const canvasRect = this.canvas.getBoundingClientRect();
-    const adjustedX = x + canvasRect.left;
-    const adjustedY = y + canvasRect.top;
-    return (
-      adjustedX >= rect.left &&
-      adjustedX <= rect.right &&
-      adjustedY >= rect.top &&
-      adjustedY <= rect.bottom
+    for (const size of this.spriteSizes) {
+      const glow = Math.max(4, size * 1.5);
+      const pad = glow * 2;
+      const baseSize = size + pad;
+      const center = baseSize / 2;
+
+      for (let i = 0; i < this.ROTATION_STEPS; i++) {
+        const angle = (i / this.ROTATION_STEPS) * Math.PI * 2;
+
+        const c = document.createElement('canvas');
+        c.width = c.height = baseSize;
+        const ctx = c.getContext('2d')!;
+
+        ctx.clearRect(0, 0, baseSize, baseSize);
+
+        // bake glow once
+        ctx.shadowBlur = glow;
+        ctx.shadowColor = 'rgba(255,255,255,0.9)';
+
+        ctx.translate(center, center);
+        ctx.rotate(angle);
+
+        ctx.fillStyle = 'white';
+        ctx.fillRect(-size / 2, -size / 2, size, size);
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.shadowBlur = 0;
+
+        this.starSprites.push(c);
+      }
+    }
+  }
+
+private initStars(): void {
+  this.stars.length = 0;
+
+  for (let i = 0; i < this.starCount; i++) {
+    const sizeIndex = Math.floor(Math.random() * this.spriteSizes.length);
+    const size = this.spriteSizes[sizeIndex];
+
+    this.stars.push({
+      x: Math.random() * this.canvasWidth,
+      y: Math.random() * this.canvasHeight,
+      opacity: Math.random(),
+      twinkleSpeed: Math.random() * 0.003 + 0.001,
+      scrollFactor: size * size * this.parallax,
+
+      sizeIndex,
+      rotationAngle: Math.random() * Math.PI * 2,
+      rotationSpeed: (Math.random() * 0.6 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
+      // radians per second (slow!)
+    });
+  }
+}
+
+
+private animateStars = (time: number) => {
+  const dt = this.lastFrame
+    ? (time - this.lastFrame) / 1000
+    : 0;
+  this.lastFrame = time;
+
+  // optional mobile fps cap
+  if (this.isMobile && dt < 0.03) {
+    this.animationId = requestAnimationFrame(this.animateStars);
+    return;
+  }
+
+  const ctx = this.ctx;
+  const w = this.canvasWidth;
+  const h = this.canvasHeight;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const scrollY = window.scrollY || 0;
+  const deltaScroll = scrollY - this.lastScrollValue;
+  this.lastScrollValue = scrollY;
+
+  for (const star of this.stars) {
+    // twinkle
+    star.opacity += star.twinkleSpeed;
+    if (star.opacity > 1 || star.opacity < 0.2) {
+      star.twinkleSpeed *= -1;
+    }
+
+    // smooth rotation (time-based)
+    star.rotationAngle += star.rotationSpeed * dt;
+
+    const normalized =
+      (star.rotationAngle % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+
+    const rotationStep = Math.floor(
+      (normalized / (Math.PI * 2)) * this.ROTATION_STEPS
+    );
+
+    const spriteIndex =
+      star.sizeIndex * this.ROTATION_STEPS + rotationStep;
+
+    // parallax
+    star.y -= deltaScroll * star.scrollFactor;
+    if (star.y < 0) star.y += h;
+    else if (star.y > h) star.y -= h;
+
+    ctx.globalAlpha = star.opacity;
+    const sprite = this.starSprites[spriteIndex];
+    ctx.drawImage(
+      sprite,
+      star.x - sprite.width / 2,
+      star.y - sprite.height / 2
     );
   }
 
-  private initStars(count: number, minS: number, maxS: number) {
-    this.stars.length = 0;
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * this.canvasWidth;
-      const y = Math.random() * this.canvasHeight;
-      const size = Math.random() * maxS + minS;
-      const op1 = Math.random() * this.opasityChange.max + this.opasityChange.min;
-      const op2 = Math.random() * this.opasityChange.max + this.opasityChange.min;
-      this.stars.push({
-        x,
-        y,
-        size,
-        opacity: Math.random(),
-        rotation: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() * this.rotationSpeed.max + this.rotationSpeed.min) * (this.randomInt(0, 1) === 0 ? 1 : -1),
-        twinnkleSpeed: (Math.random() * this.twinnkleSpeed.max + this.twinnkleSpeed.min),
-        scrollFactor: this.exp(size) * this.parallax,
-        opasityChange: { min: Math.min(op1, op2), max: Math.max(op1, op2) },
-      });
-    }
-    // ensure stars avoid specified elements
-    this.resetStars(this.starExceptions);
-  }
+  ctx.globalAlpha = 1;
+  this.animationId = requestAnimationFrame(this.animateStars);
+};
 
-  private resetStars(exceptions: HTMLElement[]) {
-    this.stars.forEach(s => {
-      let x: number;
-      let y: number;
-      let attempts = 0;
-      do {
-        x = Math.random() * this.canvasWidth;
-        y = Math.random() * this.canvasHeight;
-        attempts++;
-        // safety bail
-        if (attempts > 100) break;
-      } while (exceptions.some(e => this.isPointInsideElement(x, y, e)));
-      s.x = x;
-      s.y = y;
-    });
-  }
 
-  // debounce resize so heavy work runs only after resize end
-  private scheduleResize() {
-    if (this.resizeTimeout) window.clearTimeout(this.resizeTimeout);
+  private scheduleResize(): void {
+    if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
     this.resizeTimeout = window.setTimeout(() => {
       this.resizeCanvas();
+      this.createStarSprites();
+      this.initStars();
       this.resizeTimeout = undefined;
     }, this.resizeDebounce);
   }
 
-  private animateStars = () => {
-    if (!this.ctx || !this.canvas) return;
-    // clear using logical CSS pixels; ctx transform already maps logical -> device pixels
-    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    const scrollY = window.scrollY || window.pageYOffset || 0;
-    const scrollYDelta = scrollY - this.lastScrollValue;
-    this.lastScrollValue = scrollY;
-
-    for (let star of this.stars) {
-      star.opacity += star.twinnkleSpeed;
-      star.rotation += star.rotSpeed;
-      star.y += -scrollYDelta * star.scrollFactor;
-      if (star.opacity > star.opasityChange.max || star.opacity < star.opasityChange.min) star.twinnkleSpeed *= -1;
-
-      if (this.starExceptions.some(e => this.isPointInsideElement(star.x, star.y, e))) continue;
-
-      const size = star.size;
-      this.ctx.save();
-      this.ctx.translate(star.x, star.y);
-      this.ctx.scale(star.opacity + 0.2, star.opacity + 0.2);
-      this.ctx.rotate(star.rotation);
-      this.ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
-      this.ctx.shadowBlur = 10;
-      this.ctx.shadowColor = `rgba(255,255,255,${star.opacity})`;
-      this.ctx.fillRect(-size / 2, -size / 2, size, size);
-      this.ctx.restore();
-    }
-
-    this.animationId = requestAnimationFrame(this.animateStars);
-  };
-
-  private resizeCanvas = () => {
-    // compute logical CSS pixel size
+  private resizeCanvas(): void {
     const cssWidth = document.documentElement.clientWidth;
     const cssHeight = Math.max(document.body.scrollHeight, window.innerHeight);
+
     this.canvasWidth = cssWidth;
     this.canvasHeight = cssHeight;
 
-    const ratio = window.devicePixelRatio || 1;
-    // set actual backing store size in device pixels
-    this.canvas.width = Math.max(1, Math.floor(cssWidth * ratio));
-    this.canvas.height = Math.max(1, Math.floor(cssHeight * ratio));
-    // set CSS size so element is not stretched
+    const dpr = this.isMobile
+      ? Math.min(1.5, window.devicePixelRatio || 1)
+      : window.devicePixelRatio || 1;
+
+    this.canvas.width = Math.floor(cssWidth * dpr);
+    this.canvas.height = Math.floor(cssHeight * dpr);
     this.canvas.style.width = cssWidth + 'px';
     this.canvas.style.height = cssHeight + 'px';
 
-    // set transform so drawing operations use logical CSS pixels coordinates
-    this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
 
-    // re-position stars to avoid excluded elements
-    this.starExceptions = Array.from(document.querySelectorAll<HTMLElement>(this.excludeSelector || '.starAvoid'));
-    this.resetStars(this.starExceptions);
-  };
+  private detectMobile(): boolean {
+    return (
+      /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent) ||
+      window.innerWidth < 768
+    );
+  }
 
-  // handlers to keep stable references for add/remove
   private resizeHandler = () => this.scheduleResize();
-  private scrollHandler = () => { /* nothing needed, we read scroll in animation loop */ };
 }
