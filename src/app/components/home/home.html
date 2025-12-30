@@ -67,7 +67,7 @@
   <h2 >Tools and skills</h2>
   <ul>
     @for (tool of tools; track $index) {
-      <li scrollScale><img class="btn" [src]="tool.imagePath" alt="{{tool.alt}}"></li>
+      <li scrollScale [offset]="-68"><img class="btn" [src]="tool.imagePath" alt="{{tool.alt}}"></li>
     }
   </ul>
 </section>
