@@ -26,10 +26,10 @@ import {NavigationList} from "../navigation-list/navigation-list";
     trigger('collapseAnimation', [
       transition(':enter', [
         style({ height: 0, opacity: 0, overflow: 'hidden', scale: 0 }),
-        animate('300ms ease-out', style({ height: '*', opacity: 1, overflow: 'visible', scale: 1 }))
+        animate('300ms ease-out', style({ height: '*', opacity: 1, scale: 1 }))
       ]),
       transition(':leave', [
-        animate('300ms ease-out', style({ height: 0, opacity: 0, overflow: 'hidden', scale: 0 }))
+        animate('300ms ease-out', style({ height: 0, opacity: 0, scale: 0 }))
       ])
     ])
   ]
