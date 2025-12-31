@@ -75,11 +75,11 @@ in vec2 vUV;
 out vec4 outColor;
 
 void main() {
-vec4 scene = texture(uScene, vUV);
-vec4 bloom = texture(uBloom, vUV) * uBloomStrength;
+  vec4 scene = texture(uScene, vUV);
+  vec4 bloom = texture(uBloom, vUV) * uBloomStrength;
 
-vec4 outCol = scene + bloom;
-outColor = vec4(outCol.rgb, outCol.a);
+  vec4 outCol = scene + bloom;
+  outColor = vec4(outCol.rgb, outCol.a);
 
 }
 `;
@@ -95,11 +95,11 @@ in vec2 vUV;
 out vec4 outColor;
 
 void main() {
-vec3 color = texture(uScene, vUV).rgb;
-float brightness = max(max(color.r, color.g), color.b);
+  vec3 color = texture(uScene, vUV).rgb;
+  float brightness = max(max(color.r, color.g), color.b);
 
-float a = brightness > uThreshold ? brightness : 0.0;
-outColor = vec4(color * a, a);
+  float a = brightness > uThreshold ? brightness : 0.0;
+  outColor = vec4(color * a, a);
 
 }
 `;
@@ -117,13 +117,13 @@ out vec4 outColor;
 void main() {
   vec2 texel = 1.0 / uResolution;
 
-vec4 result = texture(uTexture, vUV) * 0.227027;
-result += texture(uTexture, vUV + uDirection * texel * 1.384615 * spread) * 0.316216;
-result += texture(uTexture, vUV - uDirection * texel * 1.384615 * spread) * 0.316216;
-result += texture(uTexture, vUV + uDirection * texel * 3.230769 * spread) * 0.070270;
-result += texture(uTexture, vUV - uDirection * texel * 3.230769 * spread) * 0.070270;
+  vec4 result = texture(uTexture, vUV) * 0.227027;
+  result += texture(uTexture, vUV + uDirection * texel * 1.384615 * spread) * 0.316216;
+  result += texture(uTexture, vUV - uDirection * texel * 1.384615 * spread) * 0.316216;
+  result += texture(uTexture, vUV + uDirection * texel * 3.230769 * spread) * 0.070270;
+  result += texture(uTexture, vUV - uDirection * texel * 3.230769 * spread) * 0.070270;
 
-outColor = result;
+  outColor = result;
 
 }
 `;
