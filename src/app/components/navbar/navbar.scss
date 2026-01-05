@@ -62,7 +62,7 @@
     }
   }
   .contact {
-    font-size: 40px;
+    font-size: 38px;
     color: var(--contrastColor);
   }
 }
@@ -71,6 +71,7 @@
   #pages .material-icons {
     display: none;
   }
+  
   
 }
 
@@ -83,5 +84,8 @@
     font-size: 28px;
     margin-left: 12px;
   }
-  
+  .contact{
+      //for aligning with other icons
+      margin-top: -5px;
+  }
 }
