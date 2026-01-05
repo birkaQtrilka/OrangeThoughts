@@ -1,7 +1,7 @@
 import {Component, signal, ViewChild, AfterViewInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Navbar} from './components/navbar/navbar';
-import { StarfieldDirective } from './directives/starfield.directive';
+import { StarfieldDirective } from './directives/star-field/starfield.directive';
 import {Footer} from "./components/footer/footer";
 import {Modal} from "./components/modal/modal";
 import {ModalService} from "./services/modal.service";
