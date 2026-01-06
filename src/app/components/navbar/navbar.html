@@ -8,7 +8,6 @@
     @for (btn of navButtons(); track btn.text) {
       <li>
         <a
-          [routerLink]="btn.route"
           (click)="btn.onClick()">
           <i class="material-icons orangeAnim">{{ btn.icon }}</i>
           <span class="nav-text orangeAnim">{{ btn.text }}</span>

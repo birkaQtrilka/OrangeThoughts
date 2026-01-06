@@ -1,11 +1,10 @@
 import {Component, signal} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'my-navbar',
   imports: [
-    RouterLink,
     NgOptimizedImage
   ],
   templateUrl: './navbar.html',
@@ -18,44 +17,40 @@ export class Navbar {
     {
       text: "About",
       icon: "badge",
-      route: '',
-      onClick: () => this.navigate("", "AboutMe")
+      onClick: () => this.navigate("/", "AboutMe")
     },
     {
       text: "Projects",
       icon: "work",
-      route: '',
-      onClick: () => this.navigate("", "Projects")
+      onClick: () => this.navigate("/", "Projects")
     },
     {
       text: "Adventures",
       icon: "hiking",
-      route: 'adventures',
-      onClick: () => {window.scrollTo({ top: 0,behavior: "instant"})},
+      onClick: () => { this.navigate("/adventures", "AdventuresSection", 300) },
     },
   ]);
 
 
-  public navigate(route: string, sectionId: string) {
+  public navigate(route: string, sectionId: string, headerOffset: number = 100) {
     const currentUrl = this.router.url;
-
+    
     // If not already on the project page, navigate first
     if (currentUrl !== route) {
       this.router.navigate([route]).then(() => {
         // wait for Angular to finish rendering
-        setTimeout(() => this.scrollTo(sectionId), 100);
+        setTimeout(() => this.scrollTo(sectionId, headerOffset), 100);
       });
     } else {
       // If already on the page, just scroll
-      this.scrollTo(sectionId);
+      this.scrollTo(sectionId, headerOffset);
     }
   }
 
-  private scrollTo(sectionId: string) {
+  private scrollTo(sectionId: string, headerOffset: number = 100) {
     const projectsSection = document.getElementById(sectionId);
     if (!projectsSection) return;
 
-    const headerOffset = 80;
     const elementPosition = projectsSection.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - headerOffset;
 
