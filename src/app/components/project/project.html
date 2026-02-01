@@ -29,7 +29,7 @@
       <h2>Description</h2>
       <div class="desc" [innerHTML]="project?.description"></div>
       <section>
-      <h3>Time spent:</h3><span>&ensp;8 weeks</span>
+      <h3>Time spent:</h3><span>&ensp;{{project?.timeSpent || "1 week"}}</span>
       </section>
       @if(project?.githubLink) {
         <a [href]="project?.githubLink" target="_blank">Full project GitHub</a>
