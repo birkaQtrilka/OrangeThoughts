@@ -4,20 +4,15 @@
     <li><a [href]="'mailto:' + email">{{ email }}</a></li>
   </ul>
   <ul>
-    <li><a href="https://www.instagram.com/orange_thoughtss/" target="_blank">
-      <img class="btn orangeImgAnim" src="assets/Images/Icons/instaIcon.png" alt="Instagram">
-    </a></li>
-    <li><a href="https://www.linkedin.com/in/stefan-carpeliuc-b2880427b/" target="_blank">
-      <img class="btn orangeImgAnim" src="assets/Images/Icons/LinkedInIcon.png" alt="LinkedIn">
-    </a></li>
-    <li><a href="https://x.com/Birkator" target="_blank">
-      <img class="btn orangeImgAnim" src="assets/Images/Icons/TwitterIcon.png" alt="Twitter">
-    </a></li>
-    <li><a href="https://github.com/birkaQtrilka" target="_blank">
-      <img class="btn orangeImgAnim" src="assets/Images/Icons/gitHubIcon.png" alt="GitHub">
-    </a></li>
-    <li><a href="https://www.youtube.com/channel/UCuIZf3WkVrkOhyHA0Tin4gg" target="_blank">
-      <img class="btn orangeImgAnim" src="assets/Images/Icons/icons8-youtube-100.png" alt="YouTube">
-    </a></li>
+    @for (link of socialLinks; track link.href) {
+      <li>
+        <a [href]="link.href" target="_blank">
+          <img
+            class="btn orangeImgAnim"
+            [src]="link.icon"
+            [alt]="link.alt" />
+        </a>
+      </li>
+    }
   </ul>
 </footer>
