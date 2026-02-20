@@ -15,7 +15,9 @@ export class Modal implements OnDestroy{
 
   private prevScrollY = 0;
 
-  constructor(private host: ElementRef) {}
+  constructor(private host: ElementRef) {
+    this.onEscapeClick = this.onEscapeClick.bind(this);
+  }
   ngOnDestroy(): void {
     this.close();
   }
@@ -26,16 +28,15 @@ export class Modal implements OnDestroy{
 
     // Show modal
     this.host.nativeElement.style.display = "block";
-
-    // // Lock body in place
     document.body.style.position = "fixed";
     document.body.style.top = `-${this.prevScrollY}px`;
-    // document.body.style.left = "0";
-    // document.body.style.right = "0";
-    // document.body.style.width = "100%";
+    this.host.nativeElement.scrollTop = 0;
 
     this.image.nativeElement.src = imagePath;
     this.caption.nativeElement.innerHTML = caption;
+
+    document.removeEventListener('keydown', this.onEscapeClick);
+    document.addEventListener('keydown', this.onEscapeClick);
   }
 
   close() {
@@ -53,9 +54,16 @@ export class Modal implements OnDestroy{
 
     // Restore scroll position
     window.scrollTo(0, scrollY);
+    document.removeEventListener('keydown', this.onEscapeClick);
   }
 
   imageClick(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  onEscapeClick(ev: KeyboardEvent){
+      if(ev.key === 'Escape'){
+        this.close();
+      }
   }
 }
