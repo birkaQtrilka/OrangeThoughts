@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
-import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project',
@@ -16,6 +16,7 @@ export class ProjectPage implements  OnInit {
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -25,4 +26,7 @@ export class ProjectPage implements  OnInit {
     });
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 }
