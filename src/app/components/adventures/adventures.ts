@@ -36,12 +36,12 @@ import {NavigationList} from "../navigation-list/navigation-list";
 })
 export class Adventures {
   protected adventures: CodingAdventure[] = [
-    CODING_BOIDS,
     CODING_DOTS,
+    CODING_PHYSICS,
     CODING_IK,
     CODING_PATHFINDING,
-    CODING_PHYSICS,
     CODING_WFC,
+    CODING_BOIDS,
   ];
   @ViewChildren(AdventureArticle, { read: ElementRef })
   articleElements!: QueryList<ElementRef<HTMLElement>>;
