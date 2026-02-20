@@ -1,4 +1,6 @@
 import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modal',
@@ -14,10 +16,21 @@ export class Modal implements OnDestroy{
   @ViewChild('caption') caption!: ElementRef;
 
   private prevScrollY = 0;
-
-  constructor(private host: ElementRef) {
+  private routerSub!: Subscription;
+  
+  constructor(
+    private host: ElementRef,
+    private router: Router
+  ) {
     this.onEscapeClick = this.onEscapeClick.bind(this);
+  
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.close();
+      }
+    });
   }
+
   ngOnDestroy(): void {
     this.close();
   }
