@@ -45,10 +45,9 @@
 }
 
 #AboutMe {
-  width: var(--largeMargin);
   display: flex;
   justify-content: space-between;
-  margin: auto auto 50px;
+  margin: 120px auto 0 auto;
 
   article {
     text-align: left;

@@ -6,6 +6,7 @@ main {
   }
 }
 #AboutMe {
+  width: calc(var(--largeMargin) + 60px);
   flex-direction: column;
   margin-bottom: 50px;
   h2 {

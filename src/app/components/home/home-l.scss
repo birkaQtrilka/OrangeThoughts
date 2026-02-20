@@ -1,5 +1,5 @@
 main {
-  margin: 100px auto 250px;
+  margin: 100px auto 50px;
 
   app-project-card {
     flex-basis: calc(50% - var(--largeProjectArticleGap));
@@ -7,6 +7,7 @@ main {
 }
 #AboutMe {
   flex-direction: row-reverse;
+  width: var(--largeMargin);
 
   article {
     flex-basis: 60%;
