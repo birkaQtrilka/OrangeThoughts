@@ -6,9 +6,16 @@ nav{
     margin: 0 auto 20px auto;
   }
   & ul li{
-    //list-style-type: disc;
     transform-origin: left center;
     text-align: left;
-    list-style: none;
+    list-style: disc;
+    line-height: 25px;
+    margin-left: 15px;
   }
+  // .line {
+  //     width: var(--lineVisualWidth);
+  //     height: 2px;
+  //     background-color: var(--contrastColor);
+  //     margin-left: 13px;
+  //   }
 }

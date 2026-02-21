@@ -2,12 +2,15 @@
   <ul>
     @for (adventure of adventures; track $index) {
       <li
-      @collapseAnimation
-      class="clickable btn orangeAnim"
-      (click)="onClick($index)"
+        @collapseAnimation
+        class="clickable btn orangeAnim"
+        (click)="onClick($index)"
       >
       {{ adventure.title }}
     </li>
+      <!-- @if(!$last){
+        <div class="line"></div>
+      } -->
   }
   </ul>
 </nav>
