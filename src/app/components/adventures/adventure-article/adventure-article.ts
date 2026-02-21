@@ -1,6 +1,7 @@
-import {Component, input} from '@angular/core';
+import {Component, input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ModalService} from "../../../services/modal.service";
+import { GitService } from '../../../services/git.service';
 
 @Component({
   selector: 'app-adventure-article',
@@ -10,7 +11,7 @@ import {ModalService} from "../../../services/modal.service";
   templateUrl: './adventure-article.html',
   styleUrl: './adventure-article.scss'
 })
-export class AdventureArticle {
+export class AdventureArticle implements OnInit{
   title = input("Boid")
   videoPath = input("assets/videos/boids.mp4");
   tags = input(["#Side-project", "C#"]);
@@ -26,8 +27,23 @@ export class AdventureArticle {
   timeSpent = input("5 days"); // should be a number that is later parsed
   imagePaths = input(['/assets/Images/sideProjects/Boids.png']);
   githubLink = input("https://github.com/birkaQtrilka/BoidsWithDOTS/blob/main/Assets/BoidSystem.cs");
-
-  constructor(protected modalService: ModalService) {
+  protected lastModified = '';
+  
+  constructor(
+    protected modalService: ModalService,
+    private githubService: GitService
+    
+  ) {
   }
+  ngOnInit(): void {
+    var repoData = this.githubService.extractOwnerRepo(this.githubLink());
+    if (repoData) {
+      this.githubService
+      .getLastUpdated(repoData?.owner, repoData.repo)
+      .subscribe(date => {
+        this.lastModified = new Date(date.updated_at).toLocaleDateString();
+      });
+    }  }
+
 }
 

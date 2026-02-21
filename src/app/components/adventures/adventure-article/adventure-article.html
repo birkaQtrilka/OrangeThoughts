@@ -13,8 +13,13 @@
   <section>
     <h2 class="custom-spacing">Description</h2>
     <div class="desc" [innerHTML]="description()"></div>
-    <section>
-      <h3>Time spent:</h3><span>&ensp; {{timeSpent()}}</span>
+    <section class="time">
+      <div>
+        <h3>Time spent:</h3><span>&ensp; {{timeSpent()}}</span>
+      </div>
+      <div class="smaller">
+        <h3>Last modified:</h3><span>&ensp;{{ lastModified || "unknown"}}</span>
+      </div>
     </section>
     <section [class.sideBySideImages]="imagePaths().length > 1">
     @for (img of imagePaths(); track img) {
@@ -24,7 +29,7 @@
     }
     </section>
     <div>
-      <a href="{{githubLink()}}" target="_blank">Full project GitHub</a>
+      <a href="{{ githubLink() }}" target="_blank">Full project GitHub</a>
     </div>
   </section>
 </article>

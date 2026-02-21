@@ -61,18 +61,23 @@ article>section {
     text-align: center;
   }
 
-  section {
+  .time {
     width: 100%;
-
-    &>h3 {
+    display: flex;
+    justify-content: space-between;
+    h3 {
       display: inline;
     }
-
-    &>span {
+    span {
       color: var(--contrastColor);
     }
-
     margin-bottom: 20px;
+    .smaller {
+      text-align: right;
+      * {
+        font-size: 12px;
+      }
+    }
   }
 
   h3 {
@@ -87,6 +92,9 @@ article>section {
 
 figure img {
   width: 100%;
+  object-fit: cover;
+  max-height: 400px;
+  cursor: pointer;
 }
 
 section.sideBySideImages {
