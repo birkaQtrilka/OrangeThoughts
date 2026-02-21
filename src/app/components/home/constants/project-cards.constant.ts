@@ -10,7 +10,7 @@ export const PROJECT_CARDS = [
     id: 'procedural-planets',
     title: 'Planets generator',
     description: 'Procedural mesh generator',
-    imagePath: 'assets/Images/Projects/Planets.png',
+    imagePath: 'assets/Images/Projects/sun-cropped.png',
     route: 'projects/procedural-planets'
   },
   {

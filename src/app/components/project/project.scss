@@ -64,7 +64,7 @@ main {
         }
         
       }
-
+      
 
       &>div {
         width: 100%;
@@ -75,21 +75,24 @@ main {
         text-align: center;
       }
 
-      section {
+      .time {
         width: 100%;
-
-        &>h3 {
+        display: flex;
+        justify-content: space-between;
+        h3 {
           display: inline;
         }
-
-        &>span {
+        span {
           color: var(--contrastColor);
         }
-
         margin-bottom: 20px;
-
+        .smaller {
+          text-align: right;
+          * {
+            font-size: 10px;
+          }
+        }
       }
-
       h3 {
         margin-top: 10px;
       }

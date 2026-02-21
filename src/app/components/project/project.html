@@ -28,8 +28,13 @@
     <section>
       <h2>Description</h2>
       <div class="desc" [innerHTML]="project?.description"></div>
-      <section>
-      <h3>Time spent:</h3><span>&ensp;{{project?.timeSpent || "1 week"}}</span>
+      <section class="time">
+        <div>
+          <h3>Time spent:</h3><span>&ensp;{{project?.timeSpent || "1 week"}}</span>
+        </div>
+        <div class="smaller">
+          <h3>Last modified:</h3><span>&ensp;{{ lastModified || "unknown"}}</span>
+        </div>
       </section>
       @if(project?.githubLink) {
         <a [href]="project?.githubLink" target="_blank">Full project GitHub</a>
