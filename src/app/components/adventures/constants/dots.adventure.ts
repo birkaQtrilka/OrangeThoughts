@@ -4,7 +4,7 @@ export const CODING_DOTS: CodingAdventure = {
   id: 'DOTS',
   title: 'Unity DOTS and BOIDS',
   videoPath: '/assets/videos/Boids3D_Short.mp4',
-  tags: ['Unity', 'Side-Project'],
+  tags: ['Unity', 'Side Project'],
   description: `
     &emsp; Because the Unity Data Oriented Technology Stack was released, I decided to learn it by doing a project. I use the 
     earlier learned <a href="Coding adventures.html#Boids">Boids Algorithm</a> as the problem to optimize. However, this time 

@@ -4,7 +4,7 @@ export const CODING_BOIDS: CodingAdventure = {
   id: 'Boids',
   title: 'Boids and Quad Trees',
   videoPath: '/assets/videos/boids.mp4',
-  tags: ['GxpEngine', 'Side-Project'],
+  tags: ['GxpEngine', 'Side Project'],
   description: `
     &emsp; Boids simulate flocking behavior. The challenge was optimizing the algorithm: a naive implementation is O(n²).
     <br>&emsp;To solve this, I used a quadtree to reduce neighbor checks. Although bins are technically better for this purpose,

@@ -11,6 +11,7 @@ import { AdventureArticle } from './adventure-article/adventure-article';
 import { TagFilter } from "./tag-filter/tag-filter";
 import { RouterLink } from '@angular/router';
 import {NavigationList} from "../navigation-list/navigation-list";
+import { BEAT_MAGIC } from './constants/beat-magic.adventure';
 
 @Component({
   selector: 'app-adventures',
@@ -40,6 +41,7 @@ export class Adventures {
     CODING_PHYSICS,
     CODING_IK,
     CODING_PATHFINDING,
+    BEAT_MAGIC,
     CODING_WFC,
     CODING_BOIDS,
   ];

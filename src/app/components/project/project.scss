@@ -33,7 +33,15 @@ main {
     & iframe {
       width: 100%;
     }
-
+    .iframe-cover{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--grayShadow);
+      h1{
+        margin: 0;
+      }
+    }
     &>div {
       width: var(--project-padding);
       display: flex;

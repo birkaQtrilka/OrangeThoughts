@@ -4,8 +4,9 @@ import { Credit } from "./credit.model";
 export interface Project {
   id: string;
   title: string;
-  videoPath?: {isIframe: boolean; path: SafeResourceUrl};
+  videoPath?: {isIframe: boolean; path: SafeResourceUrl, hideOnMobile?: boolean};
   tags?: string[];
+  height?: string;
   description: string;
   timeSpent?: string;
   githubLink?: string;

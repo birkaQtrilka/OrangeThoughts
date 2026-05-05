@@ -54,5 +54,12 @@ export const PROJECT_CARDS = [
     description: '2DPhysics, prefab system, level builder',
     imagePath: '/assets/Images/Projects/posterFinal.png',
     route: 'projects/ball-blaze'
+  },
+  {
+    id: 'proposals',
+    title: 'Proposals Please',
+    description: 'Educational game with a pixelated look',
+    imagePath: '/assets/Images/Projects/Proposals.png',
+    route: 'projects/proposals-please'
   }
 ];

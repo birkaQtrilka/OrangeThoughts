@@ -11,6 +11,7 @@ import { GitService } from '../../services/git.service';
   styleUrl: './project.scss',
 })
 export class ProjectPage implements  OnInit {
+
   project: Project | undefined;
   protected lastModified: string = '';
 
@@ -42,5 +43,7 @@ export class ProjectPage implements  OnInit {
     this.location.back();
   }
 
-  
+  isMobile(): boolean {
+    return window.innerWidth <= 768;
+  }
 }

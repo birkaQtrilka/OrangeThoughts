@@ -4,6 +4,10 @@ main {
   app-project-card {
     flex-basis: calc(50% - var(--largeProjectArticleGap));
   }
+  app-project-card:last-child:nth-child(odd) {
+  margin-left: auto;
+  margin-right: auto;
+}
 }
 #AboutMe {
   flex-direction: row-reverse;

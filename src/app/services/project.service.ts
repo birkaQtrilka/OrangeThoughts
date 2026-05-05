@@ -9,6 +9,7 @@ import { PROJECT_INTERNSHIP_TIBLE } from './projects/internship-tible.project';
 import { PROJECT_FRONT_END } from './projects/front-end.project';
 import { PROJECT_CPP_PROJECTS } from './projects/cppProjects.project';
 import { PROJECT_NETWORKING } from './projects/networking.project';
+import { PROJECT_PROPOSALS_PLEASE } from './projects/proposals-please.project';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class ProjectService {
             path: raw.videoPath.isIframe
               ? this.sanitizer.bypassSecurityTrustResourceUrl(raw.videoPath.path)
               : raw.videoPath.path,
+            hideOnMobile: raw.videoPath.hideOnMobile
           }
         : undefined;
 
@@ -45,6 +47,7 @@ export class ProjectService {
       transform(PROJECT_INTERNSHIP_TIBLE),
       transform(PROJECT_UNITY_EDITOR),
       transform(PROJECT_NETWORKING),
+      transform(PROJECT_PROPOSALS_PLEASE),
 
     ];
   }
