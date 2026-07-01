@@ -1,0 +1,35 @@
+.btns-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .page-btn {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0; /* Stretches to fill the 10x10 parent */
+      border-radius: 50%;
+      background-image: url("../../assets/Images/Icons/dot.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(0.5);
+      transition: transform 0.2s ease;
+    }
+    
+    &.active::before {
+      background-image: url("../../assets/Images/Icons/select.png");
+      transform: scale(1);
+    }
+
+    &:hover::before {
+      transform: translateY(-5px);
+    }
+  }
+}

@@ -1,0 +1,5 @@
+<div class="btns-wrapper" [style.justify-content]="justifyContent()">
+  @for(num of range(); track  $index){
+    <div class="page-btn" [class.active]=" $index === currPage()" (click)="btnClick( $index)"></div>
+  }
+</div>

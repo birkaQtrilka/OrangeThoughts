@@ -20,15 +20,34 @@
   <h1>Adventures</h1>
   <app-tag-filter [availableTags]="allTags" (filterChanged)="onTagFilterChanged()"></app-tag-filter>
   <app-navigation-list
-      [adventures]="filteredAdventures"
+      [adventures]="paginatedAdventures"
       (selectAdventure)="scrollToAdventure($event)"
   ></app-navigation-list>
-
-  @for (adventure of filteredAdventures; track adventure.title) {
-  <div @collapseAnimation>
-    <app-adventure-article [title]="adventure.title" [videoPath]="adventure.videoPath" [tags]="adventure.tags"
-      [description]="adventure.description" [timeSpent]="adventure.timeSpent" [imagePaths]="adventure.images"
-      [githubLink]="adventure.githubLink"></app-adventure-article>
-  </div>
+  <app-pacman-paginator 
+    [totalPages]="getTotalPages()" 
+    [currPage]="currentPage" 
+    (currPageChange)="onPageChanged($event)"
+  >
+  </app-pacman-paginator>
+  @for (adventure of paginatedAdventures; track adventure.title) {
+    <div @collapseAnimation>
+      <app-adventure-article 
+        [title]="adventure.title" 
+        [videoPath]="adventure.videoPath" 
+        [tags]="adventure.tags"
+        [description]="adventure.description" 
+        [timeSpent]="adventure.timeSpent" 
+        [imagePaths]="adventure.images"
+        [githubLink]="adventure.githubLink"
+      >
+      </app-adventure-article>
+    </div>
   }
+  <app-pacman-paginator 
+    [totalPages]="getTotalPages()" 
+    [currPage]="currentPage" 
+    (currPageChange)="onPageChanged($event)"
+    justifyContent="center"
+  >
+  </app-pacman-paginator>
 </main>

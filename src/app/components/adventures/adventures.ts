@@ -12,6 +12,7 @@ import { TagFilter } from "./tag-filter/tag-filter";
 import { RouterLink } from '@angular/router';
 import {NavigationList} from "../navigation-list/navigation-list";
 import { BEAT_MAGIC } from './constants/beat-magic.adventure';
+import { PacmanPaginator } from '../../pacman-paginator/pacman-paginator';
 
 @Component({
   selector: 'app-adventures',
@@ -19,8 +20,9 @@ import { BEAT_MAGIC } from './constants/beat-magic.adventure';
     AdventureArticle,
     TagFilter,
     RouterLink,
-    NavigationList
-  ],
+    NavigationList,
+    PacmanPaginator,
+],
   templateUrl: './adventures.html',
   styleUrl: './adventures.scss',
   animations: [
@@ -36,6 +38,7 @@ import { BEAT_MAGIC } from './constants/beat-magic.adventure';
   ]
 })
 export class Adventures {
+
   protected adventures: CodingAdventure[] = [
     CODING_DOTS,
     CODING_PHYSICS,
@@ -47,16 +50,45 @@ export class Adventures {
   ];
   @ViewChildren(AdventureArticle, { read: ElementRef })
   articleElements!: QueryList<ElementRef<HTMLElement>>;
-  @ViewChild(TagFilter) tagFilter!: TagFilter;
+  @ViewChild(TagFilter) 
+  tagFilter!: TagFilter;
   filteredAdventures = [...this.adventures];
+  
+  // pagination
+  paginator!: PacmanPaginator;
+  protected adventuresPerPage = 3;
+  protected currentPage = 0;
+  paginatedAdventures = this.adventures.slice(0, this.adventuresPerPage);
 
   allTags = Array.from(
     new Set(this.adventures.flatMap(a => a.tags))
   );
 
-  public onTagFilterChanged() {
+  updateFilteredAdventures() {
     this.filteredAdventures = this.tagFilter.applyFilter(
       this.adventures, a => a.tags, a => a.title.toLowerCase());
+  }
+
+  updatePaginatedAdventures() {
+    this.paginatedAdventures = this.filteredAdventures.slice(
+      this.currentPage * this.adventuresPerPage,
+      (this.currentPage + 1) * this.adventuresPerPage
+    );
+  }
+
+  public onTagFilterChanged() {
+    this.updateFilteredAdventures();
+    this.currentPage = 0;
+    this.updatePaginatedAdventures();
+  }
+  
+  public onPageChanged(currPage: number) {
+    this.currentPage = currPage;
+    this.updatePaginatedAdventures();
+  }
+
+  getTotalPages() {
+    return Math.ceil(this.filteredAdventures.length / this.adventuresPerPage);
   }
 
   public scrollUp() {
