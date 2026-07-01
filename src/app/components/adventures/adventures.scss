@@ -8,15 +8,43 @@ main {
   border-radius: var(--borderRadius);
   position: relative;
   
-  #bottom-paginator {
-    margin: auto;
-  }
-
   >h1 {
     margin-bottom: 30px;
   }
+
   div:not(:first-child) {
     margin-top: 100px;
+  }
+
+  app-navigation-list {
+    display: block;
+    margin: 20px 0 20px 0;
+    min-height: 80px;
+  }
+
+  app-pacman-paginator:first-of-type {
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  .adventures-list-container {
+    display: grid;
+    overflow-x: hidden;
+    margin-top: 0 !important;
+    
+    > .page-wrapper {
+      grid-area: 1 / 1;
+      width: 100%;
+      margin-top: 0 !important;
+
+      > div:not(:first-child) {
+        margin-top: 100px !important;
+      }
+      
+      > div:first-child {
+        margin-top: 0 !important;
+      }
+    }
   }
 
   app-adventure-article {

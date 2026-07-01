@@ -1,7 +1,5 @@
 <main id="AdventuresSection">
-  <button class="up-button"
-    (click)="scrollUp()"
-  >
+  <button class="up-button" (click)="scrollUp()">
     <svg width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
       xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
       <path id="secondary"
@@ -10,7 +8,7 @@
     </svg>
   </button>
   <a [routerLink]="'/'" class="back-btn">
-    <svg  width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
+    <svg width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
       xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
       <path id="secondary"
         d="M16,15a1,1,0,0,1-.78-.38L12,10.6l-3.22,4a1,1,0,1,1-1.56-1.24l4-5a1,1,0,0,1,1.56,0l4,5a1,1,0,0,1-.16,1.4A1,1,0,0,1,16,15Z">
@@ -29,24 +27,37 @@
     (currPageChange)="onPageChanged($event)"
   >
   </app-pacman-paginator>
-  @for (adventure of paginatedAdventures; track adventure.title) {
-    <div @collapseAnimation>
-      <app-adventure-article 
-        [title]="adventure.title" 
-        [videoPath]="adventure.videoPath" 
-        [tags]="adventure.tags"
-        [description]="adventure.description" 
-        [timeSpent]="adventure.timeSpent" 
-        [imagePaths]="adventure.images"
-        [githubLink]="adventure.githubLink"
-      >
-      </app-adventure-article>
-    </div>
-  }
+
+  <!-- Paginator Sliding Wrapper -->
+  <div class="adventures-list-container" [@pageAnimation]="pageData.state">
+    @for (page of [pageData]; track page.state) {
+      <div class="page-wrapper">
+        @for (adventure of page.adventures; track adventure.title) {
+          <!-- 
+            [@.disabled] suspends child animations during pagination 
+            so they don't block the parent's sliding animation 
+          -->
+          <div [@.disabled]="!isFiltering" [@collapseAnimation]="isFiltering ? 'filter' : 'noop'">
+            <app-adventure-article 
+              [title]="adventure.title" 
+              [videoPath]="adventure.videoPath" 
+              [tags]="adventure.tags"
+              [description]="adventure.description" 
+              [timeSpent]="adventure.timeSpent" 
+              [imagePaths]="adventure.images"
+              [githubLink]="adventure.githubLink"
+            >
+            </app-adventure-article>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
   <app-pacman-paginator 
     [totalPages]="getTotalPages()" 
     [currPage]="currentPage" 
-    (currPageChange)="onPageChanged($event)"
+    (currPageChange)="onPageChanged($event); scrollUp()"
     justifyContent="center"
   >
   </app-pacman-paginator>
