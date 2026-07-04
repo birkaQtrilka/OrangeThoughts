@@ -15,7 +15,7 @@
       position: absolute;
       inset: 0; /* Stretches to fill the 10x10 parent */
       border-radius: 50%;
-      background-image: url("../../assets/Images/Icons/dot.png");
+      background-image: url("../../../assets/Images/Icons/dot.png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -24,7 +24,7 @@
     }
     
     &.active::before {
-      background-image: url("../../assets/Images/Icons/select.png");
+      background-image: url("../../../assets/Images/Icons/select.png");
       transform: scale(1);
     }
 

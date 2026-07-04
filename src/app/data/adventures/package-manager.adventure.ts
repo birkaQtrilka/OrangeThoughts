@@ -1,4 +1,4 @@
-import { CodingAdventure } from "../../../models/coding-adventure.model";
+import { CodingAdventure } from "../../models/coding-adventure.model";
 
 export const CODING_PACKAGE_MANAGER: CodingAdventure = {
   id: 'PKG',

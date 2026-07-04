@@ -1,7 +1,7 @@
-import { CodingAdventure } from "../../../models/coding-adventure.model";
+import { CodingAdventure } from "../../models/coding-adventure.model";
 
-export const BEAT_MAGIC: CodingAdventure = {
-  id: 'BEAT_MAGIC',
+export const CODING_BEAT_MAGIC: CodingAdventure = {
+  id: 'CODING_BEAT_MAGIC',
   title: 'Beat Magic',
   videoPath: 'https://www.youtube.com/embed/reayt37_DtA?si=3PdCkgvIo3YVjBL_',
   tags: [

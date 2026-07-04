@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project.model';
 import { DomSanitizer } from '@angular/platform-browser';
-import { PROJECT_PROCEDURAL_PLANETS } from './projects/procedural-planets.project';
-import { PROJECT_BALL_BLAZE } from './projects/ball-blaze.project';
-import { PROJECT_PROCEDURAL_GENERATION } from './projects/procedural-generation.project';
-import { PROJECT_UNITY_EDITOR } from './projects/unity-editor.project';
-import { PROJECT_INTERNSHIP_TIBLE } from './projects/internship-tible.project';
-import { PROJECT_FRONT_END } from './projects/front-end.project';
-import { PROJECT_CPP_PROJECTS } from './projects/cppProjects.project';
-import { PROJECT_NETWORKING } from './projects/networking.project';
-import { PROJECT_PROPOSALS_PLEASE } from './projects/proposals-please.project';
+import { PROJECT_PROCEDURAL_PLANETS } from '../data/projects/procedural-planets.project';
+import { PROJECT_BALL_BLAZE } from '../data/projects/ball-blaze.project';
+import { PROJECT_PROCEDURAL_GENERATION } from '../data/projects/procedural-generation.project';
+import { PROJECT_UNITY_EDITOR } from '../data/projects/unity-editor.project';
+import { PROJECT_INTERNSHIP_TIBLE } from '../data/projects/internship-tible.project';
+import { PROJECT_FRONT_END } from '../data/projects/front-end.project';
+import { PROJECT_CPP_PROJECTS } from '../data/projects/cppProjects.project';
+import { PROJECT_NETWORKING } from '../data/projects/networking.project';
+import { PROJECT_PROPOSALS_PLEASE } from '../data/projects/proposals-please.project';
 
 @Injectable({
   providedIn: 'root'

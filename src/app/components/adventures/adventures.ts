@@ -1,19 +1,20 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, effect, ElementRef, inject, OnInit, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
 import { trigger, transition, animate, style, query, group } from '@angular/animations';
 import { CodingAdventure } from '../../models/coding-adventure.model';
-import { CODING_BOIDS } from './constants/boids.adventure';
-import { CODING_DOTS } from './constants/dots.adventure';
-import { CODING_IK } from './constants/ik.adventure';
-import { CODING_PATHFINDING } from './constants/dungeon.adventure';
-import { CODING_PHYSICS } from './constants/physics.adventure';
-import { CODING_WFC } from './constants/wfc.adventure';
+import { CODING_BOIDS } from '../../data/adventures/boids.adventure';
+import { CODING_DOTS } from '../../data/adventures/dots.adventure';
+import { CODING_IK } from '../../data/adventures/ik.adventure';
+import { CODING_PATHFINDING } from '../../data/adventures/dungeon.adventure';
+import { CODING_PHYSICS } from '../../data/adventures/physics.adventure';
+import { CODING_WFC } from '../../data/adventures/wfc.adventure';
 import { AdventureArticle } from './adventure-article/adventure-article';
 import { TagFilter } from "./tag-filter/tag-filter";
 import { RouterLink } from '@angular/router';
 import { NavigationList } from "../navigation-list/navigation-list";
-import { BEAT_MAGIC } from './constants/beat-magic.adventure';
-import { PacmanPaginator } from '../../pacman-paginator/pacman-paginator';
-import { CODING_PACKAGE_MANAGER } from './constants/package-manager.adventure';
+import { CODING_BEAT_MAGIC } from '../../data/adventures/beat-magic.adventure';
+import { PacmanPaginator } from '../pacman-paginator/pacman-paginator';
+import { CODING_PACKAGE_MANAGER } from '../../data/adventures/package-manager.adventure';
+import { PaginationService } from '../../services/pagination.service';
 
 @Component({
   selector: 'app-adventures',
@@ -26,6 +27,7 @@ import { CODING_PACKAGE_MANAGER } from './constants/package-manager.adventure';
   ],
   templateUrl: './adventures.html',
   styleUrl: './adventures.scss',
+  providers: [PaginationService],
   animations: [
     trigger('pageAnimation', [
       transition(':increment', [
@@ -60,19 +62,18 @@ import { CODING_PACKAGE_MANAGER } from './constants/package-manager.adventure';
         style({ overflow: 'hidden' }),
         animate('300ms ease-out', style({ height: 0, opacity: 0, scale: 0 }))
       ])
-      // Removed the 'noop' transition. The children will be safely 
-      // carried out by the parent wrapper's slide animation.
     ])
   ]
 })
 export class Adventures {
+  
 
   protected adventures: CodingAdventure[] = [
     CODING_DOTS,
     CODING_PHYSICS,
     CODING_IK,
     CODING_PATHFINDING,
-    BEAT_MAGIC,
+    CODING_BEAT_MAGIC,
     CODING_PACKAGE_MANAGER,
     CODING_WFC,
     CODING_BOIDS,
@@ -83,17 +84,16 @@ export class Adventures {
   @ViewChild(TagFilter) 
   tagFilter!: TagFilter;
 
-  filteredAdventures = [...this.adventures];
+  filteredAdventures = signal([...this.adventures]);
   
   // Custom states for animations
   isFiltering = false; 
   pageAnimationState = 0;
 
   // Pagination Variables
-  paginator!: PacmanPaginator;
   protected adventuresPerPage = 4;
-  protected currentPage = 0;
   paginatedAdventures = this.adventures.slice(0, this.adventuresPerPage);
+  urlPaginationService = inject(PaginationService);
 
   // Grouped state to strictly trigger @for loop re-renders on page change
   pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
@@ -102,23 +102,41 @@ export class Adventures {
     new Set(this.adventures.flatMap(a => a.tags))
   );
 
-  updateFilteredAdventures() {
-    this.filteredAdventures = this.tagFilter.applyFilter(
-      this.adventures, a => a.tags, a => a.title.toLowerCase());
+  constructor() {
+    effect(() => {
+      const currentPage = this.urlPaginationService.currentPage();
+      const currentFilteredAdventures = this.filteredAdventures(); 
+
+      if(currentPage > currentFilteredAdventures.length) {
+        if(currentFilteredAdventures.length > 0) this.urlPaginationService.setPage(currentFilteredAdventures.length - 1);
+        return;
+      }
+      this.updatePaginatedAdventuresArray();   
+      this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
+
+    });
   }
 
-  updatePaginatedAdventures() {
-    this.paginatedAdventures = this.filteredAdventures.slice(
-      this.currentPage * this.adventuresPerPage,
-      (this.currentPage + 1) * this.adventuresPerPage
+  updateFilteredAdventures() {
+    this.filteredAdventures.set(
+      this.tagFilter.applyFilter(
+        this.adventures, a => a.tags, a => a.title.toLowerCase())
+    );
+  }
+
+  updatePaginatedAdventuresArray() {
+    const page = this.urlPaginationService.currentPage();
+    this.paginatedAdventures = this.filteredAdventures().slice(
+      page * this.adventuresPerPage,
+      (page + 1) * this.adventuresPerPage
     );
   }
 
   public onTagFilterChanged() {
     this.isFiltering = true; // Enables shrink/grow animation
     this.updateFilteredAdventures();
-    this.currentPage = 0;
-    this.updatePaginatedAdventures();
+    
+    this.urlPaginationService.setPage(0);
     
     // We intentionally DO NOT change pageAnimationState here so the wrapper doesn't slide
     this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
@@ -127,21 +145,22 @@ export class Adventures {
   public onPageChanged(currPage: number) {
     this.isFiltering = false; // Disables shrink/grow animation during sliding
 
-    if (currPage > this.currentPage) {
+    const oldPage = this.urlPaginationService.currentPage(); 
+    if (currPage > oldPage) {
       this.pageAnimationState++;
-    } else if (currPage < this.currentPage) {
+    } else if (currPage < oldPage) {
       this.pageAnimationState--;
     }
-
-    this.currentPage = currPage;
-    this.updatePaginatedAdventures();
+    
+    this.urlPaginationService.setPage(currPage);
+    // this.updatePaginatedAdventuresArray();
     
     // Changing the state forces Angular to create a new page wrapper, triggering the slide
-    this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
+    // this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
   }
 
   getTotalPages() {
-    return Math.ceil(this.filteredAdventures.length / this.adventuresPerPage);
+    return Math.ceil(this.filteredAdventures().length / this.adventuresPerPage);
   }
 
   public scrollUp() {
