@@ -26,6 +26,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createCanvas();
+    window.addEventListener('resize', this.resize);
     this.initGL();
     this.resize();
     this.zone.runOutsideAngular(() => this.animate());
@@ -52,7 +53,6 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     if (!gl) throw new Error('WebGL2 not supported');
     this.gl = gl;
 
-    window.addEventListener('resize', this.resize);
   }
 
   private resize = () => {
@@ -94,7 +94,6 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     const sceneTex = this.starFieldProgram.colorTex;
     this.bloomProgram.render(sceneTex, time);
 
-    // ---------- PASS 5: composite ----------
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
