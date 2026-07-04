@@ -38,7 +38,17 @@ export class TagFilter {
 
     return entries.filter((entry) => {
       const searchable: string = searchBody(entry);
-      const matchesSearch = !this.search || searchable.startsWith(this.search);
+
+      const words = this.search.split(' ');
+      let hasWord = false;
+      for (const w of words) {
+        if(searchable.includes(w)){
+          hasWord = true;
+          break;
+        }
+      }
+
+      const matchesSearch = !this.search || hasWord;
       const tags: string[] = tagBody(entry);
 
       const matchesTags = tags.length === 0 || this.every(tags);

@@ -137,9 +137,6 @@ export class Adventures {
     this.updateFilteredAdventures();
     
     this.urlPaginationService.setPage(0);
-    
-    // We intentionally DO NOT change pageAnimationState here so the wrapper doesn't slide
-    this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
   }
   
   public onPageChanged(currPage: number) {
@@ -153,10 +150,7 @@ export class Adventures {
     }
     
     this.urlPaginationService.setPage(currPage);
-    // this.updatePaginatedAdventuresArray();
     
-    // Changing the state forces Angular to create a new page wrapper, triggering the slide
-    // this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
   }
 
   getTotalPages() {
