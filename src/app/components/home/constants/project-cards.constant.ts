@@ -14,6 +14,13 @@ export const PROJECT_CARDS = [
     route: 'projects/procedural-planets'
   },
   {
+    id: 'the-miller',
+    title: 'The Miller',
+    description: 'Horror game',
+    imagePath: 'assets/Images/Projects/Miller.png',
+    route: 'projects/the-miller'
+  },
+  {
     id: 'cpp-projects',
     title: "C++ Projects",
     description: 'Rendering, input-output, terrain generation',

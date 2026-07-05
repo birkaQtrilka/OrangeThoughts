@@ -54,6 +54,7 @@ main {
   .back-btn {
     position: absolute;
     z-index: 3;
+    cursor: pointer;
 
     svg {
       width: 50px;
@@ -76,10 +77,11 @@ main {
   }
 
   .up-button {
-    border: none
+    border: none;
   }
 
   .up-button>svg {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     position: fixed;
