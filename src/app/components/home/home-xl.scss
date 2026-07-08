@@ -10,12 +10,12 @@
     min-width: 1440px;
     height: 1155px;
 
-    box-shadow: var(--lightShadow);
+    box-shadow: var(--lightShadow-xl);
     border: 15px solid var(--footerColor);
-    border-radius: var(--borderRadius);
+    border-radius: var(--borderRadius-xl);
     
     &:hover {
-      box-shadow: var(--lighterShadow);
+      box-shadow: var(--lighterShadow-xl);
     }
   }
 
@@ -48,7 +48,7 @@
   article {
     flex-basis: 60%;
     padding: 60px;
-    border-radius: var(--borderRadius);
+    border-radius: var(--borderRadius-xl);
 
     p {
       margin-bottom: 60px;

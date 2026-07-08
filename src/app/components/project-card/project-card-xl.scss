@@ -1,17 +1,17 @@
 :host {
   article {
     border: 15px solid var(--cardColor);
-    border-radius: var(--borderRadius);
-    box-shadow: var(--lightShadow);
+    border-radius: var(--borderRadius-xl);
+    box-shadow: var(--lightShadow-xl);
 
     &:hover {
-      box-shadow: var(--lighterShadow);
+      box-shadow: var(--lighterShadow-xl);
 
     }
 
     a {
       width: 600px;
-      border-radius: var(--borderRadius);
+      border-radius: var(--borderRadius-xl);
 
       figure img {
         width: 600px;
