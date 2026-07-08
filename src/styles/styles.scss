@@ -1,4 +1,9 @@
 @use "./variables" as *;
+@import url("styles-l.scss") screen and (min-width: 767px) ;
+@import url("styles-xl.scss") screen and (min-width: 3800px) ;
+// @import url("styles-s.scss") screen and (max-width: 766px) ;
+
+
 @font-face 
 {
     font-family: Heming;
@@ -25,7 +30,6 @@
 
 h1 {
   font-family: "Heming", sans-serif;
-  font-size: xx-large;
   font-weight: bold;
 
 }

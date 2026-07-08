@@ -1,3 +1,7 @@
+@import url("navbar-s.scss") screen and (max-width: 766px) ;
+@import url("navbar-l.scss") screen and (min-width: 767px) ;
+@import url("navbar-xl.scss") screen and (min-width: 3800px) ;
+
 :host
 {
   position: fixed;
@@ -7,14 +11,8 @@
   align-items: center;
 
   width: 100vw;
-  height: 60px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  margin-top: -2px;
 
   background-color: var(--navBarColor);
-  filter: drop-shadow(0px -15px 27px #000000);
   z-index: 99;
 
   nav{
@@ -22,9 +20,7 @@
     justify-content: space-between;
     flex-basis: 100%;
     align-items: center;
-    padding-left: 10px;
     &>ul li a{
-      font-size: 18px;
       text-decoration: none;
     }
   }
@@ -35,22 +31,15 @@
     height: 100%;
     align-items: center;
     justify-content: center;
-    gap: 5px;
     li{
       a
       {
         display: block;
       }
-      // img
-      // {
-      //   filter:var(--iconFilter);
-      // }
     }
 
   }
   #pages{
-    margin-left: 5px;
-
     a {
       cursor: pointer;
     }
@@ -58,45 +47,13 @@
   img
   {
     cursor: pointer;
-    width: 30px;
-    height: 30px;
   }
   svg{
-    width: 40px;
-    height: 40px;
     path{
       fill: var(--contrastColor);
     }
   }
   .contact {
-    font-size: 38px;
     color: var(--contrastColor);
-  }
-}
-
-@media (min-width: 767px) {
-  #pages .material-icons {
-    display: none;
-  }
-  #pages {
-    gap: 14px;
-  }
-  
-}
-
-@media (max-width: 766px) {
-  .nav-text {
-    display: none;
-  }
-  #pages {
-    gap: 12px;
-  }
-  #pages .material-icons {
-    font-size: 28px;
-    // margin-left: 12px;
-  }
-  .contact{
-      //for aligning with other icons
-      margin-top: -5px;
   }
 }

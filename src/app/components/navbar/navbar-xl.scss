@@ -1,0 +1,45 @@
+:host {
+  height: 180px;
+  padding-left: 90px;
+  padding-right: 90px;
+  padding-top: 30px;
+  margin-top: -6px;
+
+  filter: drop-shadow(0px -45px 81px #000000);
+
+  nav {
+    padding-left: 30px;
+    
+    &>ul li a {
+      font-size: 54px;
+    }
+  }
+  
+  ul {
+    gap: 15px;
+
+  }
+  
+  #pages {
+    margin-left: 15px;
+    gap: 28px; 
+    .material-icons {
+      display: none;
+    }
+  }
+  
+  img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  svg {
+    width: 120px;
+    height: 120px;
+    
+  }
+  
+  .contact {
+    font-size: 114px;
+  }
+}
