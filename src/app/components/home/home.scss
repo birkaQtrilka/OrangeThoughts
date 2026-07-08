@@ -1,67 +1,34 @@
 @import url("home-l.scss") screen and (min-width: 767px) ;
+@import url("home-xl.scss") screen and (min-width: 3800px) ;
 @import url("home-s.scss") screen and (max-width: 766px) ;
 
 .intro {
-  margin-top: 100px;
   text-align: center;
 
-  .name {
-    font-size: large;
-  }
-
-  h1 {
-    font-size: 40px;
-    margin-top: 15px;
-  }
-
   h2 {
-    margin-bottom: 10px;
     color: var(--contrastColor);
   }
 
-  .description {
-    margin-top: 10px;
-    font-size: small;
-    line-height: 20px;
-    margin-bottom: 20px;
-  }
-
   iframe {
-
-    box-shadow: var(--lightShadow);
-    border: 5px solid var(--footerColor);
-    border-radius: var(--borderRadius);
     transition: box-shadow 0.2s ease;
-
-    &:hover {
-      box-shadow: var(--lighterShadow);
-    }
   }
 
   app-separation-line {
     display: block;
-    margin-top: 10px;
   }
 }
 
 #AboutMe {
   display: flex;
   justify-content: space-between;
-  margin: 190px auto 0 auto;
 
   article {
     text-align: left;
     background-color: var(--cardColor);
     z-index: 1;
-    padding: 20px;
-    border-radius: var(--borderRadius);
-    p {
-      margin-bottom: 20px;
-    }
 
     h2 {
       transform-origin: 50% 100%;
-      margin-bottom: 30px;
     }
 
   }
@@ -74,9 +41,7 @@
 }
 
 main {
-  width: var(--largeMargin);
   display: flex;
-  border-radius: 3px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
@@ -89,23 +54,12 @@ main {
 
   app-separation-line {
     flex-basis: 100%;
-    margin-bottom: 50px;
   }
 
-  app-project-card {
-    padding: 5px;
-    margin-bottom: 100px;
-    min-height: 300px;
-  }
 }
 
 #tools {
-  margin: auto auto 200px;
   text-align: center;
-
-  h2 {
-    margin: auto auto 30px;
-  }
 
   ul {
     display: flex;
@@ -115,7 +69,6 @@ main {
     justify-content: center;
     list-style: none;
     padding: 0;
-    gap: 10px;
     margin: 0;
 
     li {

@@ -11,7 +11,9 @@
   --lightViolet: rgba(168, 107, 67, 0.16);
   --lighterViolet: rgba(242, 149, 89, 0.5);
   --lightShadow: 0px 0px 29px 6px var(--lightViolet);
+  --lightShadow-xl: 0px 0px 87px 18px var(--lightViolet);
   --grayShadow: 0px 0px 29px 6px #0e0e0e;
+  --lighterShadow-xl: 0px 0px 93px 18px var(--lighterViolet);
   --lighterShadow: 0px 0px 31px 6px var(--lighterViolet);
   --largeMargin: 65%;
   --largeProjectArticleGap: 10%;
@@ -20,6 +22,7 @@
   --visualSquareSize: 10px;
   --blackColor: #1A161C;
   --borderRadius: 5px;
+  --borderRadius-xl: 15px;
   --iconFilter: brightness(0) saturate(100%) invert(96%) sepia(87%) saturate(228%) hue-rotate(315deg) brightness(92%) contrast(96%);
   --contrastFilter: brightness(0) saturate(100%) invert(83%) sepia(36%) saturate(3935%) hue-rotate(321deg) brightness(101%) contrast(90%);
 }

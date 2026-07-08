@@ -1,17 +1,17 @@
 .intro {
-  margin-top: 100px;
+  margin-top: 300px;
 
   .name {
-    font-size: 22px;
+    font-size: 66px;
   }
 
   iframe {
-    width: 600px;
-    min-width: 480px;
-    height: 385px;
+    width: 1800px;
+    min-width: 1440px;
+    height: 1155px;
 
     box-shadow: var(--lightShadow);
-    border: 5px solid var(--footerColor);
+    border: 15px solid var(--footerColor);
     border-radius: var(--borderRadius);
     
     &:hover {
@@ -20,47 +20,47 @@
   }
 
   h1 {
-    font-size: 40px;
-    margin-top: 15px;
+    font-size: 120px;
+    margin-top: 45px;
   }
 
   h2 {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   .description {
-    margin-top: 10px;
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    font-size: 42px;
+    line-height: 60px;
+    margin-bottom: 60px;
   }
 
   app-separation-line {
-    margin-top: 10px;
+    margin-top: 30px;
   }
 }
 
 #AboutMe {
   flex-direction: row-reverse;
   width: var(--largeMargin);
-  margin: 190px auto 0 auto;
+  margin: 570px auto 0 auto;
 
   article {
     flex-basis: 60%;
-    padding: 20px;
+    padding: 60px;
     border-radius: var(--borderRadius);
 
     p {
-      margin-bottom: 20px;
+      margin-bottom: 60px;
     }
     h2 {
-      margin-bottom: 30px;
+      margin-bottom: 90px;
     }
   }
 
   h2 {
     transform-origin: left;
-    margin-bottom: 30px;
+    margin-bottom: 90px;
   }
 
   aside {
@@ -71,21 +71,21 @@
 
 main {
   width: var(--largeMargin);
-  margin: 100px auto 50px;
-  border-radius: 3px;
+  margin: 300px auto 150px;
+  border-radius: 9px;
   >h1 {
-    padding-bottom: 20px;
+    padding-bottom: 60px;
   }
   
   app-separation-line {
-    margin-bottom: 50px;
+    margin-bottom: 150px;
   }
 
   app-project-card {
     flex-basis: calc(50% - var(--largeProjectArticleGap));
-    padding: 5px;
-    margin-bottom: 100px;
-    min-height: 300px;
+    padding: 15px;
+    margin-bottom: 300px;
+    min-height: 900px;
 
   }
   app-project-card:last-child:nth-child(odd) {
@@ -94,11 +94,9 @@ main {
   }
 }
 
-
-
 main>article video {
   width: 60%;
-  height: 380px;
+  height: 1140px;
 
   section {
     width: 80%;
@@ -107,18 +105,18 @@ main>article video {
 }
 
 #tools {
-  margin: auto auto 200px;
-  width: 300px;
+  margin: auto auto 600px;
+  width: 900px;
   h2 {
-    margin: auto auto 30px;
+    margin: auto auto 90px;
   }
   
   ul {
-    gap: 10px;
+    gap: 30px;
   }
 
   img {
-    width: 90px;
+    width: 270px;
   }
   
 }
