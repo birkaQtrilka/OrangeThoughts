@@ -12,3 +12,28 @@ h3 {
 p {
   font-size: 50px;
 }
+
+img {
+  border-radius: var(--borderRadius-xl);
+}
+
+video {
+  border-radius: var(--borderRadius-xl);
+}
+.activeTag {
+  outline: 6px solid var(--contrastColor);
+  outline-offset: -6px;
+}
+
+.tag {
+  margin-right: 21px;
+  padding-left: 9px;
+  padding-right: 12px;
+  border-radius: var(--borderRadius-xl);
+  margin-top: 15px;
+
+  &.active {
+    outline: 6px solid var(--contrastColor);
+    outline-offset: -6px;
+  }
+}

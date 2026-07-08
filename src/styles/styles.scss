@@ -6,14 +6,14 @@
 
 @font-face 
 {
-    font-family: Heming;
+  font-family: Heming;
   /* served from src/assets/Fonts -> available at /assets/Fonts/ */
   src: url('/assets/Fonts/heming-variable.ttf') format('truetype');
 }
 
 @font-face 
 {
-    font-family: Woodford;
+  font-family: Woodford;
   /* served from src/assets/Fonts/WoodfordBornePro -> available at /assets/Fonts/WoodfordBornePro/ */
   src: url('/assets/Fonts/WoodfordBornePro/WoodfordBournePro-Regular.ttf') format('truetype');
 }
@@ -37,14 +37,6 @@ h1 {
 h2 {
   font-family: "Heming", sans-serif;
   font-weight: bold;
-}
-
-img {
-  border-radius: var(--borderRadius);
-}
-
-video {
-  border-radius: var(--borderRadius);
 }
 
 iframe {
@@ -111,10 +103,6 @@ html {
     filter: drop-shadow(0px 0px 5px var(--contrastColor));
 
   }
-}
-
-iframe {
-  border: none;
 }
 
 /* ---------------------------- Scroll Bar S---------------------------- */
@@ -196,20 +184,6 @@ html {
 
 .tag {
   display: inline-block;
-  margin-right: 7px;
-  padding-left: 3px;
-  padding-right: 4px;
   background-color: var(--cardColor);
-  border-radius: 5px;
-  margin-top: 5px;
 
-  &.active {
-    outline: 2px solid var(--contrastColor);
-    outline-offset: -2px;
-  }
-}
-
-.activeTag {
-  outline: 2px solid var(--contrastColor);
-  outline-offset: -2px;
 }
