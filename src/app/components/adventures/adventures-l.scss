@@ -3,6 +3,31 @@ main {
   padding: 50px 80px;
   margin: auto;
   margin-top: 150px;
+  min-height: 900px;
+  box-shadow: var(--grayShadow);
+  border-radius: var(--borderRadius);
+
+  >h1 {
+    margin-bottom: 30px;
+  }
+
+  div:not(:first-child) {
+    margin-top: 100px;
+  }
+
+  app-navigation-list {
+    margin: 20px 0 20px 0;
+    min-height: 80px;
+  }
+
+  app-pacman-paginator:first-of-type {
+    margin-bottom: 40px;
+  }
+
+  .adventures-list-container> .page-wrapper> div:not(:first-child) {
+    margin-top: 100px !important;
+  }
+
   >article {
     video {
       height: 380px;
@@ -16,8 +41,30 @@ main {
   .back-btn {
     left: 20px;
     top: 20px;
+
+    svg {
+      width: 50px;
+      height: 50px;
+
+      &:hover {
+        filter: drop-shadow(0px 0px 5px var(--lighterViolet));
+      }
+    }
   }
   .tags {
     width: 60%;
+  }
+
+  .up-button>svg {
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    bottom: 20px;
+    filter: drop-shadow(0px 0px 5px var(--lightViolet));
+
+    &:hover {
+      filter: drop-shadow(0px 0px 5px var(--lighterViolet));
+    }
+
   }
 }

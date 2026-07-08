@@ -1,0 +1,9 @@
+nav{
+  &>h1{
+    margin: 0 auto 20px auto;
+  }
+  & ul li{
+    line-height: 25px;
+    margin-left: 15px;
+  }
+}

@@ -1,0 +1,10 @@
+nav{
+  font-size: 42px;
+  &>h1{
+    margin: 0 auto 60px auto;
+  }
+  & ul li{
+    line-height: 60px;
+    margin-left: 45px;
+  }
+}

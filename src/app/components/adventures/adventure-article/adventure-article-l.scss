@@ -1,0 +1,23 @@
+:host {
+  article>section {
+    width: 100%;
+  }
+  video {
+    height: 380px;
+    object-fit: cover;
+  }
+
+  iframe {
+    width: 80%;
+    height: 350px;
+  }
+
+  >div {
+    width: 80%;
+  }
+
+  section.sideBySideImages {
+    flex-direction: row;
+    column-gap: 10px;
+  }
+}

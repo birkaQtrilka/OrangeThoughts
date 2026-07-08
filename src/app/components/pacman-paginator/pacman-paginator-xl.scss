@@ -1,0 +1,15 @@
+
+:host {
+  .btns-wrapper {
+  
+    .page-btn {
+      width: 45px;
+      height: 45px;
+      margin: 0 15px;
+  
+      &:hover::before {
+        transform: translateY(-15px);
+      }
+    }
+  }
+}
