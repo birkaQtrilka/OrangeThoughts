@@ -1,0 +1,40 @@
+:host {
+  
+  #contact {
+    max-width: 1500px;
+    min-width: 300px;
+    padding: 60px;
+    border-radius: 24px;
+    margin-bottom: 600px;
+    &:hover {
+      box-shadow: var(--lighterShadow);      
+    }
+    
+    &>h1 {
+      margin-bottom: 60px;
+    }
+    
+    input,
+    textarea {
+      padding: 30px;
+      margin-top: 15px;
+      border-radius: 9px;
+      
+      &:focus {
+        border: 6px solid orange;
+        border-radius: 9px;
+      }
+    }
+    
+    .tag {
+      padding: 15px;
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 24px;
+      
+    }
+    label, input, textarea {
+    font-size: 50px;
+  }
+  }
+}
