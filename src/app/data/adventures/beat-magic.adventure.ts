@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_BEAT_MAGIC: CodingAdventure = {
   id: 'CODING_BEAT_MAGIC',
   title: 'Beat Magic',
-  videoPath: 'https://www.youtube.com/embed/reayt37_DtA?si=3PdCkgvIo3YVjBL_',
+  videoPath: {isIframe: true, path: 'https://www.youtube.com/embed/reayt37_DtA?si=Y5EuCafbzTLnebaa'},
   tags: [
     'Unity',
     'University Project'

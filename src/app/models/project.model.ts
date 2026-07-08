@@ -1,10 +1,10 @@
-import { SafeResourceUrl } from "@angular/platform-browser";
 import { Credit } from "./credit.model";
+import { VideoPath } from "./video-path.model";
 
 export interface Project {
   id: string;
   title: string;
-  videoPath?: {isIframe: boolean; path: SafeResourceUrl, hideOnMobile?: boolean};
+  videoPath?: VideoPath;
   tags?: string[];
   height?: string;
   description: string;

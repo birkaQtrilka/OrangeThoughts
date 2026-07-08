@@ -1,7 +1,9 @@
+import { VideoPath } from "./video-path.model";
+
 export interface CodingAdventure {
   id: string;
   title: string;
-  videoPath: string;
+  videoPath: VideoPath;
   tags: string[];
   description: string;
   timeSpent: string;

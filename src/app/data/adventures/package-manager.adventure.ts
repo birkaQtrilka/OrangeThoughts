@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_PACKAGE_MANAGER: CodingAdventure = {
   id: 'PKG',
   title: 'My library manager',
-  videoPath: '/assets/videos/libmanDEMO.mp4',
+  videoPath: { isIframe: false, path: '/assets/videos/libmanDEMO.mp4' },
   tags: ['CLI Tools', 'Side Project'],
   description: `
     &emsp; A custom local package manager I made for the purpose of quickly moving useful files into

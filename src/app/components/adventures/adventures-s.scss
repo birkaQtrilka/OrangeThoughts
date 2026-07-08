@@ -15,7 +15,15 @@
     app-navigation-list {
       width: 80%;
       display: block;
-      margin: auto;
+      margin: 30px auto;
+    }
+
+    app-pacman-paginator {
+      width: 80%;
+      margin: 30px auto 50px auto;
+      ::ng-deep .btns-wrapper{
+        justify-content: center !important;
+      }
     }
 
     >article {

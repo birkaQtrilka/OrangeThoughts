@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_WFC: CodingAdventure = {
   id: 'WFC',
   title: 'Wave Function Collapse',
-  videoPath: '/assets/videos/WFC.mp4',
+  videoPath: { isIframe: false, path: '/assets/videos/WFC.mp4'},
   tags: ['GxpEngine', 'Side Project'],
   description: `
     &emsp; A window that's filled with procedurally generated tiles that must connect. 

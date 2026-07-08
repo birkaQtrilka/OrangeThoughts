@@ -1,7 +1,9 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ModalService} from "../../../services/modal.service";
 import { GitService } from '../../../services/git.service';
+import { VideoPath } from '../../../models/video-path.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-adventure-article',
@@ -13,7 +15,7 @@ import { GitService } from '../../../services/git.service';
 })
 export class AdventureArticle implements OnInit{
   title = input("Boid")
-  videoPath = input("assets/videos/boids.mp4");
+  videoPath = input<VideoPath>({isIframe: true, path: "assets/videos/boids.mp4" });
   tags = input(["#Side-project", "C#"]);
   description = input(`
   &emsp; Because the Unity Data Oriented Technology Stack was released, I decided to learn it by doing a project. I use the
@@ -28,6 +30,7 @@ export class AdventureArticle implements OnInit{
   imagePaths = input(['/assets/Images/sideProjects/Boids.png']);
   githubLink = input("https://github.com/birkaQtrilka/BoidsWithDOTS/blob/main/Assets/BoidSystem.cs");
   protected lastModified = '';
+  protected sanitizer = inject(DomSanitizer);
   
   constructor(
     protected modalService: ModalService,
@@ -39,11 +42,18 @@ export class AdventureArticle implements OnInit{
     var repoData = this.githubService.extractOwnerRepo(this.githubLink());
     if (repoData) {
       this.githubService
-      .getLastUpdated(repoData?.owner, repoData.repo)
-      .subscribe(date => {
-        this.lastModified = new Date(date.updated_at).toLocaleDateString();
-      });
-    }  }
+        .getLastUpdated(repoData?.owner, repoData.repo)
+        .subscribe({
+          next: date => {
+            this.lastModified = new Date(date.updated_at).toLocaleDateString();
+          },
+          error: err => {
+            console.error('Failed to fetch last updated date from GitHub', err);
+            this.lastModified = '';
+          }
+        });
+    }
+  }
 
 }
 
