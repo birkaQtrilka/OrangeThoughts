@@ -1,3 +1,5 @@
+@import url("separation-line-xl.scss") screen and (min-width: 3800px) ;
+
 .lineVisual {
   font-size: 0;
   display: flex;
@@ -6,6 +8,13 @@
   .lineVisual>div {
     margin: auto;
 
+  }
+  
+  .square {
+    width: var(--visualSquareSize);
+    height: var(--visualSquareSize);
+    background-color: var(--contrastColor);
+    z-index: -1;
   }
 
   &>div div {
@@ -17,22 +26,13 @@
       background-color: var(--contrastColor);
     }
 
-    /* rotated square 1 */
+    /* rotated squares */
     &:nth-child(1) {
-      width: var(--visualSquareSize);
-      height: var(--visualSquareSize);
-      background-color: var(--contrastColor);
       transform: translate(calc(var(--visualSquareSize) * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
-      z-index: -1;
     }
 
-    /* rotated square 2 */
     &:nth-child(3) {
-      width: var(--visualSquareSize);
-      height: var(--visualSquareSize);
-      background-color: var(--contrastColor);
       transform: translate(calc(var(--visualSquareSize) * -1 * sqrt(2) / 2), calc(var(--visualSquareSize) / 2 + var(--visualLineThickness) / 2 * -1)) rotate(45deg);
-      z-index: -1;
     }
   }
 

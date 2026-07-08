@@ -1,0 +1,25 @@
+:host {
+  .lineVisual {
+    &>div div {
+      &:nth-child(2) {
+        width: var(--lineVisualWidth-xl);
+        height: var(--visualLineThickness-xl);
+      }
+
+      &.square {
+        width: var(--visualSquareSize-xl);
+        height: var(--visualSquareSize-xl);
+        background-color: var(--contrastColor);
+        z-index: -1;
+      }
+      &:nth-child(1) {
+        transform: translate(calc(var(--visualSquareSize-xl) * sqrt(2) / 2), calc(var(--visualSquareSize-xl) / 2 + var(--visualLineThickness-xl) / 2 * -1)) rotate(45deg);
+      }
+
+      &:nth-child(3) {
+        transform: translate(calc(var(--visualSquareSize-xl) * -1 * sqrt(2) / 2), calc(var(--visualSquareSize-xl) / 2 + var(--visualLineThickness-xl) / 2 * -1)) rotate(45deg);
+      }
+    }
+
+  }
+}
