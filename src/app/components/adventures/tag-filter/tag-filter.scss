@@ -2,15 +2,6 @@
 @import url("tag-filter-xl.scss") screen and (min-width: 3800px) ;
 @import url("tag-filter-s.scss") screen and (max-width: 766px) ;
 
->section {
-  margin-top: 40px;
-
-  >ul {
-    width: 100%;
-  }
-
-}
-
 mat-icon {
   vertical-align: middle;
   font-size: 20px;

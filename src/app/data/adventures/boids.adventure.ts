@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_BOIDS: CodingAdventure = {
   id: 'Boids',
   title: 'Boids and Quad Trees',
-  videoPath: { isIframe: false, path: '/assets/videos/boids.mp4'},
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590460/boids_as7svu.mp4'},
   tags: ['GxpEngine', 'Side Project'],
   description: `
     &emsp; Boids simulate flocking behavior. The challenge was optimizing the algorithm: a naive implementation is O(n²).

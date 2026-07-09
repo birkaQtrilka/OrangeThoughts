@@ -3,7 +3,7 @@ import { Project } from "../../models/project.model";
 export const PROJECT_FRONT_END: Project = {
   id: 'front-end',
   title: 'Front End',
-  videoPath: { isIframe: false, path: '/assets/videos/VueWebsiteDEMO.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/VueWebsiteDEMO_wabxoz.mp4' },
   tags: ['Vue.js', 'Vuex', 'Mobile First Design', 'Frontend Development'],
   description: `
     <p>

@@ -3,7 +3,7 @@ import { Project } from "../../models/project.model";
 export const PROJECT_CPP_PROJECTS: Project = {
   id: 'cpp-projects',
   title: 'C++ Projects',
-  videoPath: { isIframe: false, path: '/assets/videos/cppProjects.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590536/cppProjects_f8e2oc.mp4' },
   tags: ['C++', 'OpenGL', '3D Rendering'],
   description: `
     <p>

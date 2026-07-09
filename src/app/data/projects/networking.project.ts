@@ -3,7 +3,7 @@ import { Project } from '../../models/project.model';
 export const PROJECT_NETWORKING: Project = {
   id: 'networking',
   title: 'Networking',
-  videoPath: { isIframe: false, path: '/assets/videos/Netw.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590537/Netw_noye6e.mp4' },
   tags: ['C#', 'Sockets', 'TCP/IP', 'Game Development'],
   description: `
     <p>

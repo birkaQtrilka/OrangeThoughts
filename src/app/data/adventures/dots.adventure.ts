@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_DOTS: CodingAdventure = {
   id: 'DOTS',
   title: 'Unity DOTS and BOIDS',
-  videoPath: { isIframe: false, path: '/assets/videos/Boids3D_Short.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/Boids3D_Short_fh8vcr.mp4' },
   tags: ['Unity', 'Side Project'],
   description: `
     &emsp; Because the Unity Data Oriented Technology Stack was released, I decided to learn it by doing a project. I use the 

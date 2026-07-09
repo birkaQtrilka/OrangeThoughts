@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_IK: CodingAdventure = {
   id: 'InverseKinematics',
   title: 'Inverse Kinematics',
-  videoPath: { isIframe: false, path: '/assets/videos/IK_Progress.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590540/IK_Progress_ed41tn.mp4' },
   tags: ['Unity', 'Side Project'],
   description: `
     &emsp; I implemented the algorithm for spider walking in a few hours, and left it off when the spider could react to changing heights.

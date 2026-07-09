@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_PATHFINDING: CodingAdventure = {
   id: 'PathFinding',
   title: 'Procedural dungeon generation and pathfinding',
-  videoPath: { isIframe: false, path: '/assets/videos/Dungeon.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590540/Dungeon_lpqxpg.mp4' },
   tags: ['GxpEngine', 'University Project'],
   description: `
     &emsp; A scene with an orc that moves from A to B through a procedurally generated dungeon by the shortest path. The dungeon is 

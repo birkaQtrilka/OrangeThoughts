@@ -3,7 +3,7 @@ import { CodingAdventure } from "../../models/coding-adventure.model";
 export const CODING_PHYSICS: CodingAdventure = {
   id: 'Physics',
   title: 'Physics Engine',
-  videoPath: { isIframe: false, path: '/assets/videos/physics.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590537/physics_d3c7z8.mp4' },
   tags: ['GxpEngine', 'University Project'],
   description: `
     &emsp; A physics engine that handles continuous collisions between circles, angled lines, and AABBs. It doesn't support rotation yet.

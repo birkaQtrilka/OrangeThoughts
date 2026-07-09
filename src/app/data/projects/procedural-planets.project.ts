@@ -1,8 +1,7 @@
-// Raw project data; ProjectService will sanitize and convert these into Project instances
 export const PROJECT_PROCEDURAL_PLANETS = {
   id: 'procedural-planets',
   title: 'Procedural Planets',
-  videoPath: { isIframe: false, path: 'assets/videos/NewPlanetsDemo.mp4' },
+  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/NewPlanetsDemo_trxir2.mp4' },
   tags: ['C#', 'Unity', 'Procedural Generation'],
   description: `
     <p>

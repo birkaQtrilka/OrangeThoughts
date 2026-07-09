@@ -5,3 +5,4 @@ export interface VideoPath {
   path: string;
   hideOnMobile?: boolean;
 }
+
