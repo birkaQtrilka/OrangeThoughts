@@ -3,6 +3,9 @@ main {
   padding: 50px 80px;
   margin: auto;
   margin-top: 150px;
+  min-height: 400px;
+  border-radius: var(--borderRadius);
+
   >article {
     video {
       height: 380px;
@@ -14,6 +17,7 @@ main {
 
     .iframe-cover{
       height: 500px;
+      box-shadow: var(--grayShadow);
     }
   }
   .backBtn {

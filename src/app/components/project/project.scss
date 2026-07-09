@@ -1,4 +1,5 @@
 @import url("project-l.scss") screen and (min-width: 767px) ;
+@import url("project-xl.scss") screen and (min-width: 3800px) ;
 @import url("project-s.scss") screen and (max-width: 766px) ;
 
 .custom-spacing::first-letter {
@@ -85,13 +86,14 @@ main {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        margin-bottom: 20px;
+
         h3 {
           display: inline;
         }
         span {
           color: var(--contrastColor);
         }
-        margin-bottom: 20px;
         .smaller {
           text-align: right;
           * {
@@ -161,7 +163,6 @@ main {
   /* Up Button */
   &>button {
     border: none
-      /* background-color: ; */
   }
 
   &>button>svg {
