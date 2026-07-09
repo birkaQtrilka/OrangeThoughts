@@ -55,12 +55,19 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   }
 
-  private resize = () => {
-    const dpr = devicePixelRatio || 1;
-    this.canvas.width = innerWidth * dpr;
-    this.canvas.height = innerHeight * dpr;
+private resize = () => {
     this.canvas.style.width = innerWidth + 'px';
     this.canvas.style.height = innerHeight + 'px';
+
+    const MAX_WIDTH = 1920;
+    const MAX_HEIGHT = 1080;
+    
+    const scaleX = Math.min(1, MAX_WIDTH / innerWidth);
+    const scaleY = Math.min(1, MAX_HEIGHT / innerHeight);
+    const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio scaling
+
+    this.canvas.width = Math.floor(innerWidth * scale);
+    this.canvas.height = Math.floor(innerHeight * scale);
 
     this.starFieldProgram.reset(this.canvas.width, this.canvas.height);
     this.bloomProgram.resize(this.canvas.width, this.canvas.height);
