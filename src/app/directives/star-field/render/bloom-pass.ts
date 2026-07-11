@@ -89,7 +89,7 @@ export class BloomPass {
 
     this.bloomPrefilter(sceneTex);
     
-    for(let i =0;i< 5;i++){
+    for(let i =0;i< 4;i++){
       this.bloom(1,1,0);
       this.bloom(0,0,1);
     }
