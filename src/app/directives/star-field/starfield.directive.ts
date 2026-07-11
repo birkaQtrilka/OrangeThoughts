@@ -10,7 +10,7 @@ import { BloomPass } from './render/bloom-pass';
   standalone: true,
 })
 export class StarfieldDirective implements OnInit, OnDestroy {
-  @Input() starCount = 500;
+  @Input() starCount = 300;
   @Input() parallax = 0.007;
 
   private canvas!: HTMLCanvasElement;
@@ -117,7 +117,7 @@ private resize = () => {
     gl.bindTexture(gl.TEXTURE_2D, this.bloomProgram.textures[0]);
     gl.uniform1i(gl.getUniformLocation(this.postProgram, 'uBloom'), 1);
 
-    gl.uniform1f(gl.getUniformLocation(this.postProgram, 'uBloomStrength'), 1.7);
+    gl.uniform1f(gl.getUniformLocation(this.postProgram, 'uBloomStrength'), 1);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
