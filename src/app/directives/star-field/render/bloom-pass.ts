@@ -86,7 +86,18 @@ export class BloomPass {
 
   render(sceneTex: WebGLTexture, time: number) {
     const gl = this.gl;
-    // ---------- PASS 2: bloom prefilter ----------
+
+    this.bloomPrefilter(sceneTex);
+    
+    for(let i =0;i< 5;i++){
+      this.bloom(1,1,0);
+      this.bloom(0,0,1);
+    }
+    
+  }
+
+  bloomPrefilter(sceneTex :WebGLTexture) {
+    const gl = this.gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbos[0]);
     gl.viewport(0, 0, this.width, this.height);
 
@@ -98,12 +109,16 @@ export class BloomPass {
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(gl.getUniformLocation(this.bloomPrefilterProgram, 'uScene'), 0);
-    gl.uniform1f(gl.getUniformLocation(this.bloomPrefilterProgram, 'uThreshold'), 0.2);
+    gl.uniform1f(gl.getUniformLocation(this.bloomPrefilterProgram, 'uThreshold'), 0.1);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-    // ---------- PASS 3: blur horizontal ----------
-    gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbos[1]);
+  }
+
+  bloom(direction: number, frameBufferIndex: number, textureIndex: number) {
+    const gl = this.gl;
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbos[frameBufferIndex]);
     gl.viewport(0, 0, this.width, this.height);
 
     gl.clearColor(0, 0, 0, 0);
@@ -111,27 +126,10 @@ export class BloomPass {
 
     gl.useProgram(this.bloomBlurProgram);
     gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, this.textures[0]);
+    gl.bindTexture(gl.TEXTURE_2D, this.textures[textureIndex]);
     gl.uniform1i(gl.getUniformLocation(this.bloomBlurProgram, 'uTexture'), 0);
-    gl.uniform2f(gl.getUniformLocation(this.bloomBlurProgram, 'uDirection'), 1, 0);
-    gl.uniform1f(gl.getUniformLocation(this.bloomBlurProgram, 'spread'), 3);
-    gl.uniform2f(gl.getUniformLocation(this.bloomBlurProgram, 'uResolution'), this.width, this.height);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-
-    // ---------- PASS 4: blur vertical ----------
-    gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbos[0]);
-    gl.viewport(0, 0, this.width, this.height);
-
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // same blur program, just different input + direction
-    gl.useProgram(this.bloomBlurProgram);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, this.textures[1]);
-    gl.uniform1i(gl.getUniformLocation(this.bloomBlurProgram, 'uTexture'), 0);
-    gl.uniform1f(gl.getUniformLocation(this.bloomBlurProgram, 'spread'), 3);
-    gl.uniform2f(gl.getUniformLocation(this.bloomBlurProgram, 'uDirection'), 0, 1);
+    gl.uniform2f(gl.getUniformLocation(this.bloomBlurProgram, 'uDirection'), direction, direction == 0 ? 1 : 0);
+    gl.uniform1f(gl.getUniformLocation(this.bloomBlurProgram, 'spread'), 1);
     gl.uniform2f(gl.getUniformLocation(this.bloomBlurProgram, 'uResolution'), this.width, this.height);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }

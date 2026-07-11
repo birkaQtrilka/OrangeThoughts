@@ -100,7 +100,7 @@ private resize = () => {
     this.starFieldProgram.render(time);
     const sceneTex = this.starFieldProgram.colorTex;
     this.bloomProgram.render(sceneTex, time);
-
+    
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -117,7 +117,7 @@ private resize = () => {
     gl.bindTexture(gl.TEXTURE_2D, this.bloomProgram.textures[0]);
     gl.uniform1i(gl.getUniformLocation(this.postProgram, 'uBloom'), 1);
 
-    gl.uniform1f(gl.getUniformLocation(this.postProgram, 'uBloomStrength'), 1.2);
+    gl.uniform1f(gl.getUniformLocation(this.postProgram, 'uBloomStrength'), 1.7);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 

@@ -17,9 +17,11 @@ out float vRot;
 
 void main() {
   float t = uTime * speed + phase;
-  float twinkle = sin(t);
+  float sinT = sin(t);
+  float cosT = cos(t);
+  float twinkle = sinT;
 
-  mat2 r = mat2(cos(t), -sin(t), sin(t), cos(t));
+  mat2 r = mat2(cosT, -sinT, sinT, cosT);
 
   float y = position.y - uScroll * size * 2.0;
   y = mod(y + uResolution.y, uResolution.y);
