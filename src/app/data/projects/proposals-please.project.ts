@@ -20,11 +20,11 @@ export const PROJECT_PROPOSALS_PLEASE: Project = {
         &emsp; It was a passion project made as the interactive segment for an educational presentation about process automation.
         I used gamification to keep the user engaged into a rather boring process of reading documents to decide if a process is worth automating.
         Game mechanics at the time of release:<br>
-        &emsp;* Approving/Disapproving papers
-        &emsp;* A queue of people can form if player is too slow on deciding
-        &emsp;* A counter that forces game end if it reaches 0
-        &emsp;* A score that goes up or down depending on the correctness of the decision
-        &emsp;* A bomb explosion when game ends
+        <br>&emsp;* Approving/Disapproving papers
+        <br>&emsp;* A queue of people can form if player is too slow on deciding
+        <br>&emsp;* A counter that forces game end if it reaches 0
+        <br>&emsp;* A score that goes up or down depending on the correctness of the decision
+        <br>&emsp;* A bomb explosion when game ends
       </p>
       <h3>Things learned</h3>
       <p>

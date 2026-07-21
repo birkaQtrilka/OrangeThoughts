@@ -17,5 +17,4 @@ export const PROJECT_CPP_PROJECTS: Project = {
   `,
   timeSpent: '8 weeks',
   githubLink: 'https://github.com/birkaQtrilka/3D_Rendering',
-  credits: []
 };
