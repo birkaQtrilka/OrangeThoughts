@@ -15,6 +15,7 @@ import { CODING_BEAT_MAGIC } from '../../data/adventures/beat-magic.adventure';
 import { PacmanPaginator } from '../pacman-paginator/pacman-paginator';
 import { CODING_PACKAGE_MANAGER } from '../../data/adventures/package-manager.adventure';
 import { PaginationService } from '../../services/pagination.service';
+import { CODING_FRACTAL } from '../../data/adventures/fractals.adventure';
 
 @Component({
   selector: 'app-adventures',
@@ -66,8 +67,6 @@ import { PaginationService } from '../../services/pagination.service';
   ]
 })
 export class Adventures {
-  
-
   protected adventures: CodingAdventure[] = [
     CODING_DOTS,
     CODING_PHYSICS,
@@ -77,6 +76,7 @@ export class Adventures {
     CODING_PACKAGE_MANAGER,
     CODING_WFC,
     CODING_BOIDS,
+    CODING_FRACTAL
   ];
 
   @ViewChildren(AdventureArticle, { read: ElementRef })
