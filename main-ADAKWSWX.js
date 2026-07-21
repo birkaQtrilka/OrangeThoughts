@@ -121,7 +121,7 @@ ${t.map((r,i)=>`${i+1}) ${r.toString()}`).join(`
       <br>&emsp; My main challenge was learning how to use OpenGL. Binding elements, VBOs, parallel
       programming were relatively new concepts, so I had to spend time reading documentation and tutorials.
     </p>
-  `,timeSpent:"8 weeks",githubLink:"https://github.com/birkaQtrilka/3D_Rendering",credits:[]};var qD={id:"networking",title:"Networking",videoPath:{isIframe:!1,path:"https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590537/Netw_noye6e.mp4"},tags:["C#","Sockets","TCP/IP","Game Development"],description:`
+  `,timeSpent:"8 weeks",githubLink:"https://github.com/birkaQtrilka/3D_Rendering"};var qD={id:"networking",title:"Networking",videoPath:{isIframe:!1,path:"https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590537/Netw_noye6e.mp4"},tags:["C#","Sockets","TCP/IP","Game Development"],description:`
     <p>
       &emsp; A checkers game you can run on LAN that can handle more than one match at a time.
       The networking system is made using C# sockets (TCP clients) and the BitConverter.
@@ -143,11 +143,11 @@ ${t.map((r,i)=>`${i+1}) ${r.toString()}`).join(`
         &emsp; It was a passion project made as the interactive segment for an educational presentation about process automation.
         I used gamification to keep the user engaged into a rather boring process of reading documents to decide if a process is worth automating.
         Game mechanics at the time of release:<br>
-        &emsp;* Approving/Disapproving papers
-        &emsp;* A queue of people can form if player is too slow on deciding
-        &emsp;* A counter that forces game end if it reaches 0
-        &emsp;* A score that goes up or down depending on the correctness of the decision
-        &emsp;* A bomb explosion when game ends
+        <br>&emsp;* Approving/Disapproving papers
+        <br>&emsp;* A queue of people can form if player is too slow on deciding
+        <br>&emsp;* A counter that forces game end if it reaches 0
+        <br>&emsp;* A score that goes up or down depending on the correctness of the decision
+        <br>&emsp;* A bomb explosion when game ends
       </p>
       <h3>Things learned</h3>
       <p>
