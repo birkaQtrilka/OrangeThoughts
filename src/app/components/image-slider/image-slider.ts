@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-image-slider',
@@ -8,7 +9,8 @@ import { Component, input } from '@angular/core';
 })
 export class ImageSlider {
   images = input<string[]>([])
-
+  modalService = inject(ModalService);
+  
   currentIndex: number = 0;
 
   next() {
