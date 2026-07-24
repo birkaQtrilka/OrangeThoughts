@@ -12,4 +12,5 @@ export interface Project {
   githubLink?: string;
   downloadLinks?: { label: string; path: string }[];
   credits?: Credit[];
+  images?: string[];
 }

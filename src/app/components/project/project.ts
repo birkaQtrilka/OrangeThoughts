@@ -4,17 +4,19 @@ import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
 import { Location } from '@angular/common';
 import { GitService } from '../../services/git.service';
+import { ImageSlider } from '../image-slider/image-slider';
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.html',
   styleUrl: './project.scss',
+  imports: [ImageSlider]
 })
 export class ProjectPage implements  OnInit {
 
   project: Project | undefined;
   protected lastModified: string = '';
-
+  empty: string[] = [];
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
@@ -45,5 +47,10 @@ export class ProjectPage implements  OnInit {
 
   isMobile(): boolean {
     return window.innerWidth <= 768;
+  }
+
+  getImages(): string[] {
+    if(this.project?.images) return this.project.images;
+    return this.empty;
   }
 }

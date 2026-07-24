@@ -1,0 +1,23 @@
+<div class="slider">
+
+    <button class="nav left" (click)="previous()">
+        &#10094;
+    </button>
+
+    <div class="viewport">
+        <div
+            class="track"
+            [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+            @for (image of images(); track $index) {
+              <img
+                  [src]="image"
+                  alt="Slide">
+            }
+        </div>
+    </div>
+
+    <button class="nav right" (click)="next()">
+        &#10095;
+    </button>
+
+</div>

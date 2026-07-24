@@ -1,4 +1,6 @@
-export const PROJECT_PROCEDURAL_PLANETS = {
+import { Project } from "../../models/project.model";
+
+export const PROJECT_PROCEDURAL_PLANETS: Project = {
   id: 'procedural-planets',
   title: 'Procedural Planets',
   videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/NewPlanetsDemo_trxir2.mp4' },
@@ -32,5 +34,10 @@ export const PROJECT_PROCEDURAL_PLANETS = {
   githubLink: 'https://github.com/birkaQtrilka/Cosmic-Surviver/blob/master/Assets/Scripts/OceanFace.cs',
   credits: [
     { name: 'Inspiration and code snippets', link: 'https://www.youtube.com/watch?v=QN39W020LqU&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8', linkLabel: 'Sebastian Lague' }
+  ],
+  images: [
+    '/assets/Images/Screenshots/ProceduralPlanets/s1.png',
+    '/assets/Images/Screenshots/ProceduralPlanets/s2.png',
+    '/assets/Images/Screenshots/ProceduralPlanets/s3.png',
   ]
 };
