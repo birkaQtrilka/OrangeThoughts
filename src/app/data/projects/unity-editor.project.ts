@@ -34,5 +34,11 @@ export const PROJECT_UNITY_EDITOR: Project = {
       link: '',
       linkLabel: ''
     }
+  ],
+  images: [
+    '/assets/Images/Screenshots/Editor/s1.png',
+    '/assets/Images/Screenshots/Editor/s2.png',
+    '/assets/Images/Screenshots/Editor/s3.png',
+    '/assets/Images/Screenshots/Editor/s4.png',
   ]
 };
