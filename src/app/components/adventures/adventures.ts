@@ -172,7 +172,6 @@ export class Adventures implements OnDestroy {
   
   public onPageChanged(currPage: number) {
     this.isFiltering = false; // Disables shrink/grow animation during sliding
-    console.log(currPage);
     
     const oldPage = this.urlPaginationService.currentPage(); 
     if (currPage > oldPage) {
