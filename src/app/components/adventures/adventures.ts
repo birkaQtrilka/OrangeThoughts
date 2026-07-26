@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, OnInit, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
+import { Component, effect, ElementRef, inject, OnDestroy, OnInit, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
 import { trigger, transition, animate, style, query, group } from '@angular/animations';
 import { CodingAdventure } from '../../models/coding-adventure.model';
 import { CODING_BOIDS } from '../../data/adventures/boids.adventure';
@@ -66,7 +66,7 @@ import { CODING_FRACTAL } from '../../data/adventures/fractals.adventure';
     ])
   ]
 })
-export class Adventures {
+export class Adventures implements OnDestroy {
   protected adventures: CodingAdventure[] = [
     CODING_DOTS,
     CODING_PHYSICS,
@@ -115,6 +115,33 @@ export class Adventures {
       this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
 
     });
+    this.keyPress = this.keyPress.bind(this);
+    document.addEventListener('keydown', this.keyPress);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('keydown', this.keyPress);
+  }
+  
+  keyPress(ev: KeyboardEvent) {
+    switch (ev.key) {
+      case 'ArrowLeft':
+        const nextPage = this.urlPaginationService.currentPage() - 1;
+        const clampedPage = this.clamp(nextPage,0, this.getTotalPagesCount());
+        this.urlPaginationService.setPage(clampedPage);
+        break;
+      case 'ArrowRight':
+        const nextPage1 = this.urlPaginationService.currentPage() + 1;
+        const clampedPage1 = this.clamp(nextPage1,0, this.getTotalPagesCount());
+        this.urlPaginationService.setPage(clampedPage1);
+      break;
+      default:
+        break;
+    }
+  }
+
+  clamp(num: number, min: number, max: number): number {
+    return Math.min(Math.max(num, min), max);
   }
 
   updateFilteredAdventures() {
@@ -132,6 +159,10 @@ export class Adventures {
     );
   }
 
+  getTotalPagesCount(): number {
+    return Math.floor((this.filteredAdventures().length / this.adventuresPerPage));
+  }
+
   public onTagFilterChanged() {
     this.isFiltering = true; // Enables shrink/grow animation
     this.updateFilteredAdventures();
@@ -141,7 +172,8 @@ export class Adventures {
   
   public onPageChanged(currPage: number) {
     this.isFiltering = false; // Disables shrink/grow animation during sliding
-
+    console.log(currPage);
+    
     const oldPage = this.urlPaginationService.currentPage(); 
     if (currPage > oldPage) {
       this.pageAnimationState++;

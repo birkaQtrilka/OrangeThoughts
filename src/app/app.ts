@@ -5,10 +5,11 @@ import { StarfieldDirective } from './directives/star-field/starfield.directive'
 import {Footer} from "./components/footer/footer";
 import {Modal} from "./components/modal/modal";
 import {ModalService} from "./services/modal.service";
+import { HotkeysSerivce } from './directives/hot-keys.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, StarfieldDirective, Footer, Modal],
+  imports: [RouterOutlet, Navbar, StarfieldDirective, Footer, Modal, HotkeysSerivce],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
