@@ -86,6 +86,10 @@ export class PlanetPass {
     }
   }
 
+  isMobile(): boolean {
+    return window.innerWidth <= 768;
+  }
+
   render(sceneTex: WebGLTexture, time: number) {
     const gl = this.gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
@@ -101,8 +105,12 @@ export class PlanetPass {
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
     gl.uniform3f(this.uni['lightPos'], .5, 1, 1);
     gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
-    gl.uniform3f(this.uni['planetPos'],0.0, -0.7, 1.1);
-
+    if(this.isMobile()){
+      gl.uniform3f(this.uni['planetPos'],0.0, -0.9, 1.1);
+    }else{
+      gl.uniform3f(this.uni['planetPos'],0.0, -0.7, 1.1);
+    }
+    
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
