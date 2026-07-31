@@ -1,42 +1,39 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { ScrollTrackerService } from '../services/scroll-tracker.service';
 
 @Directive({
   selector: '[appBaseScroll]'
 })
 export class BaseScrollDirective implements OnInit, OnDestroy {
-  @Input() range: number = 30;  // 30vh
-  @Input() offset: number = 0;  // 0vh  
-  
-  protected container: HTMLElement;
-  private scrollListener: () => void = () => {};
+  @Input() range: number = 30;
+  @Input() offset: number = 0;
 
-  constructor(private el: ElementRef, protected renderer: Renderer2) {
+  protected container: HTMLElement;
+  private unregister: (() => void) | null = null;
+
+  constructor(
+    private el: ElementRef,
+    protected renderer: Renderer2,
+    private scrollTracker: ScrollTrackerService
+  ) {
     this.container = el.nativeElement;
   }
 
   ngOnInit(): void {
-    this.scrollListener = this.setupScrollListener();
-    window.addEventListener('scroll', this.scrollListener);
+    this.unregister = this.scrollTracker.register({
+      el: this.container,
+      range: this.range,
+      offset: this.offset,
+      onUpdate: (t) => this.applyTransformation(t),
+    });
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('scroll', this.scrollListener);
-  }
-
-  private setupScrollListener() {
-    return () => {
-      const rect = this.container.getBoundingClientRect();
-      const vh = window.innerHeight / 100;
-      const offsetPx = this.offset * vh;
-      const rangePx = this.range * vh;
-      let t = (rect.y + offsetPx) / rangePx;
-      t = this.clamp(t, -1, 1);
-      this.applyTransformation(t);
-    };
+    this.unregister?.();
   }
 
   protected applyTransformation(t: number): void {
-    // To be implemented in inheriting directives
+    // implemented by subclasses
   }
 
   public clamp(num: number, min: number, max: number): number {

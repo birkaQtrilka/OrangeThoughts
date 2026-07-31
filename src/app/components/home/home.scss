@@ -2,6 +2,10 @@
 @import url("home-xl.scss") screen and (min-width: 3800px) ;
 @import url("home-s.scss") screen and (max-width: 766px) ;
 
+:host{
+  position: relative;
+}
+
 .intro {
   text-align: center;
 

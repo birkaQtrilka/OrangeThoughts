@@ -16,6 +16,6 @@ export class ScrollScaleDirective extends BaseScrollDirective {
   protected override applyTransformation(t: number): void {
     t = this.clamp(t, 0, 0.5);  
     
-    this.renderer.setStyle(this.container, 'transform', `scale(${1 - t})`);
+    this.renderer.setStyle(this.container, 'transform', `scale3d(${1 - t}, ${1 - t}, 1)`);
   }
 }

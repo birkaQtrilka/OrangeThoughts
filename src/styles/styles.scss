@@ -180,6 +180,12 @@ html {
   transform: rotate(1deg);
   opacity: 1;
   pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+[scrollScale] {
+  will-change: transform;
 }
 
 .tag {

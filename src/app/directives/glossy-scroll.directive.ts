@@ -37,10 +37,6 @@ export class GlossyScrollDirective extends BaseScrollDirective {
     t *= 100;
     if (!this.shineEl) return;
 
-    this.renderer.setStyle(
-      this.shineEl,
-      'transform',
-      `translate(${t}%, ${t}%)`
-    );
+    this.renderer.setStyle(this.shineEl, 'transform', `translate3d(${t}%, ${t}%, 0)`);
   }
 }
