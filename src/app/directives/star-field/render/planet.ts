@@ -60,10 +60,19 @@ export class PlanetPass {
   
   initializeUniforms() {
     const gl = this.gl;
-    this.uni['uScene'] = gl.getUniformLocation(this.program, 'uScene');
-    this.uni['scrollY'] = gl.getUniformLocation(this.program, 'scrollY');
-    this.uni['uResolution'] = gl.getUniformLocation(this.program, 'uResolution');
+    this.initUniform('uScene');
+    this.initUniform('scrollY');
+    this.initUniform('uResolution');
+    this.initUniform('lightPos');
+    this.initUniform('cameraDir');
+    this.initUniform('planetPos');
+    this.initUniform('planetR');
+    this.initUniform('scrollSpeed');
   }
+  initUniform(name: string) {
+    this.uni[name] = this.gl.getUniformLocation(this.program, name);
+  }
+
 
   reset(width: number, height: number) {
     this.width = width;
@@ -87,7 +96,12 @@ export class PlanetPass {
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(this.uni['uScene'], 0);
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
+    gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
+    gl.uniform1f(this.uni['planetR'], 0.7);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
+    gl.uniform3f(this.uni['lightPos'], .5, 1, 1);
+    gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
+    gl.uniform3f(this.uni['planetPos'],0.0, -0.7, 1.1);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }

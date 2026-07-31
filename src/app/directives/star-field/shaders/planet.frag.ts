@@ -4,6 +4,11 @@ precision highp float;
 uniform sampler2D uScene;
 uniform float scrollY;
 uniform vec2 uResolution;
+uniform vec3 lightPos;
+uniform vec3 cameraDir; 
+uniform float scrollSpeed;
+uniform float planetR;
+uniform vec3 planetPos;
 
 in vec2 vUV;
 out vec4 outColor;
@@ -160,11 +165,8 @@ float pnoise(vec3 P, vec3 rep)
 }
 
 void main() {
-  float Yoffset = scrollY * 0.0001;
-  vec3 planetPos = vec3(0.0, -0.7 + Yoffset, 1.1);
-  float planetR = .7;
-  vec3 cameraDir = vec3(0.0,0.0,1.0);
-  vec3 lightPos = vec3(.5, 1, 1);
+  float Yoffset = scrollY * scrollSpeed;
+  vec3 planetOffsetPos = planetPos + vec3(0.0,  Yoffset, 0.0);
 
 
   vec3 color = texture(uScene, vUV).rgb;
@@ -177,7 +179,7 @@ void main() {
 
   vec3 ray = normalize(vec3(centeredUV.x, centeredUV.y, 0.0) + cameraDir);
 
-  vec3 planetToCam = -planetPos; // because camPos is 0,0
+  vec3 planetToCam = -planetOffsetPos; // because camPos is 0,0
   // b from quadratic formula
   float b = dot(planetToCam, ray);
   // using quadratic formula
@@ -188,8 +190,8 @@ void main() {
   float nearIntersection = -b - sqrtDiscriminant;
 
   vec3 fragWorldPos = ray * nearIntersection;
-  vec3 sphereNormal = normalize(fragWorldPos - planetPos);
-  vec3 lightDir = normalize(lightPos - planetPos);
+  vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
+  vec3 lightDir = normalize(lightPos - planetOffsetPos);
   float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
   vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
 
