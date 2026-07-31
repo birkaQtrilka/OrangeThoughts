@@ -9,6 +9,8 @@ uniform vec3 cameraDir;
 uniform float scrollSpeed;
 uniform float planetR;
 uniform vec3 planetPos;
+uniform float fadeThreshold;
+uniform float fadeDistance;
 
 in vec2 vUV;
 out vec4 outColor;
@@ -219,6 +221,12 @@ void main() {
       }
 
   }
+  float distanceToFrag = length(fragWorldPos);
   outColor = light * outColor;
+  if(distanceToFrag > fadeThreshold){
+    float fade = (1.0 - (distanceToFrag - fadeThreshold)) * fadeDistance;
+    fade = clamp(fade, 0.0, 1.0) ;
+    outColor *= fade;
+  }
 }
 `

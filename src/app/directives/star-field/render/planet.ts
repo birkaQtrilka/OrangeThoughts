@@ -8,6 +8,7 @@ export class PlanetPass {
   private program: WebGLProgram;
   private uni:  Record<string, WebGLUniformLocation | null> = {} as Record<string, WebGLUniformLocation | null>;
   public colorTex!: WebGLTexture;
+  private dist: number = .1;
 
   constructor(
     private gl: WebGL2RenderingContext,
@@ -18,7 +19,16 @@ export class PlanetPass {
     gl.useProgram(this.program);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // document.addEventListener('keydown', (ev)=>{
+    //   if(ev.key == 'ArrowLeft'){
+    //     this.dist += 0.01;
+    //     console.log(this.dist);
+    //   }else if (ev.key == 'ArrowRight') {
+    //     this.dist -= 0.01;
+    //     console.log(this.dist);
 
+    //   }
+    // });
     this.initializeUniforms();
 
     this.colorTex = gl.createTexture()!;
@@ -68,6 +78,8 @@ export class PlanetPass {
     this.initUniform('planetPos');
     this.initUniform('planetR');
     this.initUniform('scrollSpeed');
+    this.initUniform('fadeDistance');
+    this.initUniform('fadeThreshold');
   }
   initUniform(name: string) {
     this.uni[name] = this.gl.getUniformLocation(this.program, name);
@@ -102,6 +114,8 @@ export class PlanetPass {
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
     gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
     gl.uniform1f(this.uni['planetR'], 0.7);
+    gl.uniform1f(this.uni['fadeThreshold'], 0.02);
+    gl.uniform1f(this.uni['fadeDistance'], 5);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
     gl.uniform3f(this.uni['lightPos'], .5, 1, 1);
     gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
