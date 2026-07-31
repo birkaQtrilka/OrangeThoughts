@@ -379,7 +379,7 @@ void main() {
 precision lowp float;
 
 uniform sampler2D uScene;
-uniform lowp sampler3D uNoise3D;
+uniform mediump sampler3D uNoise3D;
 uniform float scrollY;
 uniform vec2 uResolution;
 uniform vec3 lightPos;
