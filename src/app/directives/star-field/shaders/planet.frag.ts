@@ -12,9 +12,22 @@ uniform float planetR;
 uniform vec3 planetPos;
 uniform float outerRadius;
 uniform float noiseDensity;
+uniform float time;
 
 in vec2 vUV;
 out vec4 outColor;
+
+mat3 rotationX(float angle)
+{
+    float c = cos(angle);
+    float s = sin(angle);
+
+    return mat3(
+        1.0, 0.0, 0.0,
+        0.0, c,  -s,
+        0.0, s,   c
+    );
+}
 
 void main() {
   float Yoffset = scrollY * scrollSpeed;
@@ -53,7 +66,8 @@ void main() {
     vec3 lightDir = normalize(lightPos - planetOffsetPos);
     float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
 
-    vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
+    vec3 fragLocalPos = fragWorldPos - planetOffsetPos;
+    fragLocalPos = rotationX(time * 0.01) * fragLocalPos;
     float nRaw = texture(uNoise3D, fragLocalPos * noiseDensity).r;
     float n = nRaw * 2.0 - 1.0;
 

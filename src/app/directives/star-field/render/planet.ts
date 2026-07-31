@@ -93,7 +93,8 @@ export class PlanetPass {
     this.initUniform('scrollSpeed');
     this.initUniform('outerRadius');
     this.initUniform('uNoise3D'); 
-    this.initUniform('noiseDensity'); 
+    this.initUniform('noiseDensity');
+    this.initUniform('time'); 
   }
 
   private onKeyDownPress = (ev: KeyboardEvent) => {
@@ -142,6 +143,7 @@ export class PlanetPass {
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
     gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
     gl.uniform1f(this.uni['noiseDensity'], this.dist);
+    gl.uniform1f(this.uni['time'], time);
     gl.uniform1f(this.uni['planetR'], planetRadius);
     gl.uniform1f(this.uni['outerRadius'], planetRadius + .08);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);

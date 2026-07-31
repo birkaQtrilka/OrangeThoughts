@@ -14,27 +14,28 @@ export class ScrollTrackerService implements OnDestroy {
   private ticking = false;
   private boundOnScroll = this.onScroll.bind(this);
   private listenerActive = false;
-
+  private s = ()=>{};
   constructor(private ngZone: NgZone) {}
 
   register(target: ScrollTarget): () => void {
-    this.targets.add(target);
-    if (!this.listenerActive) {
-      this.ngZone.runOutsideAngular(() => {
-        window.addEventListener('scroll', this.boundOnScroll, { passive: true });
-      });
-      this.listenerActive = true;
-    }
-    // run once immediately so elements are positioned correctly pre-scroll
-    this.scheduleTick();
+    // this.targets.add(target);
+    // if (!this.listenerActive) {
+    //   this.ngZone.runOutsideAngular(() => {
+    //     window.addEventListener('scroll', this.boundOnScroll, { passive: true });
+    //   });
+    //   this.listenerActive = true;
+    // }
+    // // run once immediately so elements are positioned correctly pre-scroll
+    // this.scheduleTick();
 
-    return () => {
-      this.targets.delete(target);
-      if (this.targets.size === 0 && this.listenerActive) {
-        window.removeEventListener('scroll', this.boundOnScroll);
-        this.listenerActive = false;
-      }
-    };
+    // return () => {
+    //   this.targets.delete(target);
+    //   if (this.targets.size === 0 && this.listenerActive) {
+    //     window.removeEventListener('scroll', this.boundOnScroll);
+    //     this.listenerActive = false;
+    //   }
+    // };
+    return this.s;
   }
 
   private onScroll(): void {
