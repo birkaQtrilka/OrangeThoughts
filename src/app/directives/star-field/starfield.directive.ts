@@ -37,6 +37,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animationId);
+    this.planetProgram.dispose();
     window.removeEventListener('resize', this.resize);
     this.canvas.remove();
   }
