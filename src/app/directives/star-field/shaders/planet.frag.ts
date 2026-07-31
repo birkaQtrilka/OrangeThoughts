@@ -1,32 +1,28 @@
 export const PLANET_FRAG = `#version 300 es
-precision highp float;
+precision lowp float;
 
 uniform sampler2D uScene;
-uniform highp sampler3D uNoise3D; 
+uniform lowp sampler3D uNoise3D;
 uniform float scrollY;
 uniform vec2 uResolution;
 uniform vec3 lightPos;
-uniform vec3 cameraDir; 
+uniform vec3 cameraDir;
 uniform float scrollSpeed;
 uniform float planetR;
 uniform vec3 planetPos;
-uniform float fadeThreshold;
-uniform float fadeDistance;
 uniform float outerRadius;
 uniform float noiseDensity;
 
 in vec2 vUV;
 out vec4 outColor;
 
-
 void main() {
   float Yoffset = scrollY * scrollSpeed;
-  vec3 planetOffsetPos = planetPos + vec3(0.0,  Yoffset, 0.0);
+  vec3 planetOffsetPos = planetPos + vec3(0.0, Yoffset, 0.0);
 
+  vec3 sceneColor = texture(uScene, vUV).rgb;
+  outColor = vec4(sceneColor, 0.0);
 
-  vec3 color = texture(uScene, vUV).rgb;
-  outColor = vec4(color, 0.0); 
-  
   float aspect = uResolution.x / uResolution.y;
   // Moves (0.5, 0.5) to (0, 0) and applies the aspect ratio to X
   vec2 centeredUV = vUV - 0.5;
@@ -34,83 +30,67 @@ void main() {
 
   vec3 ray = normalize(vec3(centeredUV.x, centeredUV.y, 0.0) + cameraDir);
 
-  vec3 planetToCam = -planetOffsetPos; // because camPos is 0,0
-  // b from quadratic formula
+  vec3 planetToCam = -planetOffsetPos; // camPos is (0,0,0)
   float b = dot(planetToCam, ray);
-  // using quadratic formula
   float bb = b * b;
   float d = dot(planetToCam, planetToCam);
-  float discriminant = bb - d + pow(planetR, 2.0);
-  float atmosDiscriminant = bb - d + pow(outerRadius, 4.0);
-  vec4 atmosColor = vec4(.7,.3,.0,1.0);
 
+  float planetR2 = planetR * planetR;
+  float discriminant = bb - d + planetR2;
 
-  if(discriminant > 0.0) {
-  
-    float sqrtDiscriminant = sqrt(discriminant);
-    float nearIntersection = -b - sqrtDiscriminant;
+  float atmosDiscriminant = bb - d + outerRadius * outerRadius;
 
-    vec3 fragWorldPos = ray * nearIntersection;
+  vec4 atmosColor = vec4(0.7, 0.3, 0.0, 1.0);
+
+  // Precompute once, reused by both branches below
+  bool hitPlanet = discriminant > 0.0;
+  float sqrtDiscriminant = hitPlanet ? sqrt(discriminant) : 0.0;
+  float planetFragDistance = -b - sqrtDiscriminant;
+
+  if (hitPlanet) {
+    vec3 fragWorldPos = ray * planetFragDistance;
     vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
     vec3 lightDir = normalize(lightPos - planetOffsetPos);
     float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
+
     vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
     float nRaw = texture(uNoise3D, fragLocalPos * noiseDensity).r;
     float n = nRaw * 2.0 - 1.0;
 
-    if(n < 0.2) {
-      if(n < -0.2) {  
-        n += 1.7;
-        // Darkest brown (Red: 0.12, Green: 0.06, Blue: 0.01)
-        outColor = vec4(0.20 * n, 0.10 * n, 0.02 * n, 1.0);
-        }
-        else {
-          n += 1.0;
-        // Slightly lighter dark brown (Red: 0.2, Green: 0.1, Blue: 0.02)
-        outColor = vec4(0.12 * n, 0.06 * n, 0.01 * n, 1.0);
-      }
+    // Branchless terrain color blend (avoids warp divergence from nested ifs)
+    float band1 = step(-0.2, n); // 0 => darkest band, 1 => mid/light band
+    float band2 = step(0.2, n);  // 0 => mid band,      1 => light band
 
-    }
-    else{
-      // if( n < 0.08){
-          // n += 1.5;
-          // outColor = vec4(0.15 * n, .15 * n, 0, 1.0);
-        // }
-        // else {
-          n += 1.4;
-          outColor = vec4(.3 * n, .161 * n, 0.0, 1.0);
-        // }
+    vec3 darkest = vec3(0.20, 0.10, 0.02) * (n + 1.7);
+    vec3 mid     = vec3(0.12, 0.06, 0.01) * (n + 1.0);
+    vec3 lightC  = vec3(0.30, 0.161, 0.0) * (n + 1.4);
 
-    }
-    outColor = light * outColor +  atmosColor *.1 * light;
-    
+    vec3 terrain = mix(mix(darkest, mid, band1), lightC, band2);
+
+    vec4 surfaceColor = vec4(terrain, 1.0);
+    outColor = light * surfaceColor + atmosColor * 0.1 * light;
   }
 
-  if(atmosDiscriminant > 0.0) {
-
+  if (atmosDiscriminant > 0.0) {
     float a_sqrtDiscriminant = sqrt(atmosDiscriminant);
     float a_nearIntersection = -b - a_sqrtDiscriminant;
     float a_farIntersection = -b + a_sqrtDiscriminant;
-    float planetFragDistance = -b - sqrt(discriminant);
 
-    a_farIntersection = min(a_farIntersection, planetFragDistance); // linearDepth is where the ray is hitting the planet
-                
-    float diff = (a_farIntersection-a_nearIntersection);
-    diff /= outerRadius;                 
+    // If we also hit the planet, clip the atmosphere ray at the planet surface
+    a_farIntersection = hitPlanet
+      ? min(a_farIntersection, planetFragDistance)
+      : a_farIntersection;
+
+    float diff = (a_farIntersection - a_nearIntersection) / outerRadius;
+    float diff2 = diff * diff;
+    float diff4 = diff2 * diff2; // replaces pow(diff, 2.0)
 
     vec3 fragWorldPos = ray * a_nearIntersection;
     vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
     vec3 lightDir = normalize(lightPos - planetOffsetPos);
     float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
 
-    outColor += atmosColor * pow(diff, 4.0) * 3.0 * light;
-    // float distanceToFrag = length(fragWorldPos);
-
-    // if(distanceToFrag > fadeThreshold){
-    //   float fade = (1.0 - (distanceToFrag - fadeThreshold)) * fadeDistance;
-    //   fade = clamp(fade, 0.0, 1.0) ;
-    //   outColor *= fade;
-    // }
+    outColor += atmosColor * diff4 * 3.0 * light;
   }
 }
 `

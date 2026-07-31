@@ -11,6 +11,10 @@ export class PlanetPass {
   private dist: number = 1.65;
   public noiseTex: WebGLTexture | null = null;
 
+  dispose(){
+    document.removeEventListener('keydown', this.onKeyDownPress);
+  }
+
   constructor(
     private gl: WebGL2RenderingContext,
     private width: number,
@@ -20,15 +24,7 @@ export class PlanetPass {
     gl.useProgram(this.program);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    document.addEventListener('keydown', (ev)=>{
-      if(ev.key == 'ArrowLeft'){
-        this.dist += 0.01;
-        console.log(this.dist);
-      }else if (ev.key == 'ArrowRight') {
-        this.dist -= 0.01;
-        console.log(this.dist);
-      }
-    });
+    document.addEventListener('keydown', this.onKeyDownPress);
     this.initializeUniforms();
 
     this.colorTex = gl.createTexture()!;
@@ -56,15 +52,6 @@ export class PlanetPass {
       0
     );
 
-    // const quad = new Float32Array([
-    //   -0.5, -0.5,
-    //   0.5, -0.5,
-    //   -0.5, 0.5,
-    //   0.5, 0.5,
-    // ]);
-
-    // quad
-    // bindBuffer(gl, quad, 0, 2, 0);
     this.loadNoiseTexture();
   }
   
@@ -79,16 +66,13 @@ export class PlanetPass {
       this.noiseTex = gl.createTexture()!;
       gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
       
-      // Setup hardware interpolation
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       
-      // Repeat to allow seamless noise wrapping on the planet
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
       
-      // Upload as a single-channel (RED) 8-bit texture
       gl.texImage3D(gl.TEXTURE_3D, 0, gl.R8, 64, 64, 64, 0, gl.RED, gl.UNSIGNED_BYTE, data);
       
       console.log("3D Noise Texture loaded successfully!");
@@ -107,12 +91,16 @@ export class PlanetPass {
     this.initUniform('planetPos');
     this.initUniform('planetR');
     this.initUniform('scrollSpeed');
-    // this.initUniform('fadeDistance');
-    // this.initUniform('fadeThreshold');
     this.initUniform('outerRadius');
     this.initUniform('uNoise3D'); 
     this.initUniform('noiseDensity'); 
   }
+
+  private onKeyDownPress = (ev: KeyboardEvent) => {
+  if (ev.key === 'ArrowLeft') this.dist += 0.01;
+  else if (ev.key === 'ArrowRight') this.dist -= 0.01;
+};
+
   initUniform(name: string) {
     this.uni[name] = this.gl.getUniformLocation(this.program, name);
   }
@@ -155,9 +143,7 @@ export class PlanetPass {
     gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
     gl.uniform1f(this.uni['noiseDensity'], this.dist);
     gl.uniform1f(this.uni['planetR'], planetRadius);
-    gl.uniform1f(this.uni['outerRadius'], planetRadius + .18);
-    // gl.uniform1f(this.uni['fadeThreshold'], 0.02);
-    // gl.uniform1f(this.uni['fadeDistance'], 5);
+    gl.uniform1f(this.uni['outerRadius'], planetRadius + .08);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
     gl.uniform3f(this.uni['lightPos'], 0, 1, 1);
     gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
