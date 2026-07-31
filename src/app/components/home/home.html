@@ -17,28 +17,28 @@
 
 <section id="AboutMe">
   <article>
-    <h2 scrollScale [offset]="-73">About me</h2>
-    <p scrollScale [offset]="-73">
+    <h2>About me</h2>
+    <p>
       I am Stefan Carpeliuc, a game programmer specializing in tooling engineering with over 4 years of experience building games, shaders, and development tools.
     </p>
-    <p scrollScale [offset]="-73">
+    <p>
       I study Creative Media and Game Technologies at Saxion University of Applied Sciences. My work focuses on game design procedural generation, editor tooling, Unity editor tools, optimization techniques, and Front-end development.
     </p>
-    <p scrollScale [offset]="-73">
+    <p>
       I enjoy building tools that make developers faster and workflows cleaner. Rather than focusing only on gameplay features, I design systems that enable teams to iterate efficiently and scale complex content with confidence.
     </p>
-    <p scrollScale [offset]="-73">
+    <p>
       In team environments, I bring strong communication and leadership skills. I served as Scrum Master in all group projects, handling planning, task breakdown, and coordination to consistently deliver results. I also gained professional experience during my internship at Tible, working on production level Angular+SpringBoot applications.
     </p>
-    <p scrollScale [offset]="-73">
+    <p>
       Outside of coursework, I continuously build side projects, exploring topics such as procedural generation, spatial partitioning, and shader coding.
     </p>
-    <p scrollScale [offset]="-73">
+    <p>
       I am currently looking for opportunities as a game programmer, with a focus on tooling engineering and graphics coding.
     </p>
   </article>
   <aside>
-    <figure scrollScale appGlossyScroll class="glossy-container">
+    <figure class="glossy-container">
       <img ngSrc="assets/Images/MyPortrait2.JPG" alt="" height="4608" width="3456">
       <div class="glossy-shine"></div>
     </figure>
@@ -46,11 +46,10 @@
 </section>
 
 <main>
-  <h1 id="Projects" scrollScale>Projects</h1>
-  <app-separation-line scrollScale></app-separation-line>
+  <h1 id="Projects">Projects</h1>
+  <app-separation-line></app-separation-line>
   @for (card of cards; track $index) {
     <app-project-card
-    scrollScale
     [title]="card.title"
     [description]="card.description"
     [imagePath]="card.imagePath"
@@ -65,7 +64,7 @@
   <h2 >Tools and skills</h2>
   <ul>
     @for (tool of tools; track $index) {
-      <li scrollScale [offset]="-68"><img class="btn" [src]="tool.imagePath" alt="{{tool.alt}}"></li>
+      <li><img class="btn" [src]="tool.imagePath" alt="{{tool.alt}}"></li>
     }
   </ul>
 </section>
