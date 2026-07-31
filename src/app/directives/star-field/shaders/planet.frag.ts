@@ -3,6 +3,7 @@ precision lowp float;
 
 uniform sampler2D uScene;
 uniform mediump sampler3D uNoise3D;
+uniform highp sampler3D voronoi;
 uniform float scrollY;
 uniform vec2 uResolution;
 uniform vec3 lightPos;
@@ -28,6 +29,52 @@ mat3 rotationX(float angle)
         0.0, s,   c
     );
 }
+mat3 rotationY(float angle)
+{
+    float c = cos(angle);
+    float s = sin(angle);
+
+    return mat3(
+        c,   0.0, s,
+        0.0, 1.0, 0.0,
+        -s,  0.0, c
+    );
+}
+
+void Moon(vec3 ray, vec3 moonPos, float moonR, vec3 lightPos, out bool hit, out float dist, out vec4 color) {
+    vec3 moonToCam = -moonPos;
+    float b = dot(moonToCam, ray);
+    float c = dot(moonToCam, moonToCam) - moonR * moonR;
+    float discriminant = b * b - c;
+    
+    hit = discriminant > 0.0;
+    dist = hit ? -b - sqrt(discriminant) : 999999.0;
+    
+    if (hit) {
+        vec3 fragWorldPos = ray * dist;
+        vec3 sphereNormal = normalize(fragWorldPos - moonPos);
+        vec3 lightDir = normalize(lightPos - moonPos);
+        float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
+        
+        vec3 fragLocalPos = fragWorldPos - moonPos;
+        fragLocalPos = rotationY(-time * 0.07) * fragLocalPos;
+        
+        vec4 vTex = texture(voronoi, fragLocalPos * noiseDensity * 3.2);
+        
+        vec3 cellColor = vTex.rgb;
+        
+        // Set the terrain to the flat cell color
+        float gray = dot(cellColor, vec3(0.333));
+        vec3 craterDark = vec3(0.15, 0.15, 0.17);
+        vec3 surfaceLight = vec3(0.50, 0.50, 0.52);
+        vec3 terrain = mix(craterDark, surfaceLight, gray);   
+
+        float ambient = 0.1;
+        color = vec4(terrain * (light + ambient), 1.0);
+    } else {
+        color = vec4(0.0);
+    }
+}
 
 void main() {
   float Yoffset = scrollY * scrollSpeed;
@@ -37,11 +84,11 @@ void main() {
   outColor = vec4(sceneColor, 0.0);
 
   float aspect = uResolution.x / uResolution.y;
-  // Moves (0.5, 0.5) to (0, 0) and applies the aspect ratio to X
   vec2 centeredUV = vUV - 0.5;
   centeredUV.x *= aspect;
 
   vec3 ray = normalize(vec3(centeredUV.x, centeredUV.y, 0.0) + cameraDir);
+  vec4 atmosColor = vec4(0.7, 0.3, 0.0, 1.0);
 
   vec3 planetToCam = -planetOffsetPos; // camPos is (0,0,0)
   float b = dot(planetToCam, ray);
@@ -50,17 +97,34 @@ void main() {
 
   float planetR2 = planetR * planetR;
   float discriminant = bb - d + planetR2;
-
-  float atmosDiscriminant = bb - d + outerRadius * outerRadius;
-
-  vec4 atmosColor = vec4(0.7, 0.3, 0.0, 1.0);
-
-  // Precompute once, reused by both branches below
+  
   bool hitPlanet = discriminant > 0.0;
-  float sqrtDiscriminant = hitPlanet ? sqrt(discriminant) : 0.0;
-  float planetFragDistance = -b - sqrtDiscriminant;
+  float planetFragDistance = hitPlanet ? -b - sqrt(discriminant) : 999999.0;
 
-  if (hitPlanet) {
+
+  float moonR = planetR * 0.1;
+  float orbitRadius = planetR * 1.9;
+  float orbitSpeed = 0.02;
+  
+  // MOON ORBIT
+  vec3 moonOffset = vec3(
+      cos(time * orbitSpeed) * orbitRadius,
+      sin(time * orbitSpeed) * orbitRadius * 1.25, // slight Y tilt to orbit
+      sin(time * orbitSpeed) * orbitRadius
+  );
+  vec3 moonPos = planetOffsetPos + moonOffset;
+  
+  bool hitMoon;
+  float moonFragDistance;
+  vec4 moonColor;
+  Moon(ray, moonPos, moonR, lightPos, hitMoon, moonFragDistance, moonColor);
+
+
+  float closestSurfaceDist = min(planetFragDistance, moonFragDistance);
+  bool drawPlanet = hitPlanet && (closestSurfaceDist == planetFragDistance);
+  bool drawMoon = hitMoon && (closestSurfaceDist == moonFragDistance);
+
+  if (drawPlanet) {
     vec3 fragWorldPos = ray * planetFragDistance;
     vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
     vec3 lightDir = normalize(lightPos - planetOffsetPos);
@@ -71,9 +135,9 @@ void main() {
     float nRaw = texture(uNoise3D, fragLocalPos * noiseDensity).r;
     float n = nRaw * 2.0 - 1.0;
 
-    // Branchless terrain color blend (avoids warp divergence from nested ifs)
-    float band1 = step(-0.2, n); // 0 => darkest band, 1 => mid/light band
-    float band2 = step(0.2, n);  // 0 => mid band,      1 => light band
+    // Branchless terrain color blend
+    float band1 = step(-0.2, n);
+    float band2 = step(0.2, n); 
 
     vec3 darkest = vec3(0.20, 0.10, 0.02) * (n + 1.7);
     vec3 mid     = vec3(0.12, 0.06, 0.01) * (n + 1.0);
@@ -83,21 +147,28 @@ void main() {
 
     vec4 surfaceColor = vec4(terrain, 1.0);
     outColor = light * surfaceColor + atmosColor * 0.1 * light;
+    
+  } else if (drawMoon) {
+    outColor = moonColor;
   }
+
+
+  // ATMOSPHERE RENDERING 
+  float atmosDiscriminant = bb - d + outerRadius * outerRadius;
 
   if (atmosDiscriminant > 0.0) {
     float a_sqrtDiscriminant = sqrt(atmosDiscriminant);
     float a_nearIntersection = -b - a_sqrtDiscriminant;
     float a_farIntersection = -b + a_sqrtDiscriminant;
 
-    // If we also hit the planet, clip the atmosphere ray at the planet surface
-    a_farIntersection = hitPlanet
-      ? min(a_farIntersection, planetFragDistance)
-      : a_farIntersection;
-
-    float diff = (a_farIntersection - a_nearIntersection) / outerRadius;
+    if (closestSurfaceDist < 999999.0) {
+      a_farIntersection = min(a_farIntersection, closestSurfaceDist);
+    }
+    
+    float diff = max(0.0, a_farIntersection - a_nearIntersection) / outerRadius;
+    
     float diff2 = diff * diff;
-    float diff4 = diff2 * diff2; // replaces pow(diff, 2.0)
+    float diff4 = diff2 * diff2;
 
     vec3 fragWorldPos = ray * a_nearIntersection;
     vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
@@ -107,4 +178,4 @@ void main() {
     outColor += atmosColor * diff4 * 3.0 * light;
   }
 }
-`
+`;
