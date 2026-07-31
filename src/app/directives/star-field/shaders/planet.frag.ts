@@ -11,6 +11,7 @@ uniform float planetR;
 uniform vec3 planetPos;
 uniform float fadeThreshold;
 uniform float fadeDistance;
+uniform float outerRadius;
 
 in vec2 vUV;
 out vec4 outColor;
@@ -185,48 +186,79 @@ void main() {
   // b from quadratic formula
   float b = dot(planetToCam, ray);
   // using quadratic formula
-  float discriminant = pow(b, 2.0) - dot(planetToCam, planetToCam) + pow(planetR, 2.0);
+  float bb = b * b;
+  float d = dot(planetToCam, planetToCam);
+  float discriminant = bb - d + pow(planetR, 2.0);
+  float atmosDiscriminant = bb - d + pow(outerRadius, 4.0);
 
-  if(discriminant <= 0.0) return;
-  float sqrtDiscriminant = sqrt(discriminant);
-  float nearIntersection = -b - sqrtDiscriminant;
 
-  vec3 fragWorldPos = ray * nearIntersection;
-  vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
-  vec3 lightDir = normalize(lightPos - planetOffsetPos);
-  float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
-  vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
-
-  float n = cnoise(fragLocalPos * 10.0);
+  if(discriminant > 0.0) {
   
-  if(n < 0.0) {
-    if(n < -0.2) {
-      n += 1.7;
-      outColor = vec4(0, 0.05 * n , .1 * n, 1.0);
-    }
-    else {
-      n += 1.0;
-      outColor = vec4(0, 0.1 * n, .2 * n, 1.0);
-    }
+    float sqrtDiscriminant = sqrt(discriminant);
+    float nearIntersection = -b - sqrtDiscriminant;
 
-  }
-  else{
-    if( n < 0.08){
-        n += 1.5;
-        outColor = vec4(0.15 * n, .15 * n, 0, 1.0);
+    vec3 fragWorldPos = ray * nearIntersection;
+    vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
+    vec3 lightDir = normalize(lightPos - planetOffsetPos);
+    float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
+    vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
+
+    float n = cnoise(fragLocalPos * 10.0);
+
+    if(n < 0.0) {
+      if(n < -0.2) {
+        n += 1.7;
+        outColor = vec4(0, 0.05 * n , .1 * n, 1.0);
       }
       else {
-        n += 1.4;
-        outColor = vec4(0, 0.15 * n, .05 * n, 1.0);
+        n += 1.0;
+        outColor = vec4(0, 0.1 * n, .2 * n, 1.0);
       }
 
+    }
+    else{
+      if( n < 0.08){
+          n += 1.5;
+          outColor = vec4(0.15 * n, .15 * n, 0, 1.0);
+        }
+        else {
+          n += 1.4;
+          outColor = vec4(0, 0.15 * n, .05 * n, 1.0);
+        }
+
+    }
+    outColor = light * outColor +  vec4(0.0,.9,.9,1.0) *.1 * light;
+    
   }
-  float distanceToFrag = length(fragWorldPos);
-  outColor = light * outColor;
-  if(distanceToFrag > fadeThreshold){
-    float fade = (1.0 - (distanceToFrag - fadeThreshold)) * fadeDistance;
-    fade = clamp(fade, 0.0, 1.0) ;
-    outColor *= fade;
+
+  if(atmosDiscriminant > 0.0) {
+
+    float a_sqrtDiscriminant = sqrt(atmosDiscriminant);
+    float a_nearIntersection = -b - a_sqrtDiscriminant;
+    float a_farIntersection = -b + a_sqrtDiscriminant;
+    float planetFragDistance = -b - sqrt(discriminant);
+
+    a_farIntersection = min(a_farIntersection, planetFragDistance); // linearDepth is where the ray is hitting the planet
+                
+    float diff = (a_farIntersection-a_nearIntersection);
+    diff /= outerRadius; 
+    diff *= 1.0; 
+                
+
+    vec3 fragWorldPos = ray * a_nearIntersection;
+    vec3 sphereNormal = normalize(fragWorldPos - planetOffsetPos);
+    vec3 lightDir = normalize(lightPos - planetOffsetPos);
+    float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
+    // vec3 fragLocalPos = fragWorldPos - vec3(0.0, Yoffset, 0.0);
+
+    outColor += vec4(0.0,.9,.9,1.0) * pow(diff, 4.0) * 3.0 * light;
+    // float distanceToFrag = length(fragWorldPos);
+
+    // if(distanceToFrag > fadeThreshold){
+    //   float fade = (1.0 - (distanceToFrag - fadeThreshold)) * fadeDistance;
+    //   fade = clamp(fade, 0.0, 1.0) ;
+    //   outColor *= fade;
+    // }
   }
 }
 `

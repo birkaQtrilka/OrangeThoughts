@@ -1,4 +1,4 @@
-import { bindBuffer, createProgram, enableAttrib } from "../gl/gl.utils";
+import { createProgram} from "../gl/gl.utils";
 import { PLANET_FRAG } from "../shaders/planet.frag";
 import { POST_VERT } from "../shaders/post.vert";
 
@@ -8,7 +8,7 @@ export class PlanetPass {
   private program: WebGLProgram;
   private uni:  Record<string, WebGLUniformLocation | null> = {} as Record<string, WebGLUniformLocation | null>;
   public colorTex!: WebGLTexture;
-  private dist: number = .1;
+  // private dist: number = .18;
 
   constructor(
     private gl: WebGL2RenderingContext,
@@ -80,6 +80,7 @@ export class PlanetPass {
     this.initUniform('scrollSpeed');
     this.initUniform('fadeDistance');
     this.initUniform('fadeThreshold');
+    this.initUniform('outerRadius');
   }
   initUniform(name: string) {
     this.uni[name] = this.gl.getUniformLocation(this.program, name);
@@ -106,18 +107,19 @@ export class PlanetPass {
     const gl = this.gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
     gl.viewport(0, 0, this.width, this.height);
-
+    const planetRadius = .7;
     gl.useProgram(this.program);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(this.uni['uScene'], 0);
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
     gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
-    gl.uniform1f(this.uni['planetR'], 0.7);
+    gl.uniform1f(this.uni['planetR'], planetRadius);
     gl.uniform1f(this.uni['fadeThreshold'], 0.02);
+    gl.uniform1f(this.uni['outerRadius'], planetRadius + .18);
     gl.uniform1f(this.uni['fadeDistance'], 5);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
-    gl.uniform3f(this.uni['lightPos'], .5, 1, 1);
+    gl.uniform3f(this.uni['lightPos'], 0, 1, 1);
     gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
     if(this.isMobile()){
       gl.uniform3f(this.uni['planetPos'],0.0, -0.9, 1.1);
