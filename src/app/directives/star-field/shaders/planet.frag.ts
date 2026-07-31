@@ -2,7 +2,7 @@ export const PLANET_FRAG = `#version 300 es
 precision lowp float;
 
 uniform sampler2D uScene;
-uniform lowp sampler3D uNoise3D;
+uniform mediump sampler3D uNoise3D;
 uniform float scrollY;
 uniform vec2 uResolution;
 uniform vec3 lightPos;
