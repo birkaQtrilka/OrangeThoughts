@@ -4,6 +4,7 @@ import { POST_FRAG } from './shaders/post.frag';
 import { createProgram } from './gl/gl.utils';
 import { StarPass } from './render/star-pass';
 import { BloomPass } from './render/bloom-pass';
+import { PlanetPass } from './render/planet';
 
 @Directive({
   selector: '[appStarfield]',
@@ -19,6 +20,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   private starFieldProgram!: StarPass;
   private bloomProgram!: BloomPass;
+  private planetProgram!: PlanetPass;
 
   private animationId = 0;
 
@@ -55,7 +57,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   }
 
-private resize = () => {
+  private resize = () => {
     this.canvas.style.width = innerWidth + 'px';
     this.canvas.style.height = innerHeight + 'px';
 
@@ -71,6 +73,7 @@ private resize = () => {
 
     this.starFieldProgram.reset(this.canvas.width, this.canvas.height);
     this.bloomProgram.resize(this.canvas.width, this.canvas.height);
+    this.planetProgram.reset(this.canvas.width, this.canvas.height);
   };
 
   private initGL() {
@@ -91,6 +94,12 @@ private resize = () => {
       this.canvas.width,
       this.canvas.height
     );
+
+    this.planetProgram = new PlanetPass(
+      gl,
+      this.canvas.width,
+      this.canvas.height
+    );
   }
    
   private animate = () => {
@@ -98,7 +107,8 @@ private resize = () => {
     const time = performance.now() * 0.001;
 
     this.starFieldProgram.render(time);
-    const sceneTex = this.starFieldProgram.colorTex;
+    this.planetProgram.render(this.starFieldProgram.colorTex, time);
+    const sceneTex = this.planetProgram.colorTex;
     this.bloomProgram.render(sceneTex, time);
     
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
