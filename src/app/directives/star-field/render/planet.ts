@@ -8,7 +8,8 @@ export class PlanetPass {
   private program: WebGLProgram;
   private uni:  Record<string, WebGLUniformLocation | null> = {} as Record<string, WebGLUniformLocation | null>;
   public colorTex!: WebGLTexture;
-  // private dist: number = .18;
+  private dist: number = 1.65;
+  public noiseTex: WebGLTexture | null = null;
 
   constructor(
     private gl: WebGL2RenderingContext,
@@ -19,16 +20,15 @@ export class PlanetPass {
     gl.useProgram(this.program);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    // document.addEventListener('keydown', (ev)=>{
-    //   if(ev.key == 'ArrowLeft'){
-    //     this.dist += 0.01;
-    //     console.log(this.dist);
-    //   }else if (ev.key == 'ArrowRight') {
-    //     this.dist -= 0.01;
-    //     console.log(this.dist);
-
-    //   }
-    // });
+    document.addEventListener('keydown', (ev)=>{
+      if(ev.key == 'ArrowLeft'){
+        this.dist += 0.01;
+        console.log(this.dist);
+      }else if (ev.key == 'ArrowRight') {
+        this.dist -= 0.01;
+        console.log(this.dist);
+      }
+    });
     this.initializeUniforms();
 
     this.colorTex = gl.createTexture()!;
@@ -65,9 +65,38 @@ export class PlanetPass {
 
     // quad
     // bindBuffer(gl, quad, 0, 2, 0);
-
+    this.loadNoiseTexture();
   }
   
+  async loadNoiseTexture() {
+    try {
+      // Make sure this path points to where noise3d.bin is served on your dev server!
+      const response = await fetch('/assets/Textures/noise3d.bin');
+      const buffer = await response.arrayBuffer();
+      const data = new Uint8Array(buffer);
+
+      const gl = this.gl;
+      this.noiseTex = gl.createTexture()!;
+      gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
+      
+      // Setup hardware interpolation
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      
+      // Repeat to allow seamless noise wrapping on the planet
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
+      
+      // Upload as a single-channel (RED) 8-bit texture
+      gl.texImage3D(gl.TEXTURE_3D, 0, gl.R8, 64, 64, 64, 0, gl.RED, gl.UNSIGNED_BYTE, data);
+      
+      console.log("3D Noise Texture loaded successfully!");
+    } catch (err) {
+      console.error("Failed to load 3D noise texture:", err);
+    }
+  }
+
   initializeUniforms() {
     const gl = this.gl;
     this.initUniform('uScene');
@@ -78,9 +107,11 @@ export class PlanetPass {
     this.initUniform('planetPos');
     this.initUniform('planetR');
     this.initUniform('scrollSpeed');
-    this.initUniform('fadeDistance');
-    this.initUniform('fadeThreshold');
+    // this.initUniform('fadeDistance');
+    // this.initUniform('fadeThreshold');
     this.initUniform('outerRadius');
+    this.initUniform('uNoise3D'); 
+    this.initUniform('noiseDensity'); 
   }
   initUniform(name: string) {
     this.uni[name] = this.gl.getUniformLocation(this.program, name);
@@ -108,16 +139,25 @@ export class PlanetPass {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
     gl.viewport(0, 0, this.width, this.height);
     const planetRadius = .7;
+
     gl.useProgram(this.program);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(this.uni['uScene'], 0);
+
+    if (this.noiseTex) {
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
+      gl.uniform1i(this.uni['uNoise3D'], 1);
+    }
+
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
     gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
+    gl.uniform1f(this.uni['noiseDensity'], this.dist);
     gl.uniform1f(this.uni['planetR'], planetRadius);
-    gl.uniform1f(this.uni['fadeThreshold'], 0.02);
     gl.uniform1f(this.uni['outerRadius'], planetRadius + .18);
-    gl.uniform1f(this.uni['fadeDistance'], 5);
+    // gl.uniform1f(this.uni['fadeThreshold'], 0.02);
+    // gl.uniform1f(this.uni['fadeDistance'], 5);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
     gl.uniform3f(this.uni['lightPos'], 0, 1, 1);
     gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
