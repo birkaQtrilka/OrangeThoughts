@@ -62,6 +62,7 @@ export class PlanetPass {
     const gl = this.gl;
     this.uni['uScene'] = gl.getUniformLocation(this.program, 'uScene');
     this.uni['scrollY'] = gl.getUniformLocation(this.program, 'scrollY');
+    this.uni['uResolution'] = gl.getUniformLocation(this.program, 'uResolution');
   }
 
   reset(width: number, height: number) {
@@ -86,6 +87,7 @@ export class PlanetPass {
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(this.uni['uScene'], 0);
     gl.uniform1f(this.uni['scrollY'], window.scrollY);
+    gl.uniform2f(this.uni['uResolution'], this.width, this.height);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
