@@ -16,6 +16,7 @@ import { PacmanPaginator } from '../pacman-paginator/pacman-paginator';
 import { CODING_PACKAGE_MANAGER } from '../../data/adventures/package-manager.adventure';
 import { PaginationService } from '../../services/pagination.service';
 import { CODING_FRACTAL } from '../../data/adventures/fractals.adventure';
+import { CODING_SMOKE } from '../../data/adventures/smoke.adventure';
 
 @Component({
   selector: 'app-adventures',
@@ -68,6 +69,7 @@ import { CODING_FRACTAL } from '../../data/adventures/fractals.adventure';
 })
 export class Adventures implements OnDestroy {
   protected adventures: CodingAdventure[] = [
+    CODING_SMOKE,
     CODING_DOTS,
     CODING_PHYSICS,
     CODING_IK,
@@ -76,7 +78,7 @@ export class Adventures implements OnDestroy {
     CODING_PACKAGE_MANAGER,
     CODING_WFC,
     CODING_BOIDS,
-    CODING_FRACTAL
+    CODING_FRACTAL,
   ];
 
   @ViewChildren(AdventureArticle, { read: ElementRef })

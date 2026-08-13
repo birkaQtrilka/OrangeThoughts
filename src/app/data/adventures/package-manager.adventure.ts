@@ -4,7 +4,7 @@ export const CODING_PACKAGE_MANAGER: CodingAdventure = {
   id: 'PKG',
   title: 'My library manager',
   videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590537/libmanDEMO_gq5sv6.mp4' },
-  tags: ['CLI Tools', 'Side Project'],
+  tags: ['CLI Tools', 'Side Project', 'Python'],
   description: `
     &emsp; A custom local package manager I made for the purpose of quickly moving useful files into
     a local library. Files are copied into a unity project, where I can quickly test and refactor scripts.
