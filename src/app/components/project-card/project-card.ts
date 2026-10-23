@@ -4,7 +4,7 @@ import { GlossyScrollDirective } from '../../directives/glossy-scroll.directive'
 import {NgOptimizedImage} from "@angular/common";
 @Component({
   selector: 'app-project-card',
-  imports: [RouterModule, GlossyScrollDirective, NgOptimizedImage],
+  imports: [RouterModule, NgOptimizedImage],
   templateUrl: './project-card.html',
   styleUrl: './project-card.scss'
 })

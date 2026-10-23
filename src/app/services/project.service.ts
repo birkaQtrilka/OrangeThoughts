@@ -11,6 +11,7 @@ import { PROJECT_CPP_PROJECTS } from '../data/projects/cppProjects.project';
 import { PROJECT_NETWORKING } from '../data/projects/networking.project';
 import { PROJECT_PROPOSALS_PLEASE } from '../data/projects/proposals-please.project';
 import { PROJECT_THE_MILLER } from '../data/projects/the-miller.project';
+import { PROJECT_FILE_WATCHER } from '../data/projects/file-watcher';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,7 @@ export class ProjectService {
       transform(PROJECT_NETWORKING),
       transform(PROJECT_PROPOSALS_PLEASE),
       transform(PROJECT_THE_MILLER),
+      transform(PROJECT_FILE_WATCHER),
 
     ];
   }

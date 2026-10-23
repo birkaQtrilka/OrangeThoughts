@@ -49,11 +49,11 @@ export const PROJECT_CARDS = [
     route: 'projects/networking'
   },
   {
-    id: 'unity-editor',
-    title: 'Unity Editor',
-    description: 'World configuration editor tool',
-    imagePath: '/assets/Images/Projects/UnityEditor.png',
-    route: 'projects/unity-editor'
+    id: 'file-watcher',
+    title: 'C++ File Watcher',
+    description: 'Action system based on file names',
+    imagePath: '/assets/Images/Projects/watched-files.png',
+    route: 'projects/file-watcher'
   },
   {
     id: 'ball-blaze',
