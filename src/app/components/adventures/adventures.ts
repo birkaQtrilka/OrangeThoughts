@@ -155,41 +155,68 @@ export class Adventures implements OnDestroy, AfterViewInit {
     this.articleElements.changes.subscribe(() => this.tryScrollToPending());
   }
 
-private tryScrollToPending() {
-  if (!this.pendingFocus) return;
-  const el = document.getElementById(`adventure-${this.pendingFocus}`);
-  if (!el) return; // right page not rendered yet; changes subscription will retry
-  this.pendingFocus = null;
-  this.holdScrollOn(el);
-}
+  private tryScrollToPending() {
+    if (!this.pendingFocus) return;
+    const el = document.getElementById(`adventure-${this.pendingFocus}`);
+    if (!el) return; // right page not rendered yet; changes subscription will retry
+    this.pendingFocus = null;
+    this.holdScrollOn(el);
+  }
 
-/**
- * Scrolls to `el` and keeps it aligned while images/fonts/videos load and shift the layout.
- * Stops after 3s, or as soon as the user scrolls or interacts.
- */
-private holdScrollOn(el: HTMLElement) {
-  const align = () => {
-    const y = el.getBoundingClientRect().top + window.scrollY - 100;
-    window.scrollTo({ top: y, behavior: 'auto' }); // instant: smooth would fight layout shifts
-  };
+  /**
+   * Scrolls to `el` and keeps it aligned while images/fonts/videos load and shift the layout.
+   * Stops after 3s, or as soon as the user scrolls or interacts.
+   */
+  private holdScrollOn(el: HTMLElement) {
+    const targetY = () => Math.max(0, el.getBoundingClientRect().top + window.scrollY - 100);
 
-  const userEvents = ['wheel', 'touchstart', 'mousedown', 'keydown'] as const;
-  let timer: ReturnType<typeof setTimeout>;
+    const userEvents = ['wheel', 'touchstart', 'mousedown', 'keydown'] as const;
+    let rafId = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    let ro: ResizeObserver | undefined;
 
-  const stop = () => {
-    ro.disconnect();
-    clearTimeout(timer);
-    userEvents.forEach(e => window.removeEventListener(e, stop));
-  };
+    const stop = () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+      ro?.disconnect();
+      userEvents.forEach(e => window.removeEventListener(e, stop));
+    };
+    userEvents.forEach(e => window.addEventListener(e, stop, { passive: true }));
+    timer = setTimeout(stop, 4000); // overall cutoff (animation + settling)
 
-  const ro = new ResizeObserver(align); // fires whenever the page height changes
-  ro.observe(document.body);
-  userEvents.forEach(e => window.addEventListener(e, stop, { passive: true }));
+    const align = () => window.scrollTo({ top: targetY(), behavior: 'auto' });
 
-  align();                       // initial jump
-  timer = setTimeout(stop, 3000); // give up after layout has had time to settle
-}
+    // Respect reduced-motion: jump instead of animating
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      align();
+      ro = new ResizeObserver(align);
+      ro.observe(document.body);
+      return;
+    }
 
+    const startY = window.scrollY;
+    const distance = Math.abs(targetY() - startY);
+    const duration = Math.min(1200, Math.max(500, distance * 0.5)); // 500-1200 ms
+    const startTime = performance.now();
+    const ease = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2); // easeInOutCubic
+
+    const step = (now: number) => {
+      const t = Math.min(1, (now - startTime) / duration);
+      // The target is recomputed every frame, so layout shifts can't make us miss it
+      const y = startY + (targetY() - startY) * ease(t);
+      window.scrollTo({ top: y, behavior: 'auto' });
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        // Animation done: keep the section pinned while late content still loads
+        ro = new ResizeObserver(align);
+        ro.observe(document.body);
+      }
+    };
+    rafId = requestAnimationFrame(step);
+  }
+  
   ngOnDestroy(): void {
     document.removeEventListener('keydown', this.keyPress);
   }
