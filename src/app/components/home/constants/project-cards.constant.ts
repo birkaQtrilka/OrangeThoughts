@@ -69,4 +69,6 @@ export const PROJECT_CARDS = [
     imagePath: '/assets/Images/Projects/Proposals.png',
     route: 'projects/proposals-please'
   }
-];
+] as const;
+
+export type ProjectId = (typeof PROJECT_CARDS)[number]['id'];

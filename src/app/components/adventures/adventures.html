@@ -7,7 +7,7 @@
       </path>
     </svg>
   </button>
-  <a [routerLink]="'/'" class="back-btn">
+  <a [routerLink]="'/'" [queryParams]="profileService.queryParams()" class="back-btn">
     <svg width="800px" height="800px" viewBox="0 0 24 24" id="up-square" data-name="Flat Color"
       xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
       <path id="secondary"

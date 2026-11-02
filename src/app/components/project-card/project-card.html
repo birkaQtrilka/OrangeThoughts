@@ -1,5 +1,5 @@
 <article>
-    <a [routerLink]="route">
+    <a [routerLink]="route" [queryParams]="profileService.queryParams()">
         <figure>
           <img [ngSrc]="imagePath" width="200" height="200" alt="project3">
         </figure>

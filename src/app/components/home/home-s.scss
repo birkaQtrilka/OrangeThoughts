@@ -8,7 +8,7 @@ main {
     flex-basis: 100%;
   }
 }
-#AboutMe {
+:host ::ng-deep #AboutMe {
   width: calc(var(--largeMargin) + 60px);
   flex-direction: column;
   margin-bottom: 50px;

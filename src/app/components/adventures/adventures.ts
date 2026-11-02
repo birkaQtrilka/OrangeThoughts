@@ -17,6 +17,7 @@ import { CODING_PACKAGE_MANAGER } from '../../data/adventures/package-manager.ad
 import { PaginationService } from '../../services/pagination.service';
 import { CODING_FRACTAL } from '../../data/adventures/fractals.adventure';
 import { CODING_SMOKE } from '../../data/adventures/smoke.adventure';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-adventures',
@@ -68,6 +69,8 @@ import { CODING_SMOKE } from '../../data/adventures/smoke.adventure';
   ]
 })
 export class Adventures implements OnDestroy {
+  protected readonly profileService = inject(ProfileService);
+  
   protected adventures: CodingAdventure[] = [
     CODING_SMOKE,
     CODING_DOTS,

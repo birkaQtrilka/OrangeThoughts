@@ -22,7 +22,7 @@
   }
 }
 
-#AboutMe {
+:host ::ng-deep #AboutMe {
   display: flex;
   justify-content: space-between;
 

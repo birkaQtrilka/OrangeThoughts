@@ -1,6 +1,7 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgOptimizedImage} from "@angular/common";
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'my-navbar',
@@ -11,7 +12,8 @@ import {NgOptimizedImage} from "@angular/common";
   styleUrl: './navbar.scss'
 })
 export class Navbar {
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
+  private readonly profileService = inject(ProfileService);
 
   navButtons = signal([
     {
@@ -33,16 +35,17 @@ export class Navbar {
 
 
   public navigate(route: string, sectionId: string, headerOffset: number = 100) {
-    const currentUrl = this.router.url;
-    
-    // If not already on the project page, navigate first
-    if (currentUrl !== route) {
-      this.router.navigate([route]).then(() => {
-        // wait for Angular to finish rendering
-        setTimeout(() => this.scrollTo(sectionId, headerOffset), 100);
-      });
+    const currentPath = this.router.url.split(/[?#]/)[0];
+    const targetPath = route === '' ? '/' : route;
+
+    if (currentPath !== targetPath) {
+      // Replaces query params: keeps `profile`, drops `page` and anything else.
+      this.router
+        .navigate([targetPath], { queryParams: this.profileService.queryParams() })
+        .then(() => {
+          setTimeout(() => this.scrollTo(sectionId, headerOffset), 100);
+        });
     } else {
-      // If already on the page, just scroll
       this.scrollTo(sectionId, headerOffset);
     }
   }

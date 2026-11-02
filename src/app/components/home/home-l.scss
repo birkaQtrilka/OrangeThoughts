@@ -40,7 +40,7 @@
   }
 }
 
-#AboutMe {
+:host ::ng-deep #AboutMe {
   flex-direction: row-reverse;
   width: var(--largeMargin);
   margin: 190px auto 0 auto;
