@@ -37,7 +37,7 @@
             [@.disabled] suspends child animations during pagination 
             so they don't block the parent's sliding animation 
           -->
-          <div [@.disabled]="!isFiltering" [@collapseAnimation]="isFiltering ? 'filter' : 'noop'">
+          <div [id]="'adventure-' + slugOf(adventure)"  [@.disabled]="!isFiltering" [@collapseAnimation]="isFiltering ? 'filter' : 'noop'">
             <app-adventure-article 
               [title]="adventure.title" 
               [videoPath]="adventure.videoPath" 

@@ -1,6 +1,6 @@
-import { Component, effect, ElementRef, inject, OnDestroy, OnInit, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
+import { afterNextRender, AfterViewInit, Component, effect, ElementRef, inject, Injector, OnDestroy, OnInit, QueryList, signal, untracked, ViewChild, ViewChildren } from '@angular/core';
 import { trigger, transition, animate, style, query, group } from '@angular/animations';
-import { CodingAdventure } from '../../models/coding-adventure.model';
+import { CodingAdventure, slugOf } from '../../models/coding-adventure.model';
 import { CODING_BOIDS } from '../../data/adventures/boids.adventure';
 import { CODING_DOTS } from '../../data/adventures/dots.adventure';
 import { CODING_IK } from '../../data/adventures/ik.adventure';
@@ -68,9 +68,12 @@ import { ProfileService } from '../../services/profile.service';
     ])
   ]
 })
-export class Adventures implements OnDestroy {
+export class Adventures implements OnDestroy, AfterViewInit {
   protected readonly profileService = inject(ProfileService);
-  
+  private injector = inject(Injector);
+  private pendingFocus: string | null = null;
+
+  protected slugOf = slugOf;
   protected adventures: CodingAdventure[] = [
     CODING_SMOKE,
     CODING_DOTS,
@@ -120,8 +123,47 @@ export class Adventures implements OnDestroy {
       this.pageData = { state: this.pageAnimationState, adventures: this.paginatedAdventures };
 
     });
+    // Resolve ?focus=slug -> correct page (redirect), then scroll to it
+    effect(() => {
+      const slug = this.urlPaginationService.focus();
+      const list = this.filteredAdventures();
+      if (!slug) return;
+    
+      const index = list.findIndex(a => slugOf(a) === slug);
+      if (index === -1) return; // unknown slug: ignore
+    
+      const targetPage = Math.floor(index / this.adventuresPerPage);
+    
+      untracked(() => {
+        this.pendingFocus = slug;
+        if (this.urlPaginationService.currentPage() !== targetPage) {
+          // Canonicalise to ?page=N&focus=slug without adding a history entry
+          this.urlPaginationService.setPage(targetPage, { focus: slug, replaceUrl: true });
+        }
+        // Covers the case where the page is already correct (no re-render will follow)
+        afterNextRender(() => this.tryScrollToPending(), { injector: this.injector });
+      });
+    });
+
     this.keyPress = this.keyPress.bind(this);
     document.addEventListener('keydown', this.keyPress);
+  }
+
+  ngAfterViewInit(): void {
+    // Fires when the rendered articles change (i.e. after the redirect lands on the right page)
+    this.articleElements.changes.subscribe(() => this.tryScrollToPending());
+  }
+
+  private tryScrollToPending() {
+    if (!this.pendingFocus) return;
+    const el = document.getElementById(`adventure-${this.pendingFocus}`);
+    if (!el) return; // right page not rendered yet; changes subscription will retry
+    this.pendingFocus = null;
+
+    requestAnimationFrame(() => {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
   }
 
   ngOnDestroy(): void {
@@ -165,7 +207,7 @@ export class Adventures implements OnDestroy {
   }
 
   getTotalPagesCount(): number {
-    return Math.floor((this.filteredAdventures().length / this.adventuresPerPage));
+    return Math.ceil((this.filteredAdventures().length / this.adventuresPerPage)) - 1
   }
 
   public onTagFilterChanged() {

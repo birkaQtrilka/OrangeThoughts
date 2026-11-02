@@ -10,3 +10,7 @@ export interface CodingAdventure {
   images: string[];
   githubLink: string;
 }
+
+export function slugOf(a: CodingAdventure): string {
+  return String(a.id).toLowerCase();
+}
