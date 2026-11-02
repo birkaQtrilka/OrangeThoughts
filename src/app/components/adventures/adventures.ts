@@ -147,6 +147,7 @@ export class Adventures implements OnDestroy, AfterViewInit {
 
     this.keyPress = this.keyPress.bind(this);
     document.addEventListener('keydown', this.keyPress);
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
 
   ngAfterViewInit(): void {
@@ -154,17 +155,40 @@ export class Adventures implements OnDestroy, AfterViewInit {
     this.articleElements.changes.subscribe(() => this.tryScrollToPending());
   }
 
-  private tryScrollToPending() {
-    if (!this.pendingFocus) return;
-    const el = document.getElementById(`adventure-${this.pendingFocus}`);
-    if (!el) return; // right page not rendered yet; changes subscription will retry
-    this.pendingFocus = null;
+private tryScrollToPending() {
+  if (!this.pendingFocus) return;
+  const el = document.getElementById(`adventure-${this.pendingFocus}`);
+  if (!el) return; // right page not rendered yet; changes subscription will retry
+  this.pendingFocus = null;
+  this.holdScrollOn(el);
+}
 
-    requestAnimationFrame(() => {
-      const y = el.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    });
-  }
+/**
+ * Scrolls to `el` and keeps it aligned while images/fonts/videos load and shift the layout.
+ * Stops after 3s, or as soon as the user scrolls or interacts.
+ */
+private holdScrollOn(el: HTMLElement) {
+  const align = () => {
+    const y = el.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: y, behavior: 'auto' }); // instant: smooth would fight layout shifts
+  };
+
+  const userEvents = ['wheel', 'touchstart', 'mousedown', 'keydown'] as const;
+  let timer: ReturnType<typeof setTimeout>;
+
+  const stop = () => {
+    ro.disconnect();
+    clearTimeout(timer);
+    userEvents.forEach(e => window.removeEventListener(e, stop));
+  };
+
+  const ro = new ResizeObserver(align); // fires whenever the page height changes
+  ro.observe(document.body);
+  userEvents.forEach(e => window.addEventListener(e, stop, { passive: true }));
+
+  align();                       // initial jump
+  timer = setTimeout(stop, 3000); // give up after layout has had time to settle
+}
 
   ngOnDestroy(): void {
     document.removeEventListener('keydown', this.keyPress);
