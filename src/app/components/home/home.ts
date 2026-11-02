@@ -6,11 +6,10 @@ import { ProjectCard } from '../project-card/project-card';
 import { SeparationLine } from '../separation-line/separation-line';
 import { ContactCard } from '../contact-card/contact-card';
 import { ScrollScaleDirective } from '../../directives/scale-scroll.directive';
-import { GlossyScrollDirective } from "../../directives/glossy-scroll.directive";
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ProjectCard, SeparationLine, ContactCard, ScrollScaleDirective, GlossyScrollDirective, NgOptimizedImage],
+  imports: [CommonModule, ProjectCard, SeparationLine, ContactCard, ScrollScaleDirective, NgOptimizedImage],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

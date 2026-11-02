@@ -3,7 +3,7 @@ import { Project } from "../../models/project.model";
 export const PROJECT_FILE_WATCHER: Project = {
   id: 'file-watcher',
   title: 'File Watcher Daemon',
-  videoPath: { isIframe: true, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1792764402/watched-files-demo_qyruvb.mp4' },
+  videoPath: { isIframe: true, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1793648138/watched-files-demo_rgvvoe.mp4' },
   tags: ['C++', 'OOP', 'Tests', 'Dependency-Inversion'],
   description: `
     <p>

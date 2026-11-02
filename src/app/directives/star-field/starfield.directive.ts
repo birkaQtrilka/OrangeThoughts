@@ -5,6 +5,7 @@ import { createProgram } from './gl/gl.utils';
 import { StarPass } from './render/star-pass';
 import { BloomPass } from './render/bloom-pass';
 import { PlanetPass } from './render/planet';
+import { MistPass } from './shaders/mist-pass';
 
 @Directive({
   selector: '[appStarfield]',
@@ -19,6 +20,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
   private postProgram!: WebGLProgram;
 
   private starFieldProgram!: StarPass;
+  private mistProgram!: MistPass;
   private bloomProgram!: BloomPass;
   private planetProgram!: PlanetPass;
 
@@ -37,6 +39,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animationId);
+    this.starFieldProgram.dispose();
     this.planetProgram.dispose();
     window.removeEventListener('resize', this.resize);
     this.canvas.remove();
@@ -73,18 +76,26 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     this.canvas.height = Math.floor(innerHeight * scale);
 
     this.starFieldProgram.reset(this.canvas.width, this.canvas.height);
+    this.mistProgram.resize(this.canvas.width, this.canvas.height); 
     this.bloomProgram.resize(this.canvas.width, this.canvas.height);
     this.planetProgram.reset(this.canvas.width, this.canvas.height);
   };
 
   private initGL() {
     const gl = this.gl;
+    gl.getExtension('EXT_color_buffer_float');
 
     this.postProgram = createProgram(this.gl, POST_VERT, POST_FRAG);
-    
     this.starFieldProgram = new StarPass(
       gl,
       this.starCount,
+      this.canvas.width,
+      this.canvas.height,
+      this.parallax
+    );
+
+    this.mistProgram = new MistPass(
+      this.gl,
       this.canvas.width,
       this.canvas.height,
       this.parallax
@@ -106,9 +117,15 @@ export class StarfieldDirective implements OnInit, OnDestroy {
   private animate = () => {
     const gl = this.gl;
     const time = performance.now() * 0.001;
-
     this.starFieldProgram.render(time);
-    this.planetProgram.render(this.starFieldProgram.colorTex, time);
+
+    const starTexture = this.starFieldProgram.colorTex;
+    if (true) {
+      this.mistProgram.render(starTexture, time);
+      this.planetProgram.render(this.mistProgram.colorTex, time);
+    } else {
+      this.planetProgram.render(starTexture, time);
+    }
     const sceneTex = this.planetProgram.colorTex;
     this.bloomProgram.render(sceneTex, time);
     

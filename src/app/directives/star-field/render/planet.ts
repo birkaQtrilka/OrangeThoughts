@@ -33,12 +33,12 @@ export class PlanetPass {
     gl.texImage2D(
       gl.TEXTURE_2D,
       0,
-      gl.RGBA,
+      gl.RGBA16F,
       this.width,
       this.height,
       0,
       gl.RGBA,
-      gl.UNSIGNED_BYTE,
+      gl.HALF_FLOAT,
       null
     );
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -134,7 +134,7 @@ export class PlanetPass {
     if (this.colorTex) {
       this.gl.bindTexture(this.gl.TEXTURE_2D, this.colorTex);
       this.gl.texImage2D(
-        this.gl.TEXTURE_2D, 0, this.gl.RGBA, width, height, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, null
+        this.gl.TEXTURE_2D, 0, this.gl.RGBA16F, width, height, 0, this.gl.RGBA, this.gl.HALF_FLOAT, null
       );
     }
   }
@@ -148,7 +148,8 @@ export class PlanetPass {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
     gl.viewport(0, 0, this.width, this.height);
     const planetRadius = .7;
-
+    gl.disable(gl.BLEND);
+    
     gl.useProgram(this.program);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);

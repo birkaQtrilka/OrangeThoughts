@@ -21,11 +21,11 @@ export const PROJECT_CARDS = [
     route: 'projects/the-miller'
   },
   {
-    id: 'cpp-projects',
-    title: "C++ Projects",
-    description: 'Rendering, input-output, terrain generation',
-    imagePath: 'assets/Images/Projects/Rendering.png',
-    route: 'projects/cpp-projects'
+    id: 'file-watcher',
+    title: 'C++ File Watcher',
+    description: 'Action system based on file names',
+    imagePath: '/assets/Images/Projects/watched-files.png',
+    route: 'projects/file-watcher'
   },
   {
     id: 'front-end',
@@ -49,11 +49,11 @@ export const PROJECT_CARDS = [
     route: 'projects/networking'
   },
   {
-    id: 'file-watcher',
-    title: 'C++ File Watcher',
-    description: 'Action system based on file names',
-    imagePath: '/assets/Images/Projects/watched-files.png',
-    route: 'projects/file-watcher'
+    id: 'cpp-projects',
+    title: "C++ Projects",
+    description: 'Rendering, input-output, terrain generation',
+    imagePath: 'assets/Images/Projects/Rendering.png',
+    route: 'projects/cpp-projects'
   },
   {
     id: 'ball-blaze',

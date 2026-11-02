@@ -81,7 +81,9 @@ void main() {
   vec3 planetOffsetPos = planetPos + vec3(0.0, Yoffset, 0.0);
 
   vec3 sceneColor = texture(uScene, vUV).rgb;
-  outColor = vec4(sceneColor, 0.0);
+  
+  // FIX 1: Set alpha to 1.0 so the browser doesn't glitch the transparency
+  outColor = vec4(sceneColor, 1.0); 
 
   float aspect = uResolution.x / uResolution.y;
   vec2 centeredUV = vUV - 0.5;
@@ -90,7 +92,7 @@ void main() {
   vec3 ray = normalize(vec3(centeredUV.x, centeredUV.y, 0.0) + cameraDir);
   vec4 atmosColor = vec4(0.7, 0.3, 0.0, 1.0);
 
-  vec3 planetToCam = -planetOffsetPos; // camPos is (0,0,0)
+  vec3 planetToCam = -planetOffsetPos; 
   float b = dot(planetToCam, ray);
   float bb = b * b;
   float d = dot(planetToCam, planetToCam);
@@ -101,15 +103,13 @@ void main() {
   bool hitPlanet = discriminant > 0.0;
   float planetFragDistance = hitPlanet ? -b - sqrt(discriminant) : 999999.0;
 
-
   float moonR = planetR * 0.1;
   float orbitRadius = planetR * 1.9;
   float orbitSpeed = 0.02;
   
-  // MOON ORBIT
   vec3 moonOffset = vec3(
       cos(time * orbitSpeed) * orbitRadius,
-      sin(time * orbitSpeed) * orbitRadius * 1.25, // slight Y tilt to orbit
+      sin(time * orbitSpeed) * orbitRadius * 1.25, 
       sin(time * orbitSpeed) * orbitRadius
   );
   vec3 moonPos = planetOffsetPos + moonOffset;
@@ -118,7 +118,6 @@ void main() {
   float moonFragDistance;
   vec4 moonColor;
   Moon(ray, moonPos, moonR, lightPos, hitMoon, moonFragDistance, moonColor);
-
 
   float closestSurfaceDist = min(planetFragDistance, moonFragDistance);
   bool drawPlanet = hitPlanet && (closestSurfaceDist == planetFragDistance);
@@ -135,7 +134,6 @@ void main() {
     float nRaw = texture(uNoise3D, fragLocalPos * noiseDensity).r;
     float n = nRaw * 2.0 - 1.0;
 
-    // Branchless terrain color blend
     float band1 = step(-0.2, n);
     float band2 = step(0.2, n); 
 
@@ -145,13 +143,14 @@ void main() {
 
     vec3 terrain = mix(mix(darkest, mid, band1), lightC, band2);
 
-    vec4 surfaceColor = vec4(terrain, 1.0);
-    outColor = light * surfaceColor + atmosColor * 0.1 * light;
+    // FIX 2: Calculate final color, and assign with 1.0 Alpha
+    vec3 finalPlanetColor = light * terrain + atmosColor.rgb * 0.1 * light;
+    outColor = vec4(finalPlanetColor, 1.0);
     
   } else if (drawMoon) {
-    outColor = moonColor;
+    // FIX 3: Ensure moon outputs 1.0 Alpha
+    outColor = vec4(moonColor.rgb, 1.0);
   }
-
 
   // ATMOSPHERE RENDERING 
   float atmosDiscriminant = bb - d + outerRadius * outerRadius;
@@ -166,7 +165,6 @@ void main() {
     }
     
     float diff = max(0.0, a_farIntersection - a_nearIntersection) / outerRadius;
-    
     float diff2 = diff * diff;
     float diff4 = diff2 * diff2;
 
@@ -175,7 +173,8 @@ void main() {
     vec3 lightDir = normalize(lightPos - planetOffsetPos);
     float light = clamp(dot(sphereNormal, lightDir), 0.0, 1.0);
 
-    outColor += atmosColor * diff4 * 3.0 * light;
+    // FIX 4: Only add to RGB channels! Don't let atmosphere increase alpha above 1.0
+    outColor.rgb += atmosColor.rgb * diff4 * 3.0 * light;
   }
 }
 `;

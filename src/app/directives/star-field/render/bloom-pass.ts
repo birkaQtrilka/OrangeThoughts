@@ -41,12 +41,12 @@ export class BloomPass {
       gl.texImage2D(
         gl.TEXTURE_2D,
         0,
-        gl.RGBA,
+        gl.RGBA16F,
         this.width,
         this.height,
         0,
         gl.RGBA,
-        gl.UNSIGNED_BYTE,
+        gl.HALF_FLOAT,
         null
       );
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -86,7 +86,7 @@ export class BloomPass {
 
     for (const tex of this.textures) {
       this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
-      this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.width, this.height, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, null);
+      this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA16F, this.width, this.height, 0, this.gl.RGBA, this.gl.HALF_FLOAT, null);
     }
   }
 

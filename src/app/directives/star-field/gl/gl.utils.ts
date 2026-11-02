@@ -41,12 +41,12 @@ export function createTexture(
   gl.texImage2D(
     gl.TEXTURE_2D,
     0,
-    gl.RGBA,
+    gl.RGBA16F,
     width,
     height,
     0,
     gl.RGBA,
-    gl.UNSIGNED_BYTE,
+    gl.HALF_FLOAT,
     null
   );
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -59,8 +59,15 @@ export function bindBuffer(gl: WebGL2RenderingContext, data: Float32Array, loc: 
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
     enableAttrib(gl, loc, size, divisor);
+    return buf;
   }
-
+export function bindBufferDynamic(gl: WebGL2RenderingContext, data: Float32Array, loc: number, size: number, divisor: number) {
+    const buf = gl.createBuffer()!;
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
+    enableAttrib(gl, loc, size, divisor);
+    return buf;
+  }
   export function enableAttrib(gl: WebGL2RenderingContext, loc: number, size: number, divisor: number) {
     gl.enableVertexAttribArray(loc);
     gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
