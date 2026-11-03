@@ -100,7 +100,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
       this.canvas.height,
       this.parallax
     );
-
+    // mountMistDebugger(this.mistProgram);
     this.bloomProgram = new BloomPass(
       gl,
       this.canvas.width,

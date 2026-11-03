@@ -15,13 +15,9 @@ export class MistPass {
   private program: WebGLProgram;
   private posBuffer: WebGLBuffer;
 
-  // // Easy tweaks
-  // public mistColor = [199, 78, 27]; // Deep space blue/purple
-  // public mistAlpha = 0.05;
-  
-  public mistColor = [66, 64, 114]; // Deep space blue/purple
-  public mistAlpha = 0.06
-  public mistOnTop = true; // Toggle this to test Above/Below stars!
+  public mistColor = [145, 84, 34];
+  public mistAlpha = 0.1;
+  public mistOnTop = true;
 
   constructor(
     private gl: WebGL2RenderingContext,
