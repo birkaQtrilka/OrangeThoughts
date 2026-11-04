@@ -2,16 +2,15 @@
   <article id="Home">
     <p class="name">Stefan Carpeliuc</p>
     <h1>
-      Tooling Engineer
+      {{intro()[0]}}
     </h1>
     <app-separation-line></app-separation-line>
-    <p class="description">
-      Over the past 4 years I have been making games solo and in teams<br>
-      I'm focusing on becoming a good tooling engineer
+    <p class="description" [innerHTML]="intro()[1]">
+      
     </p>
   </article>
 
-  <iframe src="https://www.youtube.com/embed/WSp8GvMaYyA?si=sj0igKoscZUYQ7gb&vq=hd1080">
+  <iframe src="https://www.youtube.com/embed/HwmZbkaUvXQ?si=D7Q2si28b58GthLb">
   </iframe>
 </section>
 

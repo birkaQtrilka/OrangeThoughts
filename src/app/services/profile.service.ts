@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 
-export const PROFILES = ['web-dev', 'game-dev'] as const;
+export const PROFILES = ['web-dev', 'game-dev', 'software-dev'] as const;
 export type Profile = (typeof PROFILES)[number];
 export const DEFAULT_PROFILE: Profile = 'game-dev';
 

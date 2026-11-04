@@ -15,8 +15,8 @@ export class MistPass {
   private program: WebGLProgram;
   private posBuffer: WebGLBuffer;
 
-  public mistColor = [145, 84, 34];
-  public mistAlpha = 0.1;
+  public mistColor = [213, 111, 68];
+  public mistAlpha = 0.07;
   public mistOnTop = true;
 
   constructor(

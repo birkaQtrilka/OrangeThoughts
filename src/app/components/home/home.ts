@@ -7,7 +7,7 @@ import { SeparationLine } from '../separation-line/separation-line';
 import { ContactCard } from '../contact-card/contact-card';
 import { ScrollScaleDirective } from '../../directives/scale-scroll.directive';
 import { ProfileService } from '../../services/profile.service';
-import { ABOUT_ME } from './constants/about-me.constant';
+import { ABOUT_ME, INTRO } from './constants/about-me.constant';
 import { PROFILE_PROJECTS } from './constants/profile-projects.constant';
 type CardData = (typeof PROJECT_CARDS)[number];
 const CARDS_BY_ID = new Map<string, CardData>(PROJECT_CARDS.map(card => [card.id, card]));
@@ -22,6 +22,7 @@ export class Home {
   private readonly profileService = inject(ProfileService);
   protected readonly tools = TOOLS;
   protected readonly aboutHtml = computed(() => ABOUT_ME[this.profileService.active()]);
+  protected readonly intro = computed(()=>INTRO[this.profileService.active()]);
   protected readonly cards = computed(() =>
     PROFILE_PROJECTS[this.profileService.active()]
       .map(id => CARDS_BY_ID.get(id))

@@ -8,7 +8,7 @@ export const PROJECT_CARDS = [
   },
   {
     id: 'procedural-planets',
-    title: 'Planets generator',
+    title: 'Planets Generator',
     description: 'Procedural mesh generator',
     imagePath: 'assets/Images/Projects/sun-cropped.png',
     route: 'projects/procedural-planets'
@@ -29,7 +29,7 @@ export const PROJECT_CARDS = [
   },
   {
     id: 'front-end',
-    title: 'Front End',
+    title: 'Vue Front End',
     description: 'Vue.js, VUEx, mobile/desktop responsive design',
     imagePath: 'assets/Images/Projects/VUEX.png',
     route: 'projects/front-end'

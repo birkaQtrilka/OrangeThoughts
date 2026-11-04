@@ -6,6 +6,7 @@ import { StarPass } from './render/star-pass';
 import { BloomPass } from './render/bloom-pass';
 import { PlanetPass } from './render/planet';
 import { MistPass } from './shaders/mist-pass';
+import { mountMistDebugger } from './mist-debugger';
 
 @Directive({
   selector: '[appStarfield]',
