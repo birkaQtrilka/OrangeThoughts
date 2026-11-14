@@ -1,5 +1,5 @@
-import { B } from "@angular/cdk/keycodes";
-import { bindBuffer, bindBufferDynamic, createProgram, enableAttrib } from "../gl/gl.utils";
+import { bindBuffer, bindBufferDynamic, createProgram } from "../gl/gl.utils";
+import { SpriteSheet } from "../gl/sprite-sheet";
 import { FRAG } from "../shaders/starfield.frag";
 import { VERT } from "../shaders/starfield.vert";
 
@@ -28,27 +28,52 @@ void main() {
   vec3 colorTop = vec3(0.0706, 0.0627, 0.0784);
   // #050405 (Bottom of document)
   vec3 colorBottom = vec3(0.0196, 0.0157, 0.0196);
-  
+
   // vUv.y is 1.0 at the top of the SCREEN, 0.0 at the bottom.
   // We calculate the exact pixel position of this fragment relative to the whole document:
   float pixelY = uScrollY + (1.0 - vUv.y) * uWindowHeight;
-  
+
   // Normalize it (0.0 = top of document, 1.0 = bottom of document)
   float factor = clamp(pixelY / uDocumentHeight, 0.0, 1.0);
-  
+
   vec3 bg = mix(colorTop, colorBottom, factor);
   FragColor = vec4(bg, 1.0);
 }`;
 
 export class StarPass {
+  // ---- Sprite sheet configuration ----
+  private readonly spriteUrl = 'assets/Textures/White Sparkle Icon Sheet.png';
+  private readonly spriteColumns = 6;
+  private readonly spriteRows = 4;
+  /** Frame indices (row * columns + column) a star may randomly pick from. First 6 = first row. */
+  private readonly starFrames: number[] = [0, 1, 2, 3, 4, 5,6,7,8,12,13,14,16,23];
+
+  // ---- Star size configuration (pixels) ----
+  private readonly starSizeMin = 10;
+  private readonly starSizeMax = 25;
+
   readonly positions: Float32Array;
   readonly buffers: WebGLBuffer[] = [];
-  
+
   private fbo!: WebGLFramebuffer;
   public colorTex!: WebGLTexture;
   private program: WebGLProgram;
-  private bgProgram: WebGLProgram; 
+  private bgProgram: WebGLProgram;
   private vao: WebGLVertexArrayObject;
+  private sprites: SpriteSheet;
+
+  private bgUniforms: {
+    scrollY: WebGLUniformLocation | null;
+    windowHeight: WebGLUniformLocation | null;
+    documentHeight: WebGLUniformLocation | null;
+  };
+  private starUniforms: {
+    time: WebGLUniformLocation | null;
+    scroll: WebGLUniformLocation | null;
+    resolution: WebGLUniformLocation | null;
+    sprite: WebGLUniformLocation | null;
+    spriteGrid: WebGLUniformLocation | null;
+  };
 
   constructor(
     private gl: WebGL2RenderingContext,
@@ -58,7 +83,35 @@ export class StarPass {
     public parallax: number
   ) {
     this.program = createProgram(gl, VERT, FRAG);
-    this.bgProgram = createProgram(gl, BG_VERT, BG_FRAG); 
+    this.bgProgram = createProgram(gl, BG_VERT, BG_FRAG);
+
+    this.bgUniforms = {
+      scrollY: gl.getUniformLocation(this.bgProgram, 'uScrollY'),
+      windowHeight: gl.getUniformLocation(this.bgProgram, 'uWindowHeight'),
+      documentHeight: gl.getUniformLocation(this.bgProgram, 'uDocumentHeight'),
+    };
+    this.starUniforms = {
+      time: gl.getUniformLocation(this.program, 'uTime'),
+      scroll: gl.getUniformLocation(this.program, 'uScroll'),
+      resolution: gl.getUniformLocation(this.program, 'uResolution'),
+      sprite: gl.getUniformLocation(this.program, 'uSprite'),
+      spriteGrid: gl.getUniformLocation(this.program, 'uSpriteGrid'),
+    };
+
+    this.sprites = new SpriteSheet(
+      gl,
+      encodeURI(this.spriteUrl), // the file name contains spaces
+      this.spriteColumns,
+      this.spriteRows
+    );
+
+    const validFrames = this.starFrames.filter(
+      f => Number.isInteger(f) && f >= 0 && f < this.sprites.frameCount
+    );
+    if (validFrames.length === 0) {
+      throw new Error('StarPass: starFrames contains no valid frame indices');
+    }
+
     this.createFramebuffer();
 
     const quad = new Float32Array([
@@ -72,11 +125,14 @@ export class StarPass {
     const sizes = new Float32Array(this.starCount);
     const speeds = new Float32Array(this.starCount);
     const phases = new Float32Array(this.starCount);
+    const spriteIndices = new Float32Array(this.starCount);
 
+    const sizeRange = this.starSizeMax - this.starSizeMin;
     for (let i = 0; i < this.starCount; i++) {
-      sizes[i] = Math.random() * 10 + 2;
+      sizes[i] = Math.random() * sizeRange + this.starSizeMin;
       speeds[i] = Math.random() * 0.3 + 0.1;
       phases[i] = Math.random() * Math.PI * 2;
+      spriteIndices[i] = validFrames[Math.floor(Math.random() * validFrames.length)];
     }
 
     this.resetStarPositions();
@@ -90,6 +146,7 @@ export class StarPass {
     this.buffers.push(bindBuffer(gl, sizes, 2, 1, 1));
     this.buffers.push(bindBuffer(gl, speeds, 3, 1, 1));
     this.buffers.push(bindBuffer(gl, phases, 4, 1, 1));
+    this.buffers.push(bindBuffer(gl, spriteIndices, 5, 1, 1));
 
     gl.bindVertexArray(null);
   }
@@ -97,7 +154,7 @@ export class StarPass {
   reset(width: number, height: number) {
     this.width = width;
     this.height = height;
-    
+
     this.gl.viewport(0, 0, width, height);
 
     if (this.colorTex) {
@@ -115,26 +172,32 @@ export class StarPass {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
     gl.viewport(0, 0, this.width, this.height);
 
+    // --- Background ---
     gl.disable(gl.BLEND);
     gl.useProgram(this.bgProgram);
-    
+
     const scrollY = window.scrollY;
     const winH = window.innerHeight;
     const docH = Math.max(document.documentElement.scrollHeight, winH);
 
-    gl.uniform1f(gl.getUniformLocation(this.bgProgram, 'uScrollY'), scrollY);
-    gl.uniform1f(gl.getUniformLocation(this.bgProgram, 'uWindowHeight'), winH);
-    gl.uniform1f(gl.getUniformLocation(this.bgProgram, 'uDocumentHeight'), docH);
+    gl.uniform1f(this.bgUniforms.scrollY, scrollY);
+    gl.uniform1f(this.bgUniforms.windowHeight, winH);
+    gl.uniform1f(this.bgUniforms.documentHeight, docH);
 
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
+    // --- Stars (sprites are uploaded premultiplied, so use ONE / ONE_MINUS_SRC_ALPHA) ---
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
     gl.useProgram(this.program);
-    gl.uniform1f(gl.getUniformLocation(this.program, 'uTime'), time);
-    gl.uniform1f(gl.getUniformLocation(this.program, 'uScroll'), scrollY * this.parallax);
-    gl.uniform2f(gl.getUniformLocation(this.program, 'uResolution'), this.width, this.height);
+    gl.uniform1f(this.starUniforms.time, time);
+    gl.uniform1f(this.starUniforms.scroll, scrollY * this.parallax);
+    gl.uniform2f(this.starUniforms.resolution, this.width, this.height);
+    gl.uniform2f(this.starUniforms.spriteGrid, this.sprites.columns, this.sprites.rows);
+
+    this.sprites.bind(0);
+    gl.uniform1i(this.starUniforms.sprite, 0);
 
     gl.bindVertexArray(this.vao);
     gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, this.starCount);
@@ -163,7 +226,7 @@ export class StarPass {
       this.positions[i * 2] = Math.random() * this.width;
       this.positions[i * 2 + 1] = Math.random() * this.height;
     }
-    // positions buffer 
+    // positions buffer
     if (this.buffers[1]) {
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers[1]);
       this.gl.bufferData(this.gl.ARRAY_BUFFER, this.positions, this.gl.DYNAMIC_DRAW);
@@ -171,6 +234,7 @@ export class StarPass {
   }
 
   dispose() {
+    this.sprites.dispose();
     this.gl.deleteVertexArray(this.vao);
     this.buffers.forEach(b => {
       this.gl.deleteBuffer(b);
