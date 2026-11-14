@@ -1,18 +1,25 @@
-import { createProgram} from "../gl/gl.utils";
+import { createProgram } from "../gl/gl.utils";
 import { PLANET_FRAG } from "../shaders/planet.frag";
 import { POST_VERT } from "../shaders/post.vert";
+import { computeLayout, type SceneLayout } from "../scene/layout";
+
+const UNIFORM_NAMES = [
+  'uScene', 'uResolution', 'lightPos', 'cameraDir', 'planetPos', 'planetR',
+  'outerRadius', 'uNoise3D', 'noiseDensity', 'time', 'voronoi',
+  'uMoonPos', 'uMoonR', 'uMoonSpin',
+];
 
 export class PlanetPass {
-  
+
   private fbo!: WebGLFramebuffer;
   private program: WebGLProgram;
-  private uni:  Record<string, WebGLUniformLocation | null> = {} as Record<string, WebGLUniformLocation | null>;
+  private uni: Record<string, WebGLUniformLocation | null> = {};
   public colorTex!: WebGLTexture;
-  private dist: number = 1.65;
+  private dist = 1.65;
   public noiseTex: WebGLTexture | null = null;
   public vnoiseTex: WebGLTexture | null = null;
 
-  dispose(){
+  dispose() {
     document.removeEventListener('keydown', this.onKeyDownPress);
   }
 
@@ -55,7 +62,7 @@ export class PlanetPass {
 
     this.loadNoiseTexture();
   }
-  
+
   async loadNoiseTexture() {
     try {
       // Make sure this path points to where noise3d.bin is served on your dev server!
@@ -66,16 +73,16 @@ export class PlanetPass {
       const gl = this.gl;
       this.noiseTex = gl.createTexture()!;
       gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
-      
+
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      
+
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
-      
+
       gl.texImage3D(gl.TEXTURE_3D, 0, gl.R8, 64, 64, 64, 0, gl.RED, gl.UNSIGNED_BYTE, data);
-      
+
       console.log("3D Perlin Noise Texture loaded successfully!");
 
       const response2 = await fetch('/assets/Textures/3dvoronoinoise_rgba.bin');
@@ -84,7 +91,7 @@ export class PlanetPass {
 
       this.vnoiseTex = gl.createTexture()!;
       gl.bindTexture(gl.TEXTURE_3D, this.vnoiseTex);
-      
+
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
       gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
@@ -101,36 +108,22 @@ export class PlanetPass {
   }
 
   initializeUniforms() {
-    const gl = this.gl;
-    this.initUniform('uScene');
-    this.initUniform('scrollY');
-    this.initUniform('uResolution');
-    this.initUniform('lightPos');
-    this.initUniform('cameraDir');
-    this.initUniform('planetPos');
-    this.initUniform('planetR');
-    this.initUniform('scrollSpeed');
-    this.initUniform('outerRadius');
-    this.initUniform('uNoise3D'); 
-    this.initUniform('noiseDensity');
-    this.initUniform('time'); 
-    this.initUniform('voronoi'); 
+    for (const name of UNIFORM_NAMES) this.initUniform(name);
   }
 
   private onKeyDownPress = (ev: KeyboardEvent) => {
-  if (ev.key === 'ArrowLeft') this.dist += 0.01;
-  else if (ev.key === 'ArrowRight') this.dist -= 0.01;
-};
+    if (ev.key === 'ArrowLeft') this.dist += 0.01;
+    else if (ev.key === 'ArrowRight') this.dist -= 0.01;
+  };
 
   initUniform(name: string) {
     this.uni[name] = this.gl.getUniformLocation(this.program, name);
   }
 
-
   reset(width: number, height: number) {
     this.width = width;
     this.height = height;
-    
+
     if (this.colorTex) {
       this.gl.bindTexture(this.gl.TEXTURE_2D, this.colorTex);
       this.gl.texImage2D(
@@ -143,13 +136,15 @@ export class PlanetPass {
     return window.innerWidth <= 768;
   }
 
-  render(sceneTex: WebGLTexture, time: number) {
+  /** Renders the planet + moon and returns the layout so other passes can use the same numbers. */
+  render(sceneTex: WebGLTexture, time: number): SceneLayout {
     const gl = this.gl;
+    const layout = computeLayout(time, window.scrollY, this.isMobile());
+
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.fbo);
     gl.viewport(0, 0, this.width, this.height);
-    const planetRadius = .7;
     gl.disable(gl.BLEND);
-    
+
     gl.useProgram(this.program);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
@@ -166,22 +161,20 @@ export class PlanetPass {
       gl.uniform1i(this.uni['voronoi'], 2);
     }
 
-    gl.uniform1f(this.uni['scrollY'], window.scrollY);
-    gl.uniform1f(this.uni['scrollSpeed'], 0.0001);
     gl.uniform1f(this.uni['noiseDensity'], this.dist);
     gl.uniform1f(this.uni['time'], time);
-    gl.uniform1f(this.uni['planetR'], planetRadius);
-    gl.uniform1f(this.uni['outerRadius'], planetRadius + .08);
     gl.uniform2f(this.uni['uResolution'], this.width, this.height);
-    gl.uniform3f(this.uni['lightPos'], 0, 1, 1);
-    gl.uniform3f(this.uni['cameraDir'], 0.0,0.0,1.0);
-    if(this.isMobile()){
-      gl.uniform3f(this.uni['planetPos'],0.0, -0.9, 1.1);
-    }else{
-      gl.uniform3f(this.uni['planetPos'],0.0, -0.7, 1.1);
-    }
-    
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
+    gl.uniform3f(this.uni['cameraDir'], 0, 0, 1);
 
+    gl.uniform3f(this.uni['planetPos'], ...layout.planetPos);
+    gl.uniform1f(this.uni['planetR'], layout.planetRadius);
+    gl.uniform1f(this.uni['outerRadius'], layout.planetRadius + 0.08);
+    gl.uniform3f(this.uni['lightPos'], ...layout.lightPos);
+    gl.uniform3f(this.uni['uMoonPos'], ...layout.moonPos);
+    gl.uniform1f(this.uni['uMoonR'], layout.moonRadius);
+    gl.uniform1f(this.uni['uMoonSpin'], layout.moonSpin);
+
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    return layout;
+  }
 }

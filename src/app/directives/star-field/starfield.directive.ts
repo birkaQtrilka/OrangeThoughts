@@ -5,8 +5,10 @@ import { createProgram } from './gl/gl.utils';
 import { StarPass } from './render/star-pass';
 import { BloomPass } from './render/bloom-pass';
 import { PlanetPass } from './render/planet';
+import { ChristmasHatPass } from './render/christmas-hat';
 import { MistPass } from './shaders/mist-pass';
 import { mountMistDebugger } from './mist-debugger';
+import { mountHatDebugger } from './hat-debugger';
 
 @Directive({
   selector: '[appStarfield]',
@@ -24,7 +26,9 @@ export class StarfieldDirective implements OnInit, OnDestroy {
   private mistProgram!: MistPass;
   private bloomProgram!: BloomPass;
   private planetProgram!: PlanetPass;
+  private christmasHat!: ChristmasHatPass;
 
+  private readonly useMist = true;
   private animationId = 0;
 
   constructor(private zone: NgZone) { }
@@ -37,11 +41,11 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     this.zone.runOutsideAngular(() => this.animate());
   }
 
-
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animationId);
     this.starFieldProgram.dispose();
     this.planetProgram.dispose();
+    this.christmasHat.dispose();
     window.removeEventListener('resize', this.resize);
     this.canvas.remove();
   }
@@ -56,10 +60,10 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
     document.body.querySelector('.wrapper')?.prepend(this.canvas);
 
-    const gl = this.canvas.getContext('webgl2', { alpha: true });
+    // depth (default true) is needed by the hat pass; antialias (default true) smooths its edges.
+    const gl = this.canvas.getContext('webgl2', { alpha: true, depth: true, antialias: true });
     if (!gl) throw new Error('WebGL2 not supported');
     this.gl = gl;
-
   }
 
   private resize = () => {
@@ -68,7 +72,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
 
     const MAX_WIDTH = 1920;
     const MAX_HEIGHT = 1080;
-    
+
     const scaleX = Math.min(1, MAX_WIDTH / innerWidth);
     const scaleY = Math.min(1, MAX_HEIGHT / innerHeight);
     const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio scaling
@@ -77,9 +81,10 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     this.canvas.height = Math.floor(innerHeight * scale);
 
     this.starFieldProgram.reset(this.canvas.width, this.canvas.height);
-    this.mistProgram.resize(this.canvas.width, this.canvas.height); 
+    this.mistProgram.resize(this.canvas.width, this.canvas.height);
     this.bloomProgram.resize(this.canvas.width, this.canvas.height);
     this.planetProgram.reset(this.canvas.width, this.canvas.height);
+    this.christmasHat.resize(this.canvas.width, this.canvas.height);
   };
 
   private initGL() {
@@ -113,23 +118,32 @@ export class StarfieldDirective implements OnInit, OnDestroy {
       this.canvas.width,
       this.canvas.height
     );
+
+    this.christmasHat = new ChristmasHatPass(gl, this.canvas.width, this.canvas.height);
+    this.christmasHat.initialize().catch((error: unknown) => {
+      console.error('Failed to load the Christmas hat:', error);
+      this.christmasHat.dispose();
+    });
+    // mountHatDebugger(this.christmasHat);
   }
-   
+
+
   private animate = () => {
     const gl = this.gl;
     const time = performance.now() * 0.001;
     this.starFieldProgram.render(time);
 
-    const starTexture = this.starFieldProgram.colorTex;
-    if (true) {
-      this.mistProgram.render(starTexture, time);
-      this.planetProgram.render(this.mistProgram.colorTex, time);
-    } else {
-      this.planetProgram.render(starTexture, time);
+    let planetInput = this.starFieldProgram.colorTex;
+    if (this.useMist) {
+      this.mistProgram.render(planetInput, time);
+      planetInput = this.mistProgram.colorTex;
     }
+    const layout = this.planetProgram.render(planetInput, time);
+
     const sceneTex = this.planetProgram.colorTex;
     this.bloomProgram.render(sceneTex, time);
-    
+
+    // Final composite to the canvas
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -149,6 +163,9 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     gl.uniform1f(gl.getUniformLocation(this.postProgram, 'uBloomStrength'), 1);
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    // Hat goes last, straight onto the canvas, so it sits on top of the post pass like the old overlay did.
+    this.christmasHat.render(layout, null);
 
     this.animationId = requestAnimationFrame(this.animate);
   };
