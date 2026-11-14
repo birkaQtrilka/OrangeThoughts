@@ -5,7 +5,7 @@ export const PROJECT_PROPOSALS_PLEASE: Project = {
   title: 'Proposals Please',
   videoPath: {
     isIframe: true,
-    path: 'assets/Games/ProposalsPlease/index.html',
+    path: 'assets/Games/MyBuild/index.html',
     hideOnMobile: true
   },
   tags: ['C#', 'unity', 'Game Development'],
