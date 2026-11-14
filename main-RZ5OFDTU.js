@@ -195,7 +195,7 @@ ${t.map((r,i)=>`${i+1}) ${r.toString()}`).join(`
       after a few seconds.
       <br>&emsp; Packets also check the last message sent through the network so they can reuse the same byte array.
     </p>
-  `,timeSpent:"3 weeks",downloadLinks:[{label:"Download Server Build",path:"/assets/Downloadables/CheckersServer.zip"},{label:"Download Client Build",path:"/assets/Downloadables/CheckersClient.zip"}],githubLink:"https://github.com/birkaQtrilka/Networked-Checkers",credits:[{name:"Set-up code made by",link:"https://www.linkedin.com/in/hanswichman/",linkLabel:"Hans Whichman"}]};var iw={id:"proposals-please",title:"Proposals Please",videoPath:{isIframe:!0,path:"assets/Games/ProposalsPlease/index.html",hideOnMobile:!0},tags:["C#","unity","Game Development"],height:"600px",description:`
+  `,timeSpent:"3 weeks",downloadLinks:[{label:"Download Server Build",path:"/assets/Downloadables/CheckersServer.zip"},{label:"Download Client Build",path:"/assets/Downloadables/CheckersClient.zip"}],githubLink:"https://github.com/birkaQtrilka/Networked-Checkers",credits:[{name:"Set-up code made by",link:"https://www.linkedin.com/in/hanswichman/",linkLabel:"Hans Whichman"}]};var iw={id:"proposals-please",title:"Proposals Please",videoPath:{isIframe:!0,path:"assets/Games/MyBuild/index.html",hideOnMobile:!0},tags:["C#","unity","Game Development"],height:"600px",description:`
       <h3>Game</h3>
       <p>
         &emsp; A retro game where you play as a business owner that needs to approve or disapprove business automation proposals.
