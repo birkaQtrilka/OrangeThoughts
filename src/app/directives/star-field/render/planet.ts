@@ -16,8 +16,8 @@ export class PlanetPass {
   private uni: Record<string, WebGLUniformLocation | null> = {};
   public colorTex!: WebGLTexture;
   private dist = 1.65;
-  public noiseTex: WebGLTexture | null = null;
-  public vnoiseTex: WebGLTexture | null = null;
+  public noiseTex!: WebGLTexture;
+  public vnoiseTex!: WebGLTexture;
 
   dispose() {
     document.removeEventListener('keydown', this.onKeyDownPress);
@@ -59,8 +59,37 @@ export class PlanetPass {
       this.colorTex,
       0
     );
+    // fallback texture before loading to avoid errors
+    this.noiseTex = this.createNoiseTexture(gl.TEXTURE1, gl.R8, gl.RED, new Uint8Array([128]), gl.LINEAR);
+    this.vnoiseTex = this.createNoiseTexture(
+      gl.TEXTURE2,
+      gl.RGBA8,
+      gl.RGBA,
+      new Uint8Array([128, 128, 128, 255]),
+      gl.NEAREST
+    );
 
     this.loadNoiseTexture();
+  }
+
+  private createNoiseTexture(
+    unit: number,
+    internalFormat: number,
+    format: number,
+    data: Uint8Array,
+    filter: number
+  ): WebGLTexture {
+    const gl = this.gl;
+    gl.activeTexture(unit);
+    const texture = gl.createTexture()!;
+    gl.bindTexture(gl.TEXTURE_3D, texture);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
+    gl.texImage3D(gl.TEXTURE_3D, 0, internalFormat, 1, 1, 1, 0, format, gl.UNSIGNED_BYTE, data);
+    return texture;
   }
 
   async loadNoiseTexture() {
@@ -71,16 +100,8 @@ export class PlanetPass {
       const data = new Uint8Array(buffer);
 
       const gl = this.gl;
-      this.noiseTex = gl.createTexture()!;
+      gl.activeTexture(gl.TEXTURE1);
       gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
-
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
-
       gl.texImage3D(gl.TEXTURE_3D, 0, gl.R8, 64, 64, 64, 0, gl.RED, gl.UNSIGNED_BYTE, data);
 
       console.log("3D Perlin Noise Texture loaded successfully!");
@@ -89,16 +110,8 @@ export class PlanetPass {
       const buffer2 = await response2.arrayBuffer();
       const data2 = new Uint8Array(buffer2);
 
-      this.vnoiseTex = gl.createTexture()!;
+      gl.activeTexture(gl.TEXTURE2);
       gl.bindTexture(gl.TEXTURE_3D, this.vnoiseTex);
-
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
-
       gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGBA8, 64, 64, 64, 0, gl.RGBA, gl.UNSIGNED_BYTE, data2);
       console.log("3D Voronoi Noise Texture loaded successfully!");
 
@@ -150,16 +163,12 @@ export class PlanetPass {
     gl.bindTexture(gl.TEXTURE_2D, sceneTex);
     gl.uniform1i(this.uni['uScene'], 0);
 
-    if (this.noiseTex) {
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
-      gl.uniform1i(this.uni['uNoise3D'], 1);
-    }
-    if (this.vnoiseTex) {
-      gl.activeTexture(gl.TEXTURE2);
-      gl.bindTexture(gl.TEXTURE_3D, this.vnoiseTex);
-      gl.uniform1i(this.uni['voronoi'], 2);
-    }
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
+    gl.uniform1i(this.uni['uNoise3D'], 1);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_3D, this.vnoiseTex);
+    gl.uniform1i(this.uni['voronoi'], 2);
 
     gl.uniform1f(this.uni['noiseDensity'], this.dist);
     gl.uniform1f(this.uni['time'], time);
