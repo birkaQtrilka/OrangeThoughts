@@ -34,7 +34,7 @@ article {
       height: 200px;
       object-fit: cover;
       outline: 0 solid var(--cardColor);
-
+      outline-offset: -2px;
       transition: outline 0.2s ease;
     }
 

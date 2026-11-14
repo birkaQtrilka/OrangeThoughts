@@ -14,21 +14,3 @@ img {
 video {
   border-radius: var(--borderRadius);
 }
-
-.tag {
-  margin-right: 7px;
-  padding-left: 3px;
-  padding-right: 4px;
-  border-radius: 5px;
-  margin-top: 5px;
-
-  &.active {
-    outline: 2px solid var(--contrastColor);
-    outline-offset: -2px;
-  }
-}
-
-.activeTag {
-  outline: 2px solid var(--contrastColor);
-  outline-offset: -2px;
-}
