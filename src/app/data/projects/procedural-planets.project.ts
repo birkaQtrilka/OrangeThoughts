@@ -3,7 +3,7 @@ import { Project } from "../../models/project.model";
 export const PROJECT_PROCEDURAL_PLANETS: Project = {
   id: 'procedural-planets',
   title: 'Procedural Planets',
-  videoPath: { isIframe: false, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/NewPlanetsDemo_trxir2.mp4' },
+  videoPath: { isIframe: true, path: 'https://res.cloudinary.com/uj9ir4ss/video/upload/v1783590539/NewPlanetsDemo_trxir2.mp4' },
   tags: ['C#', 'Unity', 'Procedural Generation'],
   description: `
     <p>
