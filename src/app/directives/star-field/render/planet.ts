@@ -27,6 +27,8 @@ export class PlanetPass {
     private gl: WebGL2RenderingContext,
     private width: number,
     private height: number,
+    loadPerlinTexture = true,
+    loadVoronoiTexture = true
   ) {
     this.program = createProgram(gl, POST_VERT, PLANET_FRAG);
     gl.useProgram(this.program);
@@ -69,7 +71,9 @@ export class PlanetPass {
       gl.NEAREST
     );
 
-    this.loadNoiseTexture();
+    if (loadPerlinTexture || loadVoronoiTexture) {
+      this.loadNoiseTextures(loadPerlinTexture, loadVoronoiTexture);
+    }
   }
 
   private createNoiseTexture(
@@ -92,32 +96,74 @@ export class PlanetPass {
     return texture;
   }
 
-  async loadNoiseTexture() {
+  async loadNoiseTextures(loadPerlin: boolean, loadVoronoi: boolean) {
     try {
-      // Make sure this path points to where noise3d.bin is served on your dev server!
-      const response = await fetch('/assets/Textures/noise3d.bin');
-      const buffer = await response.arrayBuffer();
-      const data = new Uint8Array(buffer);
-
       const gl = this.gl;
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_3D, this.noiseTex);
-      gl.texImage3D(gl.TEXTURE_3D, 0, gl.R8, 64, 64, 64, 0, gl.RED, gl.UNSIGNED_BYTE, data);
+      if (loadPerlin) {
+        const response = await fetch('/assets/Textures/noise3d.bin');
+        if (!response.ok) throw new Error(`Failed to load Perlin noise texture: ${response.status}`);
+        const data = new Uint8Array(await response.arrayBuffer());
+        if (data.length !== 64 * 64 * 64) {
+          throw new Error(`Perlin noise texture has ${data.length} bytes; expected ${64 * 64 * 64}`);
+        }
 
-      console.log("3D Perlin Noise Texture loaded successfully!");
+        const texture = this.createLoadedNoiseTexture(gl.TEXTURE1, gl.R8, gl.RED, data, gl.LINEAR);
+        gl.deleteTexture(this.noiseTex);
+        this.noiseTex = texture;
+        console.log('3D Perlin Noise Texture loaded successfully!');
+      }
 
-      const response2 = await fetch('/assets/Textures/3dvoronoinoise_rgba.bin');
-      const buffer2 = await response2.arrayBuffer();
-      const data2 = new Uint8Array(buffer2);
+      if (loadVoronoi) {
+        const response = await fetch('/assets/Textures/3dvoronoinoise_rgba.bin');
+        if (!response.ok) throw new Error(`Failed to load Voronoi noise texture: ${response.status}`);
+        const data = new Uint8Array(await response.arrayBuffer());
+        if (data.length !== 64 * 64 * 64 * 4) {
+          throw new Error(`Voronoi noise texture has ${data.length} bytes; expected ${64 * 64 * 64 * 4}`);
+        }
 
-      gl.activeTexture(gl.TEXTURE2);
-      gl.bindTexture(gl.TEXTURE_3D, this.vnoiseTex);
-      gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGBA8, 64, 64, 64, 0, gl.RGBA, gl.UNSIGNED_BYTE, data2);
-      console.log("3D Voronoi Noise Texture loaded successfully!");
+        const texture = this.createLoadedNoiseTexture(gl.TEXTURE2, gl.RGBA8, gl.RGBA, data, gl.NEAREST);
+        gl.deleteTexture(this.vnoiseTex);
+        this.vnoiseTex = texture;
+        console.log('3D Voronoi Noise Texture loaded successfully!');
+      }
 
     } catch (err) {
       console.error("Failed to load 3D noise texture:", err);
     }
+  }
+
+  private createLoadedNoiseTexture(
+    unit: number,
+    internalFormat: number,
+    format: number,
+    data: Uint8Array,
+    filter: number
+  ): WebGLTexture {
+    const gl = this.gl;
+    const texture = gl.createTexture();
+    if (!texture) throw new Error('Failed to allocate 3D noise texture');
+
+    gl.activeTexture(unit);
+    gl.bindTexture(gl.TEXTURE_3D, texture);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.REPEAT);
+
+    const previousError = gl.getError();
+    if (previousError !== gl.NO_ERROR) {
+      console.warn('WebGL error before 3D texture upload:', previousError);
+    }
+
+    gl.texImage3D(gl.TEXTURE_3D, 0, internalFormat, 64, 64, 64, 0, format, gl.UNSIGNED_BYTE, data);
+    const uploadError = gl.getError();
+    if (uploadError !== gl.NO_ERROR) {
+      gl.deleteTexture(texture);
+      throw new Error(`3D noise texture upload failed with WebGL error ${uploadError}`);
+    }
+
+    return texture;
   }
 
   initializeUniforms() {

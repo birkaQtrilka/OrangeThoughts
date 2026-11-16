@@ -9,6 +9,7 @@ import { ChristmasHatPass } from './render/christmas-hat';
 import { MistPass } from './shaders/mist-pass';
 import { mountMistDebugger } from './mist-debugger';
 import { mountHatDebugger } from './hat-debugger';
+import type { SceneLayout } from './scene/layout';
 
 @Directive({
   selector: '[appStarfield]',
@@ -29,6 +30,10 @@ export class StarfieldDirective implements OnInit, OnDestroy {
   private christmasHat!: ChristmasHatPass;
 
   private readonly useMist = true;
+  private readonly starsEnabled = true;
+  private readonly planetEnabled = true;
+  private readonly loadPerlinTexture = true;
+  private readonly loadVoronoiTexture = true;
   private animationId = 0;
 
   constructor(private zone: NgZone) { }
@@ -97,7 +102,8 @@ export class StarfieldDirective implements OnInit, OnDestroy {
       this.starCount,
       this.canvas.width,
       this.canvas.height,
-      this.parallax
+      this.parallax,
+      this.starsEnabled
     );
 
     this.mistProgram = new MistPass(
@@ -116,7 +122,9 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     this.planetProgram = new PlanetPass(
       gl,
       this.canvas.width,
-      this.canvas.height
+      this.canvas.height,
+      this.loadPerlinTexture,
+      this.loadVoronoiTexture
     );
 
     this.christmasHat = new ChristmasHatPass(gl, this.canvas.width, this.canvas.height);
@@ -138,9 +146,13 @@ export class StarfieldDirective implements OnInit, OnDestroy {
       this.mistProgram.render(planetInput, time);
       planetInput = this.mistProgram.colorTex;
     }
-    const layout = this.planetProgram.render(planetInput, time);
 
-    const sceneTex = this.planetProgram.colorTex;
+    let layout: SceneLayout | undefined;
+    let sceneTex = planetInput;
+    if (this.planetEnabled) {
+      layout = this.planetProgram.render(planetInput, time);
+      sceneTex = this.planetProgram.colorTex;
+    }
     this.bloomProgram.render(sceneTex, time);
 
     // Final composite to the canvas
@@ -165,7 +177,7 @@ export class StarfieldDirective implements OnInit, OnDestroy {
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     // Hat goes last, straight onto the canvas, so it sits on top of the post pass like the old overlay did.
-    this.christmasHat.render(layout, null);
+    if (layout) this.christmasHat.render(layout, null);
 
     this.animationId = requestAnimationFrame(this.animate);
   };

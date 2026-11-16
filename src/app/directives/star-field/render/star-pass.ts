@@ -80,7 +80,8 @@ export class StarPass {
     private starCount: number,
     private width: number,
     private height: number,
-    public parallax: number
+    public parallax: number,
+    private readonly starsEnabled = true
   ) {
     this.program = createProgram(gl, VERT, FRAG);
     this.bgProgram = createProgram(gl, BG_VERT, BG_FRAG);
@@ -102,7 +103,8 @@ export class StarPass {
       gl,
       encodeURI(this.spriteUrl), // the file name contains spaces
       this.spriteColumns,
-      this.spriteRows
+      this.spriteRows,
+      this.starsEnabled
     );
 
     const validFrames = this.starFrames.filter(
@@ -185,6 +187,8 @@ export class StarPass {
     gl.uniform1f(this.bgUniforms.documentHeight, docH);
 
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    if (!this.starsEnabled) return;
 
     // --- Stars (sprites are uploaded premultiplied, so use ONE / ONE_MINUS_SRC_ALPHA) ---
     gl.enable(gl.BLEND);

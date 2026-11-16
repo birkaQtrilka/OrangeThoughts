@@ -11,7 +11,8 @@ export class SpriteSheet {
     private readonly gl: WebGL2RenderingContext,
     url: string,
     readonly columns: number,
-    readonly rows: number
+    readonly rows: number,
+    loadImage = true
   ) {
     this.texture = gl.createTexture()!;
 
@@ -28,7 +29,7 @@ export class SpriteSheet {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.bindTexture(gl.TEXTURE_2D, prev);
 
-    this.load(url);
+    if (loadImage) this.load(url);
   }
 
   get frameCount(): number {
