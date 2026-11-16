@@ -130,7 +130,7 @@ export class StarPass {
     const sizeRange = this.starSizeMax - this.starSizeMin;
     for (let i = 0; i < this.starCount; i++) {
       sizes[i] = Math.random() * sizeRange + this.starSizeMin;
-      speeds[i] = Math.random() * 0.3 + 0.1;
+      speeds[i] = Math.random() * 0.4 + 0.2;
       phases[i] = Math.random() * Math.PI * 2;
       spriteIndices[i] = validFrames[Math.floor(Math.random() * validFrames.length)];
     }
